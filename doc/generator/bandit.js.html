@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: BandIt   bandit.js  (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336050533.94" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336050533.94" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336058375.29" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336058375.29" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1336050533.94"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1336050533.94"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1336058375.29"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1336058375.29"></script>
 </head>
 
 <body id="yahoo-com">
@@ -140,7 +140,7 @@
 <span class="cm">*/</span>
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">setMode</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">newmode</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">mode</span> <span class="o">=</span> <span class="nx">newmode</span><span class="p">;</span>
-	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Switch to mode &quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">mode</span><span class="p">);</span>
+        <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;Switch to mode &quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">mode</span><span class="p">);</span>
 <span class="p">}</span>
 
 
@@ -214,7 +214,7 @@
 	<span class="nx">node</span><span class="p">.</span><span class="nx">mousedown</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
 			<span class="nx">node</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getElementByPoint</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="nx">e</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
 			<span class="nx">currentnode</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">id</span>
-			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;mode: &quot;</span><span class="o">+</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">mode</span><span class="p">);</span>
+			<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;mode: &quot;</span><span class="o">+</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">mode</span><span class="p">);</span>
 			<span class="k">if</span> <span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">mode</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
 			<span class="c1">// Link mode , nothing to do</span>
 			<span class="k">return</span><span class="p">;</span>
@@ -224,7 +224,7 @@
 			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">deletenode</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 			<span class="k">return</span><span class="p">;</span>
 			<span class="p">}</span>
-			<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="o">+</span><span class="s2">&quot; selected&quot;</span><span class="p">);</span>
+			<span class="p">(</span><span class="s2">&quot;node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="o">+</span><span class="s2">&quot; selected&quot;</span><span class="p">);</span>
                         <span class="c1">// callbacks</span>
                         <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectCallbacks</span><span class="p">)</span> <span class="p">{</span>
                            <span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectCallbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">](</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;properties&quot;</span><span class="p">]);</span>
@@ -338,7 +338,7 @@
 
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">deletenode</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">)</span> <span class="p">{</span>
         <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">);</span>
-	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;delete node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;delete node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
         <span class="c1">// callbacks</span>
         <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">deleteCallbacks</span><span class="p">)</span> <span class="p">{</span>
           <span class="k">this</span><span class="p">.</span><span class="nx">deleteCallbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">](</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
@@ -381,13 +381,13 @@
 <span class="cm">*/</span>
 
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">deletepath</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
-	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Delete link &quot;</span><span class="o">+</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;Delete link &quot;</span><span class="o">+</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 	<span class="nx">pathid</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
 	<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">node</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">)</span> <span class="p">{</span>
 		<span class="nx">links</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">];</span>
 		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">links</span><span class="p">)</span> <span class="p">{</span>
 			<span class="k">if</span><span class="p">(</span><span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;path&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">pathid</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;remove inlinks path &quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">);</span>
+				<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;remove inlinks path &quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">);</span>
 				<span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">=</span><span class="kc">null</span><span class="p">;</span>
 			<span class="p">}</span>
 		<span class="p">}</span>
@@ -396,7 +396,7 @@
 		<span class="nx">links</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">];</span>
 		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">links</span><span class="p">)</span> <span class="p">{</span>
 			<span class="k">if</span><span class="p">(</span><span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;path&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">pathid</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;remove outlinks path &quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">);</span>
+				<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;remove outlinks path &quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">);</span>
 				<span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">=</span><span class="kc">null</span><span class="p">;</span>
 			<span class="p">}</span>
 		<span class="p">}</span>
@@ -420,9 +420,9 @@
 		<span class="k">return</span><span class="p">;</span>
 	<span class="p">}</span>
 	<span class="nx">path</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">link</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]);</span>
-	<span class="c1">//console.log(&quot;path:&quot; + path.id);</span>
+	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;path:&quot;</span> <span class="o">+</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 	<span class="nx">remotenode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">link</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">]);</span>
-	<span class="c1">//console.log(&quot;remote:&quot; + remotenode.id);</span>
+	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;remote:&quot;</span> <span class="o">+</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 	<span class="nx">xend</span> <span class="o">=</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 	<span class="nx">yend</span> <span class="o">=</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 	<span class="nx">xpos</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
@@ -439,7 +439,7 @@
 
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">zoomIn</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">zoom</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">zoom</span> <span class="o">*</span> <span class="mi">2</span><span class="p">;</span>
-	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;zoom with &quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">zoom</span><span class="p">);</span>
+	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;zoom with &quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">zoom</span><span class="p">);</span>
 	<span class="nx">mybandit</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
 	<span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
 			<span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
@@ -464,7 +464,7 @@
 
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">zoomOut</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">zoom</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">zoom</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">;</span>
-	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;zoom with &quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">zoom</span><span class="p">);</span>
+	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;zoom with &quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">zoom</span><span class="p">);</span>
 	<span class="nx">mybandit</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
 	<span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">el</span><span class="p">)</span> <span class="p">{</span>
 			<span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
@@ -562,6 +562,7 @@
 <span class="cm">/**</span>
 <span class="cm">* Eval an argument.</span>
 <span class="cm">* @class pick</span>
+<span class="cm">* @constructor</span>
 <span class="cm">* @param arg {Object} Value to test</span>
 <span class="cm">* @param def {Object} Default value</span>
 <span class="cm">* @return {Object} default is undefined</span>
@@ -570,6 +571,65 @@
 <span class="kd">function</span> <span class="nx">pick</span><span class="p">(</span><span class="nx">arg</span><span class="p">,</span> <span class="nx">def</span><span class="p">)</span> <span class="p">{</span>
    <span class="k">return</span> <span class="p">(</span><span class="k">typeof</span> <span class="nx">arg</span> <span class="o">==</span> <span class="s1">&#39;undefined&#39;</span> <span class="o">?</span> <span class="nx">def</span> <span class="o">:</span> <span class="nx">arg</span><span class="p">);</span>
 <span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* BanditLogger</span>
+<span class="cm">* @class BanditLogger</span>
+<span class="cm">* @param level {int} Level of log: 0:DEBUG, 1:INFO, 2: ERROR</span>
+<span class="cm">*</span>
+<span class="cm">*/</span>
+<span class="kd">var</span> <span class="nx">level</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// Error</span>
+
+<span class="kd">function</span> <span class="nx">BanditLogger</span><span class="p">()</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="nx">BanditLogger</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">level</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">newlevel</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">level</span> <span class="o">=</span> <span class="nx">newlevel</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* Log a debug level message</span>
+<span class="cm">* @method DEBUG</span>
+<span class="cm">* @param msg {String} message to log</span>
+<span class="cm">*</span>
+<span class="cm">*/</span>
+<span class="nx">BanditLogger</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">DEBUG</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">level</span><span class="o">&lt;=</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;#DEBUG &quot;</span><span class="o">+</span><span class="nx">date</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;: &quot;</span><span class="o">+</span><span class="nx">msg</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* Log an info level message</span>
+<span class="cm">* @method INFO</span>
+<span class="cm">* @param msg {String} message to log</span>
+<span class="cm">*</span>
+<span class="cm">*/</span>
+
+<span class="nx">BanditLogger</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">INFO</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">level</span><span class="o">&lt;=</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;#INFO &quot;</span><span class="o">+</span><span class="nx">date</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;: &quot;</span><span class="o">+</span><span class="nx">msg</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* Log an error level message</span>
+<span class="cm">* @method ERROR</span>
+<span class="cm">* @param msg {String} message to log</span>
+<span class="cm">*</span>
+<span class="cm">*/</span>
+
+<span class="nx">BanditLogger</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">ERROR</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">msg</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">level</span><span class="o">&lt;=</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">date</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Date</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;#ERROR &quot;</span><span class="o">+</span><span class="nx">date</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span><span class="o">+</span><span class="s2">&quot;: &quot;</span><span class="o">+</span><span class="nx">msg</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">banditLogger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BanditLogger</span><span class="p">();</span>
+<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">level</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 </pre></div>
                     </div>
 			</div>
@@ -588,6 +648,7 @@
                         <h4>Classes</h4>
                         <ul class="content">
                                 <li class=""><a href="BandIt.html" title="BandIt">BandIt</a></li>
+                                <li class=""><a href="BanditLogger.html" title="BanditLogger">BanditLogger</a></li>
                                 <li class=""><a href="pick.html" title="pick">pick</a></li>
                         </ul>
                     </div>
@@ -608,11 +669,11 @@
 	</div>
 	<div id="ft">
         <hr />
-        Copyright &copy; 2012 Yahoo! Inc. All rights reserved.
+        Copyright &copy; 2012 IRISA.
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
+    ALL_YUI_PROPS = [{"url": "BanditLogger.html#method_DEBUG", "access": "", "host": "BanditLogger", "type": "method", "name": "DEBUG"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BanditLogger.html#method_ERROR", "access": "", "host": "BanditLogger", "type": "method", "name": "ERROR"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BanditLogger.html#method_INFO", "access": "", "host": "BanditLogger", "type": "method", "name": "INFO"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
 </script>
 </body>
 </html>

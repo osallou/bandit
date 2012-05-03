@@ -1,4 +1,4 @@
-YAHOO.env.classMap = {"BandIt": "BandIt", "pick": "BandIt"};
+YAHOO.env.classMap = {"BandIt": "BandIt", "BanditLogger": "BandIt", "pick": "BandIt"};
 
 YAHOO.env.resolveClass = function(className) {
     var a=className.split('.'), ns=YAHOO.env.classMap;

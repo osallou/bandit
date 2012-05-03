@@ -91,7 +91,7 @@ BandIt.prototype.getMode = function() {
 */
 BandIt.prototype.setMode = function(newmode) {
 	this.mode = newmode;
-	console.log("Switch to mode "+this.mode);
+        banditLogger.DEBUG("Switch to mode "+this.mode);
 }
 
 
@@ -165,7 +165,7 @@ BandIt.prototype.add = function(name,attrs) {
 	node.mousedown(function(e) {
 			node = mybandit.paper.getElementByPoint(e.x,e.y);
 			currentnode = node.id
-			console.log("mode: "+mybandit.mode);
+			banditLogger.DEBUG("mode: "+mybandit.mode);
 			if (mybandit.mode==1) {
 			// Link mode , nothing to do
 			return;
@@ -175,7 +175,7 @@ BandIt.prototype.add = function(name,attrs) {
 			mybandit.deletenode(node.id);
 			return;
 			}
-			console.log("node "+node.id+" selected");
+			("node "+node.id+" selected");
                         // callbacks
                         for(var i in mybandit.selectCallbacks) {
                            mybandit.selectCallbacks[i](node.id,mybandit.nodes[node.id]["properties"]);
@@ -289,7 +289,7 @@ BandIt.prototype.redrawpaths = function(nodeid) {
 
 BandIt.prototype.deletenode = function(nodeid) {
         node = this.paper.getById(nodeid);
-	console.log("delete node "+node.id);
+	banditLogger.DEBUG("delete node "+node.id);
         // callbacks
         for(var i in this.deleteCallbacks) {
           this.deleteCallbacks[i](node.id);
@@ -332,13 +332,13 @@ BandIt.prototype.deletenode = function(nodeid) {
 */
 
 BandIt.prototype.deletepath = function(path) {
-	console.log("Delete link "+path.id);
+	banditLogger.DEBUG("Delete link "+path.id);
 	pathid = path.id;
 	for(var node in this.inlinks) {
 		links = this.inlinks[node];
 		for(var i in links) {
 			if(links[i]!=null && links[i]["path"]==pathid) {
-				console.log("remove inlinks path "+i);
+				banditLogger.DEBUG("remove inlinks path "+i);
 				links[i]=null;
 			}
 		}
@@ -347,7 +347,7 @@ BandIt.prototype.deletepath = function(path) {
 		links = this.outlinks[node];
 		for(var i in links) {
 			if(links[i]!=null && links[i]["path"]==pathid) {
-				console.log("remove outlinks path "+i);
+				banditLogger.DEBUG("remove outlinks path "+i);
 				links[i]=null;
 			}
 		}
@@ -371,9 +371,9 @@ BandIt.prototype.redrawpath = function(link,node) {
 		return;
 	}
 	path = this.paper.getById(link["path"]);
-	//console.log("path:" + path.id);
+	banditLogger.DEBUG("path:" + path.id);
 	remotenode = this.paper.getById(link["node"]);
-	//console.log("remote:" + remotenode.id);
+	banditLogger.DEBUG("remote:" + remotenode.id);
 	xend = remotenode.attr("x") + remotenode.attr("width")/2;
 	yend = remotenode.attr("y") + remotenode.attr("height")/2;
 	xpos = node.attr("x") + node.attr("width")/2;
@@ -390,7 +390,7 @@ BandIt.prototype.redrawpath = function(link,node) {
 
 BandIt.prototype.zoomIn = function() {
 	this.zoom = this.zoom * 2;
-	console.log("zoom with "+this.zoom);
+	banditLogger.DEBUG("zoom with "+this.zoom);
 	mybandit = this;
 	mybandit.paper.forEach(function (el) {
 			if(mybandit.nodes[el.id]!=null) {
@@ -415,7 +415,7 @@ BandIt.prototype.zoomIn = function() {
 
 BandIt.prototype.zoomOut = function() {
 	this.zoom = this.zoom * 0.5;
-	console.log("zoom with "+this.zoom);
+	banditLogger.DEBUG("zoom with "+this.zoom);
 	mybandit = this;
 	mybandit.paper.forEach(function (el) {
 			if(mybandit.nodes[el.id]!=null) {
@@ -513,6 +513,7 @@ BandIt.prototype.moveDown = function(step) {
 /**
 * Eval an argument.
 * @class pick
+* @constructor
 * @param arg {Object} Value to test
 * @param def {Object} Default value
 * @return {Object} default is undefined
@@ -521,4 +522,64 @@ BandIt.prototype.moveDown = function(step) {
 function pick(arg, def) {
    return (typeof arg == 'undefined' ? def : arg);
 }
+
+/**
+* BanditLogger
+* @class BanditLogger
+* @param level {int} Level of log: 0:DEBUG, 1:INFO, 2: ERROR
+*
+*/
+var level = 2; // Error
+
+function BanditLogger() {
+}
+
+BanditLogger.prototype.level = function(newlevel) {
+  level = newlevel;
+}
+
+/**
+* Log a debug level message
+* @method DEBUG
+* @param msg {String} message to log
+*
+*/
+BanditLogger.prototype.DEBUG = function(msg) {
+  if (level<=0) {
+    date = new Date
+    console.log("#DEBUG "+date.toString()+": "+msg);
+  }
+}
+
+/**
+* Log an info level message
+* @method INFO
+* @param msg {String} message to log
+*
+*/
+
+BanditLogger.prototype.INFO = function(msg) {
+  if (level<=1) {
+    date = new Date
+    console.log("#INFO "+date.toString()+": "+msg);
+  }
+}
+
+/**
+* Log an error level message
+* @method ERROR
+* @param msg {String} message to log
+*
+*/
+
+BanditLogger.prototype.ERROR = function(msg) {
+  if (level<=2) {
+    date = new Date
+    console.log("#ERROR "+date.toString()+": "+msg);
+  }
+}
+
+banditLogger = new BanditLogger();
+banditLogger.level(0);
+
 
