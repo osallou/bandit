@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: BandIt   bandit.js  (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336045938.06" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336045938.06" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336046387.73" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336046387.73" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1336045938.06"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1336045938.06"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1336046387.73"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1336046387.73"></script>
 </head>
 
 <body id="yahoo-com">
@@ -86,20 +86,38 @@
 
         <span class="k">this</span><span class="p">.</span><span class="nx">selectCallbacks</span> <span class="o">=</span> <span class="p">[];</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">deleteCallbacks</span> <span class="o">=</span> <span class="p">[];</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">addCallbacks</span> <span class="o">=</span> <span class="p">[];</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
 <span class="cm">* Register a callback when a node is selected</span>
 <span class="cm">* @method registerSelect</span>
-<span class="cm">* @param callback Function to use when a node is selected</span>
+<span class="cm">* @param callback Function to use when a node is selected, function(nodeid, nodeproperties)</span>
 <span class="cm">*/</span>
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">registerSelect</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">selectCallbacks</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
 <span class="p">}</span>
 
+<span class="cm">/**</span>
+<span class="cm">* Register a callback when a node is deleted</span>
+<span class="cm">* @method registerDelete</span>
+<span class="cm">* @param callback Function to use when a node is deleted, function(nodeid)</span>
+<span class="cm">*/</span>
+
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">registerDelete</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">deleteCallbacks</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
 <span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* Register a callback when a node is added</span>
+<span class="cm">* @method registerAdd</span>
+<span class="cm">* @param callback Function to use when a node is added, function(nodeid)</span>
+<span class="cm">*/</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">registerAdd</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">callback</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">addCallbacks</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">callback</span><span class="p">);</span>
+<span class="p">}</span>
+
+
 
 <span class="cm">/**</span>
 <span class="cm">* Gets current edition mode</span>
@@ -247,6 +265,11 @@
 
 	<span class="nx">node</span><span class="p">.</span><span class="nx">drag</span><span class="p">(</span><span class="nx">move</span><span class="p">,</span><span class="nx">start</span><span class="p">,</span><span class="nx">up</span><span class="p">);</span>
 
+       <span class="c1">// callbacks</span>
+      <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">addCallbacks</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">mybandit</span><span class="p">.</span><span class="nx">addCallbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">](</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+      <span class="p">}</span>
+
 	<span class="k">return</span> <span class="nx">node</span><span class="p">;</span>
 
 <span class="p">}</span> <span class="c1">// end addnode</span>
@@ -273,6 +296,11 @@
 
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">deletenode</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">node</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;delete node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+        <span class="c1">// callbacks</span>
+        <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">deleteCallbacks</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">mybandit</span><span class="p">.</span><span class="nx">deleteCallbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">](</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+        <span class="p">}</span>
+
 	<span class="nx">paths</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
 	<span class="c1">// Delete text</span>
 	<span class="nx">text</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;child&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]);</span>
@@ -485,7 +513,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}];
+    ALL_YUI_PROPS = [{"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}];
 </script>
 </body>
 </html>

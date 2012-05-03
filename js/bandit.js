@@ -37,20 +37,38 @@ function BandIt(diveditor,width,height) {
 
         this.selectCallbacks = [];
         this.deleteCallbacks = [];
+        this.addCallbacks = [];
 }
 
 /**
 * Register a callback when a node is selected
 * @method registerSelect
-* @param callback Function to use when a node is selected
+* @param callback Function to use when a node is selected, function(nodeid, nodeproperties)
 */
 BandIt.prototype.registerSelect = function(callback) {
   this.selectCallbacks.push(callback);
 }
 
+/**
+* Register a callback when a node is deleted
+* @method registerDelete
+* @param callback Function to use when a node is deleted, function(nodeid)
+*/
+
 BandIt.prototype.registerDelete = function(callback) {
   this.deleteCallbacks.push(callback);
 }
+
+/**
+* Register a callback when a node is added
+* @method registerAdd
+* @param callback Function to use when a node is added, function(nodeid)
+*/
+BandIt.prototype.registerAdd = function(callback) {
+  this.addCallbacks.push(callback);
+}
+
+
 
 /**
 * Gets current edition mode
@@ -198,6 +216,11 @@ BandIt.prototype.add = function(name,attrs) {
 
 	node.drag(move,start,up);
 
+       // callbacks
+      for(var i in mybandit.addCallbacks) {
+        mybandit.addCallbacks[i](node.id);
+      }
+
 	return node;
 
 } // end addnode
@@ -224,6 +247,11 @@ BandIt.prototype.redrawpaths = function(nodeid) {
 
 BandIt.prototype.deletenode = function(node) {
 	console.log("delete node "+node.id);
+        // callbacks
+        for(var i in mybandit.deleteCallbacks) {
+         mybandit.deleteCallbacks[i](node.id);
+        }
+
 	paths = this.inlinks[node.id];
 	// Delete text
 	text = this.paper.getById(this.nodes[node.id]["child"]["text"]);
