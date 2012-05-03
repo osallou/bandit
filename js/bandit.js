@@ -97,6 +97,7 @@ BandIt.prototype.setMode = function(newmode) {
 
 /**
 * Update the properties of a node
+* @method setProperties
 * @param nodeid {int} ID of the node
 * @param props {Object} Properties of the node
 *
@@ -106,10 +107,34 @@ BandIt.prototype.setProperties = function(nodeid,props) {
 	this.nodes[nodeid]["properties"] = props;
 }
 
+/**
+* Sets default list of properties
+* @method setDefaultProperties
+* @param props {Object}  Key/value pairs of properties
+*
+*/
+
 BandIt.prototype.setDefaultProperties = function(props) {
 	this.properties = props;
 }
 
+/**
+* get Rapahel Paper element
+* @method getPaper
+* @return {Paper} paper used for the draw
+/*
+BandIt.prototype.getPaper = function() {
+  return this.paper;
+}
+
+/**
+* Adds a new node on paper
+* @method addnode
+* @param name {string}  Unique name of the node (optional). If undefined, a default counter is used
+* @param atts {Object}  Element properties (optional). For properties, look at Raphael Element documentation.
+* @return {Node} Node element
+*
+*/
 
 BandIt.prototype.add = function(name,attrs) {
 	var node = this.paper.rect(50,50, 100*this.zoom,60*this.zoom);
@@ -147,7 +172,7 @@ BandIt.prototype.add = function(name,attrs) {
 			}
 			if (mybandit.mode==2) {
 			// Delete mode, delete node
-			mybandit.deletenode(node);
+			mybandit.deletenode(node.id);
 			return;
 			}
 			console.log("node "+node.id+" selected");
@@ -176,7 +201,7 @@ BandIt.prototype.add = function(name,attrs) {
 			path.mousedown(function(e) {
 				if(mybandit.mode==2) {
 				path = mybandit.paper.getElementByPoint(e.x,e.y);
-				mybandit.deletepaths(path);
+				mybandit.deletepath(path);
 				}
 				});
 			path.toBack();
@@ -231,6 +256,13 @@ BandIt.prototype.add = function(name,attrs) {
 
 
 // Redraw all path linked to current dragged node
+/**
+* Redraw all paths linked to a node
+* @method redrawpaths
+* @param nodeid {int}  Id of the Node
+*
+*/
+
 BandIt.prototype.redrawpaths = function(nodeid) {
 	node = this.paper.getById(nodeid);
 	if (node == null ) {
@@ -248,11 +280,19 @@ BandIt.prototype.redrawpaths = function(nodeid) {
 	}
 } // end redrawpaths
 
-BandIt.prototype.deletenode = function(node) {
+/**
+* Delete a node
+* @method deletenode
+* @param nodeid {int} Node id to delete
+*
+*/
+
+BandIt.prototype.deletenode = function(nodeid) {
+        node = this.paper.getById(nodeid);
 	console.log("delete node "+node.id);
         // callbacks
-        for(var i in mybandit.deleteCallbacks) {
-         mybandit.deleteCallbacks[i](node.id);
+        for(var i in this.deleteCallbacks) {
+          this.deleteCallbacks[i](node.id);
         }
 
 	paths = this.inlinks[node.id];
@@ -265,7 +305,7 @@ BandIt.prototype.deletenode = function(node) {
 	for(var i in paths) {
 		if(paths[i]!=null) {
 			var pathobject =  this.paper.getById(paths[i]["path"]);
-			this.deletepaths(pathobject);
+			this.deletepath(pathobject);
 		}
 	}
 	delete this.inlinks[node.id]; 
@@ -274,7 +314,7 @@ BandIt.prototype.deletenode = function(node) {
 	for(var i in paths) {
 		if(paths[i]!=null) {
 			var pathobject =  this.paper.getById(paths[i]["path"]); 
-			this.deletepaths(pathobject);
+			this.deletepath(pathobject);
 		}
 	}
 	delete this.outlinks[node.id];
@@ -284,8 +324,14 @@ BandIt.prototype.deletenode = function(node) {
 
 } // end deletenode
 
+/**
+* Delete a path
+* @methode deletepath
+* @param path {Path} Path element to delete
+*
+*/
 
-BandIt.prototype.deletepaths = function(path) {
+BandIt.prototype.deletepath = function(path) {
 	console.log("Delete link "+path.id);
 	pathid = path.id;
 	for(var node in this.inlinks) {
@@ -308,9 +354,17 @@ BandIt.prototype.deletepaths = function(path) {
 	}
 	path.remove();
 
-} // end deletepaths
+} // end deletepath
 
 // Redraw a path element
+/**
+* Redraw a path
+* @methode redrawpath
+* @param link {Path} Path element to delete
+* @param node {int} Id of the node the path is linked as origin
+*
+*/
+
 BandIt.prototype.redrawpath = function(link,node) {
 	if(link==null) {
 		// A deleted path
@@ -327,6 +381,12 @@ BandIt.prototype.redrawpath = function(link,node) {
 	path.attr("path","M"+xpos+","+ypos+"L"+xend+","+yend);
 
 } // end updatepath
+
+/**
+* Zoom in the workflow
+* @methode zoomIn
+*
+*/
 
 BandIt.prototype.zoomIn = function() {
 	this.zoom = this.zoom * 2;
@@ -347,6 +407,11 @@ BandIt.prototype.zoomIn = function() {
 
 }
 
+/**
+* Zoom out the workflow
+* @methode zoomOut
+*
+*/
 
 BandIt.prototype.zoomOut = function() {
 	this.zoom = this.zoom * 0.5;
@@ -366,6 +431,13 @@ BandIt.prototype.zoomOut = function() {
 
 }
 
+/**
+* Translate on the left the workflow
+* @methode moveLeft
+* @param step {int} Step of the move
+*
+*/
+
 BandIt.prototype.moveLeft = function(step) {
 	mybandit = this;
 	mybandit.paper.forEach(function (el) {
@@ -379,6 +451,12 @@ BandIt.prototype.moveLeft = function(step) {
 			});
 }
 
+/**
+* Translate on the right the workflow
+* @methode moveRight
+* @param step {int} Step of the move
+*
+*/
 BandIt.prototype.moveRight = function(step) {
 	mybandit = this;
 	mybandit.paper.forEach(function (el) {
@@ -392,6 +470,12 @@ BandIt.prototype.moveRight = function(step) {
 			});
 }
 
+/**
+* Translate to the up the workflow
+* @methode moveUp
+* @param step {int} Step of the move
+*
+*/
 BandIt.prototype.moveUp = function(step) {
 	mybandit = this;
 	mybandit.paper.forEach(function (el) {
@@ -405,6 +489,12 @@ BandIt.prototype.moveUp = function(step) {
 			});
 }
 
+/**
+* Translate to the down the workflow
+* @methode moveDown
+* @param step {int} Step of the move
+*
+*/
 BandIt.prototype.moveDown = function(step) {
 	mybandit = this;
 	mybandit.paper.forEach(function (el) {
@@ -421,7 +511,12 @@ BandIt.prototype.moveDown = function(step) {
 
 
 /**
-*  Eval an arg, return default if undefined
+* Eval an argument.
+* @class pick
+* @param arg {Object} Value to test
+* @param def {Object} Default value
+* @return {Object} default is undefined
+*
 */
 function pick(arg, def) {
    return (typeof arg == 'undefined' ? def : arg);

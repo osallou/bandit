@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: BandIt  BandIt   (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336047548.32" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336047548.32" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336050533.94" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336050533.94" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1336047548.32"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1336047548.32"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1336050533.94"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1336050533.94"></script>
 </head>
 
 <body id="yahoo-com">
@@ -141,6 +141,108 @@
                         <div class="section method details">
                             <h3 id="methods">Methods</h3>
                             <div class="content">
+                                    <div class="" rel="yui:method" resource="#method_deletenode">
+                                    <h4>
+                                        <a name="method_deletenode">deletenode</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">deletenode</strong>
+                                           (
+                                                
+                                                        
+                                                         nodeid
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Delete a node
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">nodeid</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Node id to delete</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_deletepath">
+                                    <h4>
+                                        <a name="method_deletepath">deletepath</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">deletepath</strong>
+                                           (
+                                                
+                                                        
+                                                         path
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Delete a path
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">path</span>
+                                                        &lt;<span property="yui:type">Path</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Path element to delete</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                                     <div class="" rel="yui:method" resource="#method_getMode">
                                     <h4>
                                         <a name="method_getMode">getMode</a></h4>
@@ -168,6 +270,392 @@
                                                         int
                                                     </code></dt>
                                                     <dd property="yui:returnInfo">current   mode</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_getPaper">
+                                    <h4>
+                                        <a name="method_getPaper">getPaper</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Paper} paper used for the draw
+/*
+BandIt.prototype.getPaper = function() {
+return this.paper;
+
+                                            <strong property="yui:name">getPaper</strong>
+                                           (
+                                                
+                                                        
+                                                         name
+                                                    
+                                                
+                                                        , 
+                                                         atts
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            get Rapahel Paper element
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">name</span>
+                                                        &lt;<span property="yui:type">string</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">   Unique name of the node (optional). If undefined, a default counter is used</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">atts</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">   Element properties (optional). For properties, look at Raphael Element documentation.</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Paper} paper used for the draw
+/*
+BandIt.prototype.getPaper = function() {
+return this.paper;
+
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">/**
+Adds a new node on paper</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_moveDown">
+                                    <h4>
+                                        <a name="method_moveDown">moveDown</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">moveDown</strong>
+                                           (
+                                                
+                                                        
+                                                         step
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Translate to the down the workflow
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">step</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Step of the move</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_moveLeft">
+                                    <h4>
+                                        <a name="method_moveLeft">moveLeft</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">moveLeft</strong>
+                                           (
+                                                
+                                                        
+                                                         step
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Translate on the left the workflow
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">step</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Step of the move</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_moveRight">
+                                    <h4>
+                                        <a name="method_moveRight">moveRight</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">moveRight</strong>
+                                           (
+                                                
+                                                        
+                                                         step
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Translate on the right the workflow
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">step</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Step of the move</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_moveUp">
+                                    <h4>
+                                        <a name="method_moveUp">moveUp</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">moveUp</strong>
+                                           (
+                                                
+                                                        
+                                                         step
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Translate to the up the workflow
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">step</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Step of the move</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_redrawpath">
+                                    <h4>
+                                        <a name="method_redrawpath">redrawpath</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">redrawpath</strong>
+                                           (
+                                                
+                                                        
+                                                         link
+                                                    
+                                                
+                                                        , 
+                                                         node
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Redraw a path
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">link</span>
+                                                        &lt;<span property="yui:type">Path</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Path element to delete</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">node</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">  Id of the node the path is linked as origin</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_redrawpaths">
+                                    <h4>
+                                        <a name="method_redrawpaths">redrawpaths</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">redrawpaths</strong>
+                                           (
+                                                
+                                                        
+                                                         nodeid
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Redraw all paths linked to a node
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">nodeid</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">   Id of the Node</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
                                                 </dl>
 
 
@@ -331,6 +819,57 @@
                                     </div>
                                     <hr />
                                     </div>
+                                    <div class="" rel="yui:method" resource="#method_setDefaultProperties">
+                                    <h4>
+                                        <a name="method_setDefaultProperties">setDefaultProperties</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">setDefaultProperties</strong>
+                                           (
+                                                
+                                                        
+                                                         props
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Sets default list of properties
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">props</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">   Key/value pairs of properties</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                                     <div class="" rel="yui:method" resource="#method_setMode">
                                     <h4>
                                         <a name="method_setMode">setMode</a></h4>
@@ -443,6 +982,80 @@
                                     </div>
                                     <hr />
                                     </div>
+                                    <div class="" rel="yui:method" resource="#method_zoomIn">
+                                    <h4>
+                                        <a name="method_zoomIn">zoomIn</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">zoomIn</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Zoom in the workflow
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_zoomOut">
+                                    <h4>
+                                        <a name="method_zoomOut">zoomOut</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">zoomOut</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Zoom out the workflow
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                             </div>
                         </div>
 
@@ -473,6 +1086,7 @@
                         <h4>Classes</h4>
                         <ul class="content">
                                 <li class="selected"><a href="BandIt.html" title="BandIt">BandIt</a></li>
+                                <li class=""><a href="pick.html" title="pick">pick</a></li>
                         </ul>
                     </div>
 
@@ -493,12 +1107,24 @@
                     <div id="methodsList" class="module">
                         <h4>Methods</h4>
                         <ul class="content">        
+                                <li class=""><a href="#method_deletenode" title="deletenode">deletenode</a></li>
+                                <li class=""><a href="#method_deletepath" title="deletepath">deletepath</a></li>
                                 <li class=""><a href="#method_getMode" title="getMode">getMode</a></li>
+                                <li class=""><a href="#method_getPaper" title="getPaper">getPaper</a></li>
+                                <li class=""><a href="#method_moveDown" title="moveDown">moveDown</a></li>
+                                <li class=""><a href="#method_moveLeft" title="moveLeft">moveLeft</a></li>
+                                <li class=""><a href="#method_moveRight" title="moveRight">moveRight</a></li>
+                                <li class=""><a href="#method_moveUp" title="moveUp">moveUp</a></li>
+                                <li class=""><a href="#method_redrawpath" title="redrawpath">redrawpath</a></li>
+                                <li class=""><a href="#method_redrawpaths" title="redrawpaths">redrawpaths</a></li>
                                 <li class=""><a href="#method_registerAdd" title="registerAdd">registerAdd</a></li>
                                 <li class=""><a href="#method_registerDelete" title="registerDelete">registerDelete</a></li>
                                 <li class=""><a href="#method_registerSelect" title="registerSelect">registerSelect</a></li>
+                                <li class=""><a href="#method_setDefaultProperties" title="setDefaultProperties">setDefaultProperties</a></li>
                                 <li class=""><a href="#method_setMode" title="setMode">setMode</a></li>
                                 <li class=""><a href="#method_setProperties" title="setProperties">setProperties</a></li>
+                                <li class=""><a href="#method_zoomIn" title="zoomIn">zoomIn</a></li>
+                                <li class=""><a href="#method_zoomOut" title="zoomOut">zoomOut</a></li>
                         </ul>
                     </div>
 
@@ -513,7 +1139,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}];
+    ALL_YUI_PROPS = [{"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
 </script>
 </body>
 </html>
