@@ -23,7 +23,7 @@ generator_out=doc/generator
 
 # The location of the template files.  Any subdirectories here will be copied
 # verbatim to the destination directory.
-template=$yuidoc_home/template
+template=doc/template
 
 # The version of your project to display within the documentation.
 version=0.1.0
@@ -35,7 +35,7 @@ yuiversion=2
 ##############################################################################
 # add -s to the end of the line to show items marked private
 
-$yuidoc_home/bin/yuidoc.py $parser_in -p $parser_out -o $generator_out -t $template -v $version -Y $yuiversion
+$yuidoc_home/bin/yuidoc.py $parser_in -p $parser_out -o $generator_out -t $template -v $version -Y $yuiversion -m BandIt
 
 rm -rf src
 

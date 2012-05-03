@@ -1,5 +1,7 @@
 /**
-* The BandIt module provides methods to draw a workflow
+* The BandIt module provides methods to draw a workflow<br/>
+* Author: Olivier Sallou <olivier.sallou@irisa.fr></br>
+* License: CeCILL-B
 * @module BandIt
 * @requires RaphaelJS, JQuery
 *
@@ -10,6 +12,7 @@
 /**
 * BandIt is a library above RaphaelJS to create workflows in HTML/JS.
 * @class BandIt
+* @constructor
 * @param diveditor Name of the div where editor will be put
 * @param width Width of the div
 * @param height Height of the div
