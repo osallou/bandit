@@ -1,8 +1,22 @@
+<html>
+<head>
+<link type="text/css" href="css/bandit.css" rel="stylesheet"/>
+<script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="js/raphael-min.js" type="text/javascript"></script>
+<script src="js/bandit.js" type="text/javascript"></script>
+
+<script>
+$(document).ready(function(){
+});
+</script>
+<title>ManBand</title>
+</head>
+<body>
 <script>
 $(document).ready(function() {
 
 
-bandit = new BandIt("myeditor","node",800,800);
+bandit = new BandIt("myeditor","node",1200,800);
 
 bandit.registerSelect(function(nodeid,properties) {
         var props = '<div id="bandnode"><h2>'+nodeid+' - '+properties["name"]+'</h2>';
@@ -135,5 +149,7 @@ $("#bandnodeupdate").live("click", function(){
 <div class="tool" id="delete"><img src="images/delete.png"/></div>
 <div class="tool" id="save"><img src="images/save.png"/></div>
 </div>
-<div id="node"></div>
 <div class="editor" id="myeditor"></div>
+<div id="node"></div>
+</body>
+</html>
