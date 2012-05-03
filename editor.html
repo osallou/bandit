@@ -16,7 +16,7 @@ $(document).ready(function(){
 $(document).ready(function() {
 
 
-bandit = new BandIt("myeditor","node",1200,800);
+bandit = new BandIt("myeditor",1200,800);
 
 bandit.registerSelect(function(nodeid,properties) {
         var props = '<div id="bandnode"><h2>'+nodeid+' - '+properties["name"]+'</h2>';
@@ -136,6 +136,9 @@ $("#bandnodeupdate").live("click", function(){
 
 
 </script>
+<div class="header">
+<h1><img src="doc/template/assets/bandit.png"/>BandIt editor</h1>
+</div>
 <div class="tools">
 <div class="tool" id="add"><img src="images/add.png"/></div>
 <div class="tool" id="move"><img src="images/move.png"/></div>
