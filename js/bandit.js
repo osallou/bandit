@@ -1,47 +1,57 @@
 /**
-* The BandIt module provides methods to draw a workflow<br/>
-* Author: Olivier Sallou <olivier.sallou@irisa.fr></br>
-* License: CeCILL-B
-* @module BandIt
-* @requires RaphaelJS, JQuery
-*
-*/
+ * The BandIt module provides methods to draw a workflow<br/>
+ * Author: Olivier Sallou <olivier.sallou@irisa.fr></br>
+ * License: CeCILL-B
+ * @module BandIt
+ * @requires RaphaelJS, JQuery
+ *
+ */
 
 
 
 /**
-* BandIt is a library above RaphaelJS to create workflows in HTML/JS.
-* @class BandIt
-* @constructor
-* @param diveditor Name of the div where editor will be put
-* @param width Width of the div
-* @param height Height of the div
-*/
+ * BandIt is a library above RaphaelJS to create workflows in HTML/JS.
+ * @class BandIt
+ * @constructor
+ * @param diveditor Name of the div where editor will be put
+ * @param width Width of the div
+ * @param height Height of the div
+ */
 
 function BandIt(diveditor,width,height) {
 	// Raphael SVG
 	this.paper = Raphael(diveditor,width,height);
-        /**
-         * Operation mode:
-         * 0 : drag and drop, selection
-         * 1 : link
-         * 2 : delete
-         */
+	/**
+	 * Operation mode:
+	 * 0 : drag and drop, selection
+	 * 1 : link
+	 * 2 : delete
+	 */
 	this.mode = 0;
 	this.count = 0;
 	this.currentnode = null;
 	this.nodes = {};
-	this.inlinks = {};
 	this.outlinks = {};
+	this.inlinks = {};
 	this.paths = {};
 	this.zoom = 1;
 	// Node properties object
 	this.properties = {};
 
-        this.selectCallbacks = [];
-        this.deleteCallbacks = [];
-        this.addCallbacks = [];
+	this.selectCallbacks = [];
+	this.deleteCallbacks = [];
+	this.addCallbacks = [];
 }
+
+BandIt.prototype.arrow = function(x1, y1, x2, y2, size) {
+    var angle = Math.atan2(x1-x2,y2-y1);
+    angle = (angle / (2 * Math.PI)) * 360;
+    ax2 = x1 + (x2 - x1) /2;
+    ay2 = y1 + (y2 - y1) /2;
+    var arrowPath = this.paper.path("M" + ax2 + " " + ay2 + " L" + (ax2 - size) + " " + (ay2 - size) + " L" + (ax2 - size) + " " + (ay2 + size) + " L" + ax2 + " " + ay2 ).attr("fill","black").rotate((90+angle),ax2,ay2);
+    return arrowPath;
+}
+
 
 /**
 * Register a callback when a node is selected
@@ -195,9 +205,12 @@ BandIt.prototype.add = function(name,attrs) {
 			//TODO check there is no existing link
 			xpos = startnode.attr("x") + startnode.attr("width")/2;
 			ypos = startnode.attr("y") + startnode.attr("height")/2;
-			xend = node.attr("x") + node.attr("width")/2;
-			yend = node.attr("y") + node.attr("height")/2;
+			xend = node.attr("x") + node.attr("width")/2 ;
+			yend = node.attr("y") + node.attr("height")/2 ;
 			path = mybandit.paper.path("M"+xpos+","+ypos+"L"+xend+","+yend);
+                        arrowpath = mybandit.arrow(xpos,ypos,xend,yend,10);
+                        banditLogger.DEBUG("add arrow "+arrowpath.id);
+                        mybandit.paths[path.id] =  { arrow : arrowpath.id, direction: node.id };
 			path.mousedown(function(e) {
 				if(mybandit.mode==2) {
 				path = mybandit.paper.getElementByPoint(e.x,e.y);
@@ -205,14 +218,14 @@ BandIt.prototype.add = function(name,attrs) {
 				}
 				});
 			path.toBack();
-			if (mybandit.outlinks[node.id] == null) {
-				mybandit.outlinks[node.id] = []
+			if (mybandit.inlinks[node.id] == null) {
+				mybandit.inlinks[node.id] = []
 			}
-			mybandit.outlinks[node.id].push({ path : path.id, node : startnode.id });
-			if (mybandit.inlinks[startnode.id] == null) { 
-				mybandit.inlinks[startnode.id] = []
+			mybandit.inlinks[node.id].push({ path : path.id, node : startnode.id });
+			if (mybandit.outlinks[startnode.id] == null) { 
+				mybandit.outlinks[startnode.id] = []
 			}
-			mybandit.inlinks[startnode.id].push( { path : path.id, node : node.id });
+			mybandit.outlinks[startnode.id].push( { path : path.id, node : node.id });
 			}
 	});
 
@@ -268,14 +281,14 @@ BandIt.prototype.redrawpaths = function(nodeid) {
 	if (node == null ) {
 		return;
 	}
-	if (this.inlinks[nodeid]!=null) {
-		for(var i=0;i<this.inlinks[nodeid].length;i++) {
-			this.redrawpath(this.inlinks[nodeid][i], node);
-		}
-	}
 	if (this.outlinks[nodeid]!=null) {
 		for(var i=0;i<this.outlinks[nodeid].length;i++) {
-			this.redrawpath(this.outlinks[nodeid][i],node);
+			this.redrawpath(this.outlinks[nodeid][i], node);
+		}
+	}
+	if (this.inlinks[nodeid]!=null) {
+		for(var i=0;i<this.inlinks[nodeid].length;i++) {
+			this.redrawpath(this.inlinks[nodeid][i],node);
 		}
 	}
 } // end redrawpaths
@@ -295,7 +308,7 @@ BandIt.prototype.deletenode = function(nodeid) {
           this.deleteCallbacks[i](node.id);
         }
 
-	paths = this.inlinks[node.id];
+	paths = this.outlinks[node.id];
 	// Delete text
 	text = this.paper.getById(this.nodes[node.id]["child"]["text"]);
 	if(text!=null) {
@@ -308,16 +321,16 @@ BandIt.prototype.deletenode = function(nodeid) {
 			this.deletepath(pathobject);
 		}
 	}
-	delete this.inlinks[node.id]; 
+	delete this.outlinks[node.id]; 
 
-	paths = this.outlinks[node.id];
+	paths = this.inlinks[node.id];
 	for(var i in paths) {
 		if(paths[i]!=null) {
 			var pathobject =  this.paper.getById(paths[i]["path"]); 
 			this.deletepath(pathobject);
 		}
 	}
-	delete this.outlinks[node.id];
+	delete this.inlinks[node.id];
 
 	delete this.nodes[node.id];
 	node.remove();
@@ -334,15 +347,6 @@ BandIt.prototype.deletenode = function(nodeid) {
 BandIt.prototype.deletepath = function(path) {
 	banditLogger.DEBUG("Delete link "+path.id);
 	pathid = path.id;
-	for(var node in this.inlinks) {
-		links = this.inlinks[node];
-		for(var i in links) {
-			if(links[i]!=null && links[i]["path"]==pathid) {
-				banditLogger.DEBUG("remove inlinks path "+i);
-				links[i]=null;
-			}
-		}
-	}
 	for(var node in this.outlinks) {
 		links = this.outlinks[node];
 		for(var i in links) {
@@ -352,6 +356,17 @@ BandIt.prototype.deletepath = function(path) {
 			}
 		}
 	}
+	for(var node in this.inlinks) {
+		links = this.inlinks[node];
+		for(var i in links) {
+			if(links[i]!=null && links[i]["path"]==pathid) {
+				banditLogger.DEBUG("remove inlinks path "+i);
+				links[i]=null;
+			}
+		}
+	}
+        arrow = this.paths[path.id];
+        arrow.remove();
 	path.remove();
 
 } // end deletepath
@@ -372,6 +387,9 @@ BandIt.prototype.redrawpath = function(link,node) {
 	}
 	path = this.paper.getById(link["path"]);
 	banditLogger.DEBUG("path:" + path.id);
+        arrow = this.paths[path.id]["arrow"];
+        banditLogger.DEBUG("arrow:" + arrow);
+        this.paper.getById(arrow).remove();
 	remotenode = this.paper.getById(link["node"]);
 	banditLogger.DEBUG("remote:" + remotenode.id);
 	xend = remotenode.attr("x") + remotenode.attr("width")/2;
@@ -379,8 +397,16 @@ BandIt.prototype.redrawpath = function(link,node) {
 	xpos = node.attr("x") + node.attr("width")/2;
 	ypos = node.attr("y") + node.attr("height")/2;
 	path.attr("path","M"+xpos+","+ypos+"L"+xend+","+yend);
+        arrowdirection = this.paths[path.id]["direction"];
+	if(arrowdirection!=node.id) { 
+          newarrow = this.arrow(xpos,ypos,xend,yend,10);
+        }
+        else {
+          newarrow = this.arrow(xend,yend,xpos,ypos,10);
+        }
+        this.paths[path.id] = { arrow: newarrow.id, direction: arrowdirection } ;
 
-} // end updatepath
+} // end redrawpath
 
 /**
 * Zoom in the workflow
@@ -506,6 +532,54 @@ BandIt.prototype.moveDown = function(step) {
 			mybandit.redrawpaths(el.id);
 			}
 			});
+}
+
+/**
+* Export diagram to YAML format with all information
+* @method export
+* @return {String} YAML export of the workflow
+*/
+BandIt.prototype.export = function() {
+  var exportobject = {};
+  exportobject["options"] = {};
+  exportobject["options"]["store"] = "none";
+  exportobject["workflows"] = {};
+  for(var i in this.nodes)  {
+    var node = this.nodes[i];
+    banditLogger.DEBUG("export node "+i);
+    var attrs = this.paper.getById(i).attr();
+    nodeprops = {};
+    nodeprops["graph"] = attrs;
+    for(var prop in node["properties"]) {
+      if(prop!="name") {
+        nodeprops[prop] = node["properties"][prop];
+      }
+    }
+    // Now manage links
+    var nexts = this.outlinks[i];
+    
+    if(node["properties"]["name"]!="root") {
+      //banditLogger.DEBUG(this.inlinks[i]);
+      if(this.inlinks[i]==undefined) { alert("Warning, the node "+node["properties"]["name"]+" is not linked to root node");}
+    }
+     
+    var next = "";
+    var nbnext = 0;
+    for (var j in nexts) {
+      if(nexts[j]!=null) {
+        if(nbnext>0) {
+          next += ",";
+        }
+        next += this.nodes[nexts[j]["node"]]["properties"]["name"]; 
+        nbnext += 1;
+      }
+    }
+    nodeprops["next"] = next;
+    // TODO add next elts
+    exportobject["workflows"][node["properties"]["name"]] = nodeprops;
+  }
+  banditLogger.DEBUG(JSON.stringify(exportobject));
+  //console.log($.base64.encode(JSON.stringify(this.nodes)));
 }
 
 

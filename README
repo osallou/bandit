@@ -9,5 +9,10 @@ editor.html is a sample use of BanIt.
 
 generate-doc.sh generates Javascript documentation using YUI Doc. Path need to be updated
 
+Using:
+JQuery: http://jquery.com/
+JQuery.base64: http://hpyer.cn/files/jquery.base64.zip
+RaphaelJS: http://raphaeljs.com/
+
 Credits:
 Logo by http://openclipart.org/detail/12554/game-baddie:-cowboy-by-nicubunu under CCO PD Dedication license

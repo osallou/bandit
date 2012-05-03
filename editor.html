@@ -2,6 +2,7 @@
 <head>
 <link type="text/css" href="css/bandit.css" rel="stylesheet"/>
 <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
+<script src="js/jquery.base64.min.js" type="text/javascript"></script>
 <script src="js/raphael-min.js" type="text/javascript"></script>
 <script src="js/bandit.js" type="text/javascript"></script>
 
@@ -84,9 +85,12 @@ $('#link').click(function() {
 });
 
 $('#save').click(function() {
+  /*
   $.post("/save", { name: "test", description: "blablabla", workflow: bandit.nodes, inlinks: bandit.inlinks, outlinks: bandit.outlinks }, function(data) {
      alert("Data Loaded: " + data);
    });
+  */
+  bandit.export();
 });
 
 $('#delete').click(function() {
