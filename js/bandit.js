@@ -1,15 +1,29 @@
-// BandIt, BandMan editor
+/**
+* The BandIt module provides methods to draw a workflow
+* @module BandIt
+* @requires RaphaelJS, JQuery
+*
+*/
 
-// Instance of an editor
-function BandIt(diveditor,divprops,width,height) {
+
+
+/**
+* BandIt is a library above RaphaelJS to create workflows in HTML/JS.
+* @class BandIt
+* @param diveditor Name of the div where editor will be put
+* @param width Width of the div
+* @param height Height of the div
+*/
+
+function BandIt(diveditor,width,height) {
 	// Raphael SVG
 	this.paper = Raphael(diveditor,width,height);
-	/**
-	 * Operation mode:
-	 * 0 : drag and drop, selection
-	 * 1 : link
-	 * 2 : delete
-	 */
+        /**
+         * Operation mode:
+         * 0 : drag and drop, selection
+         * 1 : link
+         * 2 : delete
+         */
 	this.mode = 0;
 	this.count = 0;
 	this.currentnode = null;
@@ -18,7 +32,6 @@ function BandIt(diveditor,divprops,width,height) {
 	this.outlinks = {};
 	this.paths = {};
 	this.zoom = 1;
-	this.props = divprops;
 	// Node properties object
 	this.properties = {};
 
@@ -26,6 +39,11 @@ function BandIt(diveditor,divprops,width,height) {
         this.deleteCallbacks = [];
 }
 
+/**
+* Register a callback when a node is selected
+* @method registerSelect
+* @param callback Function to use when a node is selected
+*/
 BandIt.prototype.registerSelect = function(callback) {
   this.selectCallbacks.push(callback);
 }
@@ -34,17 +52,35 @@ BandIt.prototype.registerDelete = function(callback) {
   this.deleteCallbacks.push(callback);
 }
 
+/**
+* Gets current edition mode
+* @method getMode
+* @return current {int}  mode
+*
+*/
 BandIt.prototype.getMode = function() {
 	return this.mode;
 }
 
+/**
+* Sets current edition mode
+* @method setMode
+* @param newmode {int}  new edition mode
+*
+*/
 BandIt.prototype.setMode = function(newmode) {
 	this.mode = newmode;
 	console.log("Switch to mode "+this.mode);
 }
 
 
-// Update node properties
+/**
+* Update the properties of a node
+* @param nodeid {int} ID of the node
+* @param props {Object} Properties of the node
+*
+*/
+
 BandIt.prototype.setProperties = function(nodeid,props) {
 	this.nodes[nodeid]["properties"] = props;
 }
