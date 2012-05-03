@@ -513,7 +513,6 @@ BandIt.prototype.moveDown = function(step) {
 /**
 * Eval an argument.
 * @class pick
-* @constructor
 * @param arg {Object} Value to test
 * @param def {Object} Default value
 * @return {Object} default is undefined
@@ -526,15 +525,13 @@ function pick(arg, def) {
 /**
 * BanditLogger
 * @class BanditLogger
+* @constructor
 * @param level {int} Level of log: 0:DEBUG, 1:INFO, 2: ERROR
 *
 */
 var level = 2; // Error
 
-function BanditLogger() {
-}
-
-BanditLogger.prototype.level = function(newlevel) {
+function BanditLogger(newlevel) {
   level = newlevel;
 }
 
@@ -579,7 +576,6 @@ BanditLogger.prototype.ERROR = function(msg) {
   }
 }
 
-banditLogger = new BanditLogger();
-banditLogger.level(0);
+banditLogger = new BanditLogger(0);
 
 

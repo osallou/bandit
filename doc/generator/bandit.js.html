@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: BandIt   bandit.js  (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336058375.29" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336058375.29" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336058500.73" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336058500.73" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1336058375.29"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1336058375.29"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1336058500.73"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1336058500.73"></script>
 </head>
 
 <body id="yahoo-com">
@@ -562,7 +562,6 @@
 <span class="cm">/**</span>
 <span class="cm">* Eval an argument.</span>
 <span class="cm">* @class pick</span>
-<span class="cm">* @constructor</span>
 <span class="cm">* @param arg {Object} Value to test</span>
 <span class="cm">* @param def {Object} Default value</span>
 <span class="cm">* @return {Object} default is undefined</span>
@@ -575,15 +574,13 @@
 <span class="cm">/**</span>
 <span class="cm">* BanditLogger</span>
 <span class="cm">* @class BanditLogger</span>
+<span class="cm">* @constructor</span>
 <span class="cm">* @param level {int} Level of log: 0:DEBUG, 1:INFO, 2: ERROR</span>
 <span class="cm">*</span>
 <span class="cm">*/</span>
 <span class="kd">var</span> <span class="nx">level</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// Error</span>
 
-<span class="kd">function</span> <span class="nx">BanditLogger</span><span class="p">()</span> <span class="p">{</span>
-<span class="p">}</span>
-
-<span class="nx">BanditLogger</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">level</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">newlevel</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">function</span> <span class="nx">BanditLogger</span><span class="p">(</span><span class="nx">newlevel</span><span class="p">)</span> <span class="p">{</span>
   <span class="nx">level</span> <span class="o">=</span> <span class="nx">newlevel</span><span class="p">;</span>
 <span class="p">}</span>
 
@@ -628,8 +625,7 @@
   <span class="p">}</span>
 <span class="p">}</span>
 
-<span class="nx">banditLogger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BanditLogger</span><span class="p">();</span>
-<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">level</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<span class="nx">banditLogger</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">BanditLogger</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
 </pre></div>
                     </div>
 			</div>
