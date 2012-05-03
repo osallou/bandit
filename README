@@ -1,0 +1,6 @@
+BandIt : JavaScript Workflow editor based on RaphaelJS
+
+Copyright: 2012, Olivier Sallou <olivier.sallou@irisa.fr>
+License: CeCILL-C (http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html)
+
+editor.html is a sample use of BanIt.

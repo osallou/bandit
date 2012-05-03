@@ -1,0 +1,139 @@
+<script>
+$(document).ready(function() {
+
+
+bandit = new BandIt("myeditor","node",800,800);
+
+bandit.registerSelect(function(nodeid,properties) {
+        var props = '<div id="bandnode"><h2>'+nodeid+' - '+properties["name"]+'</h2>';
+        props += '<input type="hidden" id="bandnodeid" name="bandnodeid" value="'+nodeid+'"/>';
+        for (var i in properties)
+        {
+                props += '<div><label for="'+i+'">'+i+'</label>';
+                props += '<input type="text" id="'+i+'" name="'+i+'" value="'+properties[i]+'"/></div>';
+        }
+        props += '<input type="submit" id="bandnodeupdate" value="update"/></div>';
+
+        $("#node").html(props);
+   //TODO display properties and apply updates
+});
+
+
+props = {};
+props["command"] = "" ;
+props["store"] = "false" ;
+props["queue"] = "" ;
+props["description"] = "" ;
+bandit.setDefaultProperties(props);
+
+bandit.add("root", { fill: "#6E6E6E" });
+
+updatemode(0);
+
+$('#move').click(function() {
+  updatemode(0);
+});
+
+$('#add').click(function() {
+    updatemode(0);
+    bandit.add();
+});
+
+$('#left').click(function() {
+  bandit.moveLeft(10);
+});
+
+$('#right').click(function() {
+  bandit.moveRight(10);
+});
+  
+$('#up').click(function() {
+  bandit.moveUp(10);
+});
+
+$('#down').click(function() {
+  bandit.moveDown(10);
+});
+
+
+
+$('#zoomin').click(function() {
+  bandit.zoomIn();
+});
+
+$('#zoomout').click(function() {
+  bandit.zoomOut();
+});
+
+$('#link').click(function() {
+    updatemode(1);
+});
+
+$('#save').click(function() {
+  $.post("/save", { name: "test", description: "blablabla", workflow: bandit.nodes, inlinks: bandit.inlinks, outlinks: bandit.outlinks }, function(data) {
+     alert("Data Loaded: " + data);
+   });
+});
+
+$('#delete').click(function() {
+    updatemode(2);
+});
+
+// Make sure only 1 button is active (exclusive)
+function updatemode(newmode) {
+  if(newmode==0) {
+    $('#link').css('border-style','outset');
+    $('#delete').css('border-style','outset');
+    $('#move').css('border-style','inset');
+  }
+  else if(newmode==1) {
+    $('#link').css('border-style','inset');
+    $('#delete').css('border-style','outset');
+    $('#move').css('border-style','outset');
+  }
+  else if(newmode==2) {
+    $('#link').css('border-style','outset');
+    $('#delete').css('border-style','inset');
+    $('#move').css('border-style','outset');
+  }
+  bandit.setMode(newmode);
+}
+
+});
+
+//  Get props on select callback, display them and update
+$(document).ready(function() {
+$("#bandnodeupdate").live("click", function(){
+   newprops = {};
+   var elts = $('#bandnode').find('input');
+   var id="";
+    elts.each(function() {
+     if($(this).attr("id")!="bandnodeupdate" && $(this).attr("id")!="bandnodeid") {
+       newprops[$(this).attr("id")] = $(this).val();
+     }
+     if($(this).attr("id")=="bandnodeid") {
+       id = $(this).val();
+     }
+   });
+   bandit.setProperties(id,newprops);
+});
+});
+
+
+
+</script>
+<div class="tools">
+<div class="tool" id="add"><img src="images/add.png"/></div>
+<div class="tool" id="move"><img src="images/move.png"/></div>
+<div class="tool" id="link"><img src="images/link.png"/></div>
+<div class="tool" id="zoomin"><img src="images/zoomin.png"/></div>
+<div class="tool" id="zoomout"><img src="images/zoomout.png"/></div>
+<div class="tool" id="left"><img src="images/left.png"/></div>
+<div class="tool" id="right"><img src="images/right.png"/></div>
+<div class="tool" id="up"><img src="images/up.png"/></div>
+<div class="tool" id="down"><img src="images/down.png"/></div>
+<div class="tool" id="delete"><img src="images/delete.png"/></div>
+<div class="tool" id="save"><img src="images/save.png"/></div>
+</div>
+<div id="node"></div>
+<div class="editor" id="myeditor"></div>
