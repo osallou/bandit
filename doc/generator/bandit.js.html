@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: BandIt   bandit.js  (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336058500.73" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336058500.73" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336117382.39" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336117382.39" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1336058500.73"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1336058500.73"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1336117382.39"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1336117382.39"></script>
 </head>
 
 <body id="yahoo-com">
@@ -48,49 +48,59 @@
                             #doc3 .classopts { display:none; }
                         </style>
 <div class="highlight"><pre><span class="cm">/**</span>
-<span class="cm">* The BandIt module provides methods to draw a workflow&lt;br/&gt;</span>
-<span class="cm">* Author: Olivier Sallou &lt;olivier.sallou@irisa.fr&gt;&lt;/br&gt;</span>
-<span class="cm">* License: CeCILL-B</span>
-<span class="cm">* @module BandIt</span>
-<span class="cm">* @requires RaphaelJS, JQuery</span>
-<span class="cm">*</span>
-<span class="cm">*/</span>
+<span class="cm"> * The BandIt module provides methods to draw a workflow&lt;br/&gt;</span>
+<span class="cm"> * Author: Olivier Sallou &lt;olivier.sallou@irisa.fr&gt;&lt;/br&gt;</span>
+<span class="cm"> * License: CeCILL-B</span>
+<span class="cm"> * @module BandIt</span>
+<span class="cm"> * @requires RaphaelJS, JQuery</span>
+<span class="cm"> *</span>
+<span class="cm"> */</span>
 
 
 
 <span class="cm">/**</span>
-<span class="cm">* BandIt is a library above RaphaelJS to create workflows in HTML/JS.</span>
-<span class="cm">* @class BandIt</span>
-<span class="cm">* @constructor</span>
-<span class="cm">* @param diveditor Name of the div where editor will be put</span>
-<span class="cm">* @param width Width of the div</span>
-<span class="cm">* @param height Height of the div</span>
-<span class="cm">*/</span>
+<span class="cm"> * BandIt is a library above RaphaelJS to create workflows in HTML/JS.</span>
+<span class="cm"> * @class BandIt</span>
+<span class="cm"> * @constructor</span>
+<span class="cm"> * @param diveditor Name of the div where editor will be put</span>
+<span class="cm"> * @param width Width of the div</span>
+<span class="cm"> * @param height Height of the div</span>
+<span class="cm"> */</span>
 
 <span class="kd">function</span> <span class="nx">BandIt</span><span class="p">(</span><span class="nx">diveditor</span><span class="p">,</span><span class="nx">width</span><span class="p">,</span><span class="nx">height</span><span class="p">)</span> <span class="p">{</span>
 	<span class="c1">// Raphael SVG</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">paper</span> <span class="o">=</span> <span class="nx">Raphael</span><span class="p">(</span><span class="nx">diveditor</span><span class="p">,</span><span class="nx">width</span><span class="p">,</span><span class="nx">height</span><span class="p">);</span>
-        <span class="cm">/**</span>
-<span class="cm">         * Operation mode:</span>
-<span class="cm">         * 0 : drag and drop, selection</span>
-<span class="cm">         * 1 : link</span>
-<span class="cm">         * 2 : delete</span>
-<span class="cm">         */</span>
+	<span class="cm">/**</span>
+<span class="cm">	 * Operation mode:</span>
+<span class="cm">	 * 0 : drag and drop, selection</span>
+<span class="cm">	 * 1 : link</span>
+<span class="cm">	 * 2 : delete</span>
+<span class="cm">	 */</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">mode</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">currentnode</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">nodes</span> <span class="o">=</span> <span class="p">{};</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span> <span class="o">=</span> <span class="p">{};</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span> <span class="o">=</span> <span class="p">{};</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span> <span class="o">=</span> <span class="p">{};</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">paths</span> <span class="o">=</span> <span class="p">{};</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">zoom</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
 	<span class="c1">// Node properties object</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">properties</span> <span class="o">=</span> <span class="p">{};</span>
 
-        <span class="k">this</span><span class="p">.</span><span class="nx">selectCallbacks</span> <span class="o">=</span> <span class="p">[];</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">deleteCallbacks</span> <span class="o">=</span> <span class="p">[];</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">addCallbacks</span> <span class="o">=</span> <span class="p">[];</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">selectCallbacks</span> <span class="o">=</span> <span class="p">[];</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">deleteCallbacks</span> <span class="o">=</span> <span class="p">[];</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">addCallbacks</span> <span class="o">=</span> <span class="p">[];</span>
 <span class="p">}</span>
+
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">arrow</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x1</span><span class="p">,</span> <span class="nx">y1</span><span class="p">,</span> <span class="nx">x2</span><span class="p">,</span> <span class="nx">y2</span><span class="p">,</span> <span class="nx">size</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">angle</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">atan2</span><span class="p">(</span><span class="nx">x1</span><span class="o">-</span><span class="nx">x2</span><span class="p">,</span><span class="nx">y2</span><span class="o">-</span><span class="nx">y1</span><span class="p">);</span>
+    <span class="nx">angle</span> <span class="o">=</span> <span class="p">(</span><span class="nx">angle</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span><span class="p">))</span> <span class="o">*</span> <span class="mi">360</span><span class="p">;</span>
+    <span class="nx">ax2</span> <span class="o">=</span> <span class="nx">x1</span> <span class="o">+</span> <span class="p">(</span><span class="nx">x2</span> <span class="o">-</span> <span class="nx">x1</span><span class="p">)</span> <span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="nx">ay2</span> <span class="o">=</span> <span class="nx">y1</span> <span class="o">+</span> <span class="p">(</span><span class="nx">y2</span> <span class="o">-</span> <span class="nx">y1</span><span class="p">)</span> <span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">arrowPath</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">path</span><span class="p">(</span><span class="s2">&quot;M&quot;</span> <span class="o">+</span> <span class="nx">ax2</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nx">ay2</span> <span class="o">+</span> <span class="s2">&quot; L&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">ax2</span> <span class="o">-</span> <span class="nx">size</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">ay2</span> <span class="o">-</span> <span class="nx">size</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; L&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">ax2</span> <span class="o">-</span> <span class="nx">size</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="p">(</span><span class="nx">ay2</span> <span class="o">+</span> <span class="nx">size</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; L&quot;</span> <span class="o">+</span> <span class="nx">ax2</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="nx">ay2</span> <span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;fill&quot;</span><span class="p">,</span><span class="s2">&quot;black&quot;</span><span class="p">).</span><span class="nx">rotate</span><span class="p">((</span><span class="mi">90</span><span class="o">+</span><span class="nx">angle</span><span class="p">),</span><span class="nx">ax2</span><span class="p">,</span><span class="nx">ay2</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">arrowPath</span><span class="p">;</span>
+<span class="p">}</span>
+
 
 <span class="cm">/**</span>
 <span class="cm">* Register a callback when a node is selected</span>
@@ -171,10 +181,45 @@
 <span class="cm">* get Rapahel Paper element</span>
 <span class="cm">* @method getPaper</span>
 <span class="cm">* @return {Paper} paper used for the draw</span>
-<span class="cm">/*</span>
-<span class="cm">BandIt.prototype.getPaper = function() {</span>
-<span class="cm">  return this.paper;</span>
-<span class="cm">}</span>
+<span class="cm">*/</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getPaper</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* Creates a directed link between two nodes</span>
+<span class="cm">* @method link</span>
+<span class="cm">* @param startnode {int} Id of start node</span>
+<span class="cm">* @param endnode {int} Id of end node</span>
+<span class="cm">* @return {int} Id of the graph link</span>
+<span class="cm">*/</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">link</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">startnode</span><span class="p">,</span><span class="nx">endnode</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">xpos</span> <span class="o">=</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+  <span class="nx">ypos</span> <span class="o">=</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+  <span class="nx">xend</span> <span class="o">=</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="p">;</span>
+  <span class="nx">yend</span> <span class="o">=</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="p">;</span>
+  <span class="nx">path</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">path</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="o">+</span><span class="nx">xpos</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">ypos</span><span class="o">+</span><span class="s2">&quot;L&quot;</span><span class="o">+</span><span class="nx">xend</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">yend</span><span class="p">);</span>
+  <span class="nx">arrowpath</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">arrow</span><span class="p">(</span><span class="nx">xpos</span><span class="p">,</span><span class="nx">ypos</span><span class="p">,</span><span class="nx">xend</span><span class="p">,</span><span class="nx">yend</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+  <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;add arrow &quot;</span><span class="o">+</span><span class="nx">arrowpath</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span>  <span class="p">{</span> <span class="nx">arrow</span> <span class="o">:</span> <span class="nx">arrowpath</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">direction</span><span class="o">:</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">id</span> <span class="p">};</span>
+  <span class="nx">mybandit</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
+  <span class="nx">path</span><span class="p">.</span><span class="nx">mousedown</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">mode</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">path</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getElementByPoint</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="nx">e</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
+      <span class="nx">mybandit</span><span class="p">.</span><span class="nx">deletepath</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+  <span class="nx">path</span><span class="p">.</span><span class="nx">toBack</span><span class="p">();</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">endnode</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">endnode</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">endnode</span><span class="p">.</span><span class="nx">id</span><span class="p">].</span><span class="nx">push</span><span class="p">({</span> <span class="nx">path</span> <span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">node</span> <span class="o">:</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span> <span class="p">});</span>
+  <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span> 
+    <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
+  <span class="p">}</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span> <span class="p">{</span> <span class="nx">path</span> <span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">node</span> <span class="o">:</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">id</span> <span class="p">});</span>
+  <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
+<span class="p">}</span>
 
 <span class="cm">/**</span>
 <span class="cm">* Adds a new node on paper</span>
@@ -241,27 +286,7 @@
 			<span class="k">return</span><span class="p">;</span> <span class="c1">// Do not link same node</span>
 			<span class="p">}</span>
 			<span class="nx">startnode</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">currentnode</span><span class="p">);</span>
-			<span class="c1">//TODO check there is no existing link</span>
-			<span class="nx">xpos</span> <span class="o">=</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-			<span class="nx">ypos</span> <span class="o">=</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-			<span class="nx">xend</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-			<span class="nx">yend</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
-			<span class="nx">path</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">path</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="o">+</span><span class="nx">xpos</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">ypos</span><span class="o">+</span><span class="s2">&quot;L&quot;</span><span class="o">+</span><span class="nx">xend</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">yend</span><span class="p">);</span>
-			<span class="nx">path</span><span class="p">.</span><span class="nx">mousedown</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
-				<span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">mode</span><span class="o">==</span><span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nx">path</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getElementByPoint</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="nx">e</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
-				<span class="nx">mybandit</span><span class="p">.</span><span class="nx">deletepath</span><span class="p">(</span><span class="nx">path</span><span class="p">);</span>
-				<span class="p">}</span>
-				<span class="p">});</span>
-			<span class="nx">path</span><span class="p">.</span><span class="nx">toBack</span><span class="p">();</span>
-			<span class="k">if</span> <span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nx">mybandit</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-			<span class="p">}</span>
-			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">].</span><span class="nx">push</span><span class="p">({</span> <span class="nx">path</span> <span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">node</span> <span class="o">:</span> <span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span> <span class="p">});</span>
-			<span class="k">if</span> <span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span> 
-				<span class="nx">mybandit</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-			<span class="p">}</span>
-			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span> <span class="p">{</span> <span class="nx">path</span> <span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">node</span> <span class="o">:</span> <span class="nx">node</span><span class="p">.</span><span class="nx">id</span> <span class="p">});</span>
+			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">link</span><span class="p">(</span><span class="nx">startnode</span><span class="p">,</span> <span class="nx">node</span><span class="p">);</span>
 			<span class="p">}</span>
 	<span class="p">});</span>
 
@@ -317,14 +342,14 @@
 	<span class="k">if</span> <span class="p">(</span><span class="nx">node</span> <span class="o">==</span> <span class="kc">null</span> <span class="p">)</span> <span class="p">{</span>
 		<span class="k">return</span><span class="p">;</span>
 	<span class="p">}</span>
-	<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">this</span><span class="p">.</span><span class="nx">redrawpath</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">][</span><span class="nx">i</span><span class="p">],</span> <span class="nx">node</span><span class="p">);</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
 	<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
 		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">this</span><span class="p">.</span><span class="nx">redrawpath</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">][</span><span class="nx">i</span><span class="p">],</span><span class="nx">node</span><span class="p">);</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">redrawpath</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">][</span><span class="nx">i</span><span class="p">],</span> <span class="nx">node</span><span class="p">);</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+	<span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">].</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">this</span><span class="p">.</span><span class="nx">redrawpath</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">][</span><span class="nx">i</span><span class="p">],</span><span class="nx">node</span><span class="p">);</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
 <span class="p">}</span> <span class="c1">// end redrawpaths</span>
@@ -344,7 +369,7 @@
           <span class="k">this</span><span class="p">.</span><span class="nx">deleteCallbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">](</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
         <span class="p">}</span>
 
-	<span class="nx">paths</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
+	<span class="nx">paths</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
 	<span class="c1">// Delete text</span>
 	<span class="nx">text</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;child&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]);</span>
 	<span class="k">if</span><span class="p">(</span><span class="nx">text</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
@@ -357,16 +382,16 @@
 			<span class="k">this</span><span class="p">.</span><span class="nx">deletepath</span><span class="p">(</span><span class="nx">pathobject</span><span class="p">);</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
-	<span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span> 
+	<span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span> 
 
-	<span class="nx">paths</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
+	<span class="nx">paths</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
 	<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">paths</span><span class="p">)</span> <span class="p">{</span>
 		<span class="k">if</span><span class="p">(</span><span class="nx">paths</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
 			<span class="kd">var</span> <span class="nx">pathobject</span> <span class="o">=</span>  <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">paths</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;path&quot;</span><span class="p">]);</span> 
 			<span class="k">this</span><span class="p">.</span><span class="nx">deletepath</span><span class="p">(</span><span class="nx">pathobject</span><span class="p">);</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
-	<span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
+	<span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
 
 	<span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
 	<span class="nx">node</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
@@ -383,15 +408,6 @@
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">deletepath</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
 	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;Delete link &quot;</span><span class="o">+</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 	<span class="nx">pathid</span> <span class="o">=</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
-	<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">node</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">)</span> <span class="p">{</span>
-		<span class="nx">links</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">];</span>
-		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">links</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">if</span><span class="p">(</span><span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;path&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">pathid</span><span class="p">)</span> <span class="p">{</span>
-				<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;remove inlinks path &quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">);</span>
-				<span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">=</span><span class="kc">null</span><span class="p">;</span>
-			<span class="p">}</span>
-		<span class="p">}</span>
-	<span class="p">}</span>
 	<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">node</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">)</span> <span class="p">{</span>
 		<span class="nx">links</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">];</span>
 		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">links</span><span class="p">)</span> <span class="p">{</span>
@@ -401,6 +417,17 @@
 			<span class="p">}</span>
 		<span class="p">}</span>
 	<span class="p">}</span>
+	<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">node</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">)</span> <span class="p">{</span>
+		<span class="nx">links</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">];</span>
+		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">links</span><span class="p">)</span> <span class="p">{</span>
+			<span class="k">if</span><span class="p">(</span><span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;path&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">pathid</span><span class="p">)</span> <span class="p">{</span>
+				<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;remove inlinks path &quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">);</span>
+				<span class="nx">links</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">=</span><span class="kc">null</span><span class="p">;</span>
+			<span class="p">}</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+        <span class="nx">arrow</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
+        <span class="nx">arrow</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
 	<span class="nx">path</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
 
 <span class="p">}</span> <span class="c1">// end deletepath</span>
@@ -421,6 +448,9 @@
 	<span class="p">}</span>
 	<span class="nx">path</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">link</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]);</span>
 	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;path:&quot;</span> <span class="o">+</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+        <span class="nx">arrow</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;arrow&quot;</span><span class="p">];</span>
+        <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;arrow:&quot;</span> <span class="o">+</span> <span class="nx">arrow</span><span class="p">);</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">arrow</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
 	<span class="nx">remotenode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">link</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">]);</span>
 	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;remote:&quot;</span> <span class="o">+</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 	<span class="nx">xend</span> <span class="o">=</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
@@ -428,8 +458,16 @@
 	<span class="nx">xpos</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 	<span class="nx">ypos</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 	<span class="nx">path</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span><span class="s2">&quot;M&quot;</span><span class="o">+</span><span class="nx">xpos</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">ypos</span><span class="o">+</span><span class="s2">&quot;L&quot;</span><span class="o">+</span><span class="nx">xend</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">yend</span><span class="p">);</span>
+        <span class="nx">arrowdirection</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;direction&quot;</span><span class="p">];</span>
+	<span class="k">if</span><span class="p">(</span><span class="nx">arrowdirection</span><span class="o">!=</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span> 
+          <span class="nx">newarrow</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">arrow</span><span class="p">(</span><span class="nx">xpos</span><span class="p">,</span><span class="nx">ypos</span><span class="p">,</span><span class="nx">xend</span><span class="p">,</span><span class="nx">yend</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="p">{</span>
+          <span class="nx">newarrow</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">arrow</span><span class="p">(</span><span class="nx">xend</span><span class="p">,</span><span class="nx">yend</span><span class="p">,</span><span class="nx">xpos</span><span class="p">,</span><span class="nx">ypos</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span> <span class="nx">arrow</span><span class="o">:</span> <span class="nx">newarrow</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">direction</span><span class="o">:</span> <span class="nx">arrowdirection</span> <span class="p">}</span> <span class="p">;</span>
 
-<span class="p">}</span> <span class="c1">// end updatepath</span>
+<span class="p">}</span> <span class="c1">// end redrawpath</span>
 
 <span class="cm">/**</span>
 <span class="cm">* Zoom in the workflow</span>
@@ -557,6 +595,54 @@
 			<span class="p">});</span>
 <span class="p">}</span>
 
+<span class="cm">/**</span>
+<span class="cm">* Export diagram to YAML format with all information</span>
+<span class="cm">* @method export</span>
+<span class="cm">* @return {String} YAML export of the workflow</span>
+<span class="cm">*/</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="kr">export</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">exportobject</span> <span class="o">=</span> <span class="p">{};</span>
+  <span class="nx">exportobject</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+  <span class="nx">exportobject</span><span class="p">[</span><span class="s2">&quot;options&quot;</span><span class="p">][</span><span class="s2">&quot;store&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;none&quot;</span><span class="p">;</span>
+  <span class="nx">exportobject</span><span class="p">[</span><span class="s2">&quot;workflows&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{};</span>
+  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+    <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;export node &quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">attrs</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">attr</span><span class="p">();</span>
+    <span class="nx">nodeprops</span> <span class="o">=</span> <span class="p">{};</span>
+    <span class="nx">nodeprops</span><span class="p">[</span><span class="s2">&quot;graph&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">attrs</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">prop</span> <span class="k">in</span> <span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">])</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">prop</span><span class="o">!=</span><span class="s2">&quot;name&quot;</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">nodeprops</span><span class="p">[</span><span class="nx">prop</span><span class="p">]</span> <span class="o">=</span> <span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="nx">prop</span><span class="p">];</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">// Now manage links</span>
+    <span class="kd">var</span> <span class="nx">nexts</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">!=</span><span class="s2">&quot;root&quot;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">//banditLogger.DEBUG(this.inlinks[i]);</span>
+      <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">==</span><span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Warning, the node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; is not linked to root node&quot;</span><span class="p">);}</span>
+    <span class="p">}</span>
+     
+    <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">nbnext</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="k">in</span> <span class="nx">nexts</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">nexts</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">nbnext</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">next</span> <span class="o">+=</span> <span class="s2">&quot;,&quot;</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="nx">next</span> <span class="o">+=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">nexts</span><span class="p">[</span><span class="nx">j</span><span class="p">][</span><span class="s2">&quot;node&quot;</span><span class="p">]][</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">];</span> 
+        <span class="nx">nbnext</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">nodeprops</span><span class="p">[</span><span class="s2">&quot;next&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">next</span><span class="p">;</span>
+    <span class="c1">// TODO add next elts</span>
+    <span class="nx">exportobject</span><span class="p">[</span><span class="s2">&quot;workflows&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">nodeprops</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">exportobject</span><span class="p">));</span>
+  <span class="c1">//console.log($.base64.encode(JSON.stringify(this.nodes)));</span>
+<span class="p">}</span>
+
 
 
 <span class="cm">/**</span>
@@ -669,7 +755,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "BanditLogger.html#method_DEBUG", "access": "", "host": "BanditLogger", "type": "method", "name": "DEBUG"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BanditLogger.html#method_ERROR", "access": "", "host": "BanditLogger", "type": "method", "name": "ERROR"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BanditLogger.html#method_INFO", "access": "", "host": "BanditLogger", "type": "method", "name": "INFO"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
+    ALL_YUI_PROPS = [{"url": "BandIt.html#method_addnode", "access": "", "host": "BandIt", "type": "method", "name": "addnode"}, {"url": "BanditLogger.html#method_DEBUG", "access": "", "host": "BanditLogger", "type": "method", "name": "DEBUG"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BanditLogger.html#method_ERROR", "access": "", "host": "BanditLogger", "type": "method", "name": "ERROR"}, {"url": "BandIt.html#method_export", "access": "", "host": "BandIt", "type": "method", "name": "export"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BanditLogger.html#method_INFO", "access": "", "host": "BanditLogger", "type": "method", "name": "INFO"}, {"url": "BandIt.html#method_link", "access": "", "host": "BandIt", "type": "method", "name": "link"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
 </script>
 </body>
 </html>

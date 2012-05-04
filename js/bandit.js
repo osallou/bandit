@@ -132,9 +132,44 @@ BandIt.prototype.setDefaultProperties = function(props) {
 * get Rapahel Paper element
 * @method getPaper
 * @return {Paper} paper used for the draw
-/*
+*/
 BandIt.prototype.getPaper = function() {
   return this.paper;
+}
+
+/**
+* Creates a directed link between two nodes
+* @method link
+* @param startnode {int} Id of start node
+* @param endnode {int} Id of end node
+* @return {int} Id of the graph link
+*/
+BandIt.prototype.link = function(startnode,endnode) {
+  xpos = startnode.attr("x") + startnode.attr("width")/2;
+  ypos = startnode.attr("y") + startnode.attr("height")/2;
+  xend = endnode.attr("x") + endnode.attr("width")/2 ;
+  yend = endnode.attr("y") + endnode.attr("height")/2 ;
+  path = this.paper.path("M"+xpos+","+ypos+"L"+xend+","+yend);
+  arrowpath = this.arrow(xpos,ypos,xend,yend,10);
+  banditLogger.DEBUG("add arrow "+arrowpath.id);
+  this.paths[path.id] =  { arrow : arrowpath.id, direction: endnode.id };
+  mybandit = this;
+  path.mousedown(function(e) {
+    if(mybandit.mode==2) {
+      path = mybandit.paper.getElementByPoint(e.x,e.y);
+      mybandit.deletepath(path);
+    }
+  });
+  path.toBack();
+  if (this.inlinks[endnode.id] == null) {
+    this.inlinks[endnode.id] = [];
+  }
+  this.inlinks[endnode.id].push({ path : path.id, node : startnode.id });
+  if (this.outlinks[startnode.id] == null) { 
+    this.outlinks[startnode.id] = [];
+  }
+  this.outlinks[startnode.id].push( { path : path.id, node : endnode.id });
+  return path.id;
 }
 
 /**
@@ -202,30 +237,7 @@ BandIt.prototype.add = function(name,attrs) {
 			return; // Do not link same node
 			}
 			startnode = mybandit.paper.getById(currentnode);
-			//TODO check there is no existing link
-			xpos = startnode.attr("x") + startnode.attr("width")/2;
-			ypos = startnode.attr("y") + startnode.attr("height")/2;
-			xend = node.attr("x") + node.attr("width")/2 ;
-			yend = node.attr("y") + node.attr("height")/2 ;
-			path = mybandit.paper.path("M"+xpos+","+ypos+"L"+xend+","+yend);
-                        arrowpath = mybandit.arrow(xpos,ypos,xend,yend,10);
-                        banditLogger.DEBUG("add arrow "+arrowpath.id);
-                        mybandit.paths[path.id] =  { arrow : arrowpath.id, direction: node.id };
-			path.mousedown(function(e) {
-				if(mybandit.mode==2) {
-				path = mybandit.paper.getElementByPoint(e.x,e.y);
-				mybandit.deletepath(path);
-				}
-				});
-			path.toBack();
-			if (mybandit.inlinks[node.id] == null) {
-				mybandit.inlinks[node.id] = []
-			}
-			mybandit.inlinks[node.id].push({ path : path.id, node : startnode.id });
-			if (mybandit.outlinks[startnode.id] == null) { 
-				mybandit.outlinks[startnode.id] = []
-			}
-			mybandit.outlinks[startnode.id].push( { path : path.id, node : node.id });
+			mybandit.link(startnode, node);
 			}
 	});
 

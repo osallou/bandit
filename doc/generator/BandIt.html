@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: BandIt  BandIt   (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336058500.73" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336058500.73" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1336117382.39" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1336117382.39" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1336058500.73"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1336058500.73"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1336117382.39"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1336117382.39"></script>
 </head>
 
 <body id="yahoo-com">
@@ -141,6 +141,67 @@
                         <div class="section method details">
                             <h3 id="methods">Methods</h3>
                             <div class="content">
+                                    <div class="" rel="yui:method" resource="#method_addnode">
+                                    <h4>
+                                        <a name="method_addnode">addnode</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Node
+                                            <strong property="yui:name">addnode</strong>
+                                           (
+                                                
+                                                        
+                                                         name
+                                                    
+                                                
+                                                        , 
+                                                         atts
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Adds a new node on paper
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">name</span>
+                                                        &lt;<span property="yui:type">string</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">   Unique name of the node (optional). If undefined, a default counter is used</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">atts</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">   Element properties (optional). For properties, look at Raphael Element documentation.</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Node
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Node element</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                                     <div class="" rel="yui:method" resource="#method_deletenode">
                                     <h4>
                                         <a name="method_deletenode">deletenode</a></h4>
@@ -243,6 +304,43 @@
                                     </div>
                                     <hr />
                                     </div>
+                                    <div class="" rel="yui:method" resource="#method_export">
+                                    <h4>
+                                        <a name="method_export">export</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        String
+                                            <strong property="yui:name">export</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Export diagram to YAML format with all information
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        String
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">YAML export of the workflow</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                                     <div class="" rel="yui:method" resource="#method_getMode">
                                     <h4>
                                         <a name="method_getMode">getMode</a></h4>
@@ -288,22 +386,9 @@
                                         
                                         
                                         
-                                        Paper} paper used for the draw
-/*
-BandIt.prototype.getPaper = function() {
-return this.paper;
-
+                                        Paper
                                             <strong property="yui:name">getPaper</strong>
                                            (
-                                                
-                                                        
-                                                         name
-                                                    
-                                                
-                                                        , 
-                                                         atts
-                                                    
-                                                
                                             )
                                         </code>
                                         
@@ -313,33 +398,74 @@ return this.paper;
 
                                         <div class="description">
 
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Paper
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">paper used for the draw</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_link">
+                                    <h4>
+                                        <a name="method_link">link</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        int
+                                            <strong property="yui:name">link</strong>
+                                           (
+                                                
+                                                        
+                                                         startnode
+                                                    
+                                                
+                                                        , 
+                                                         endnode
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Creates a directed link between two nodes
+                                        </div>
+
+                                        <div class="description">
+
                                                 <dl rel="yui:parameters">
                                                     <dt>Parameters:</dt>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">name</span>
-                                                        &lt;<span property="yui:type">string</span>&gt;
+                                                        <code><span property="yui:name">startnode</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
                                                         </code>
-                                                        <span property="yui:description">   Unique name of the node (optional). If undefined, a default counter is used</span>
+                                                        <span property="yui:description">  Id of start node</span>
                                                         </dd>
                                                         <dd rel="yui:parameter">
-                                                        <code><span property="yui:name">atts</span>
-                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        <code><span property="yui:name">endnode</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
                                                         </code>
-                                                        <span property="yui:description">   Element properties (optional). For properties, look at Raphael Element documentation.</span>
+                                                        <span property="yui:description">  Id of end node</span>
                                                         </dd>
                                                 </dl>
 
                                                 <dl>
                                                     <dt>Returns:
                                                     <code property="yui:return">
-                                                        Paper} paper used for the draw
-/*
-BandIt.prototype.getPaper = function() {
-return this.paper;
-
+                                                        int
                                                     </code></dt>
-                                                    <dd property="yui:returnInfo">/**
-Adds a new node on paper</dd>
+                                                    <dd property="yui:returnInfo">Id of the graph link</dd>
                                                 </dl>
 
 
@@ -1108,10 +1234,13 @@ Adds a new node on paper</dd>
                     <div id="methodsList" class="module">
                         <h4>Methods</h4>
                         <ul class="content">        
+                                <li class=""><a href="#method_addnode" title="addnode">addnode</a></li>
                                 <li class=""><a href="#method_deletenode" title="deletenode">deletenode</a></li>
                                 <li class=""><a href="#method_deletepath" title="deletepath">deletepath</a></li>
+                                <li class=""><a href="#method_export" title="export">export</a></li>
                                 <li class=""><a href="#method_getMode" title="getMode">getMode</a></li>
                                 <li class=""><a href="#method_getPaper" title="getPaper">getPaper</a></li>
+                                <li class=""><a href="#method_link" title="link">link</a></li>
                                 <li class=""><a href="#method_moveDown" title="moveDown">moveDown</a></li>
                                 <li class=""><a href="#method_moveLeft" title="moveLeft">moveLeft</a></li>
                                 <li class=""><a href="#method_moveRight" title="moveRight">moveRight</a></li>
@@ -1140,7 +1269,7 @@ Adds a new node on paper</dd>
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
+    ALL_YUI_PROPS = [{"url": "BandIt.html#method_addnode", "access": "", "host": "BandIt", "type": "method", "name": "addnode"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BandIt.html#method_export", "access": "", "host": "BandIt", "type": "method", "name": "export"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#method_link", "access": "", "host": "BandIt", "type": "method", "name": "link"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
 </script>
 </body>
 </html>
