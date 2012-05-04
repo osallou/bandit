@@ -98,6 +98,11 @@ $('#save').click(function() {
     recipe.document.close();
 });
 
+$('#clean').click(function() {
+    bandit.clean();
+    bandit.add("root", { fill: "#6E6E6E" });
+});
+
 $('#delete').click(function() {
     updatemode(2);
 });
@@ -204,17 +209,18 @@ holder.ondrop = function (e) {
 <textarea rows="3" cols="80" id="wdesc" value=""></textarea>
 </div>
 <div class="tools">
-<div class="tool" id="add"><img src="images/add.png"/></div>
-<div class="tool" id="move"><img src="images/move.png"/></div>
-<div class="tool" id="link"><img src="images/link.png"/></div>
-<div class="tool" id="zoomin"><img src="images/zoomin.png"/></div>
-<div class="tool" id="zoomout"><img src="images/zoomout.png"/></div>
-<div class="tool" id="left"><img src="images/left.png"/></div>
-<div class="tool" id="right"><img src="images/right.png"/></div>
-<div class="tool" id="up"><img src="images/up.png"/></div>
-<div class="tool" id="down"><img src="images/down.png"/></div>
-<div class="tool" id="delete"><img src="images/delete.png"/></div>
-<div class="tool" id="save"><img src="images/save.png"/></div>
+<div class="tool" id="add"><img title="add node" alt="add node" src="images/add.png"/></div>
+<div class="tool" id="move"><img title="move selection" alt="move selection" src="images/move.png"/></div>
+<div class="tool" id="link"><img title="create link" alt="create link" src="images/link.png"/></div>
+<div class="tool" id="zoomin"><img title="zoom in" alt="zoom in" src="images/zoomin.png"/></div>
+<div class="tool" id="zoomout"><img title="zoom out" alt="zoom out" src="images/zoomout.png"/></div>
+<div class="tool" id="left"><img title="move left" alt="move left" src="images/left.png"/></div>
+<div class="tool" id="right"><img title="move right" alt="move right" src="images/right.png"/></div>
+<div class="tool" id="up"><img title="move up" alt="move up" src="images/up.png"/></div>
+<div class="tool" id="down"><img title="move down" alt="move down" src="images/down.png"/></div>
+<div class="tool" id="delete"><img title="delete" alt="delete" src="images/delete.png"/></div>
+<div class="tool" id="save"><img title="save" alt="save" src="images/save.png"/></div>
+<div class="tool" id="clean"><img title="clean worflow" alt="clean worflow" src="images/clean.png"/></div>
 </div>
 <div class="editor" id="myeditor"></div>
 <div id="node"></div>

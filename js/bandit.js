@@ -141,6 +141,18 @@ BandIt.prototype.setMode = function(newmode) {
 */
 
 BandIt.prototype.setProperties = function(nodeid,props) {
+    if(props["name"]!=null && this.nodes[nodeid]["properties"]["name"]!=null && props["name"]!=this.nodes[nodeid]["properties"]["name"]) {
+        banditLogger.DEBUG("Change name of node "+nodeid+" to "+props["name"]);
+      	oldtext = this.paper.getById(this.nodes[nodeid]["child"]["text"]);
+      	oldtext.remove();
+      	var node = this.paper.getById(nodeid);
+      	xpos = node.attr("x") + node.attr("width")/2;
+		ypos = node.attr("y") + node.attr("height")/2;
+      	var nodetext = this.paper.text(xpos,ypos,props["name"]).attr("fill","#FBFBEF");
+		nodetext.attr("font-size",16*this.zoom);
+		nodetext.toFront();
+		this.nodes[node.id]["child"]["text"]=nodetext.id;
+    }
 	this.nodes[nodeid]["properties"] = props;
 }
 
@@ -595,6 +607,20 @@ BandIt.prototype.moveDown = function(step) {
 }
 
 /**
+* Resets the workflow
+* @method clean
+*
+*/
+BandIt.prototype.clean = function() {
+	this.currentnode = null;
+	this.nodes = {};
+	this.outlinks = {};
+	this.inlinks = {};
+	this.paths = {};
+	this.paper.clear();
+}
+
+/**
 * Loads a workflow
 * @method load
 * @param data {String} Workflow data
@@ -606,12 +632,7 @@ BandIt.prototype.load = function (data,clean) {
   wflow = JSON.parse($.base64.decode(data));
   this.zoomFit();
   if(clean) {
-	this.currentnode = null;
-	this.nodes = {};
-	this.outlinks = {};
-	this.inlinks = {};
-	this.paths = {};
-	this.paper.clear();
+	this.clean();
   }
   var wlinks = {}; // list of node id / node names to link with
   var wnodes = {}; // list of node name/node id pairs
@@ -622,6 +643,7 @@ BandIt.prototype.load = function (data,clean) {
       continue;
     }
     var nexts = null;
+    var newnode = null;
     if(!clean && node=="root") {
       // This is root and we are in append, so do not add/draw the root node
       var nexts = wflow["workflow"][node]["next"];
@@ -630,6 +652,7 @@ BandIt.prototype.load = function (data,clean) {
       var rootnodeid = this.getByName("root");
       banditLogger.DEBUG("Root node id:" +rootnodeid);
       wlinks[rootnodeid] = nextnodes; // register future links
+      newnodeid = rootnodeid;
     }
     else {
       var newnode = this.add(node,wflow["workflow"][node]["graph"]);
@@ -638,12 +661,13 @@ BandIt.prototype.load = function (data,clean) {
         this.nodes[newnode.id]["properties"][prop]=wflow["workflow"][node][prop];
       }
       wnodes[node] = newnode.id;
+      newnodeid = newnode.id;
     }
     var nexts = wflow["workflow"][node]["next"];
     var nextnodes = nexts.split(',');
     if(nextnodes.length>0 && nextnodes[0]!="") {
-      banditLogger.DEBUG("register link from "+newnode.id+" to "+nextnodes);
-      wlinks[newnode.id] = nextnodes; // register future links
+      banditLogger.DEBUG("register link from "+newnodeid+" to "+nextnodes);
+      wlinks[newnodeid] = nextnodes; // register future links
     }
   } // end for wflow
   
