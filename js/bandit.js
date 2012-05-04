@@ -41,8 +41,35 @@ function BandIt(diveditor,width,height) {
 	this.selectCallbacks = [];
 	this.deleteCallbacks = [];
 	this.addCallbacks = [];
+	
+	this.name = "bandit";
+	this.description = "";
 }
 
+/**
+* Sets workflow name and description
+* @method info
+* @param name {String} Name of the workflow
+* @param description {String} Description of the workflow
+*
+*/
+BandIt.prototype.info = function(name,description) {
+  banditLogger.DEBUG("Update info: "+name+","+description);
+  this.name = name;
+  this.description = description;
+}
+
+/**
+* Adds an arrow to a path
+* @method arrow
+* @param x1 {int} X coordinate of start path
+* @param y1 {int} Y coordinate of start path
+* @param x2 {int} X coordinate of start path
+* @param y2 {int} Y coordinate of start path
+* @param size {int} Size of the arrow
+* @return {Path} Arrow object
+*
+*/
 BandIt.prototype.arrow = function(x1, y1, x2, y2, size) {
     var angle = Math.atan2(x1-x2,y2-y1);
     angle = (angle / (2 * Math.PI)) * 360;
@@ -144,7 +171,10 @@ BandIt.prototype.getPaper = function() {
 * @param endnode {int} Id of end node
 * @return {int} Id of the graph link
 */
-BandIt.prototype.link = function(startnode,endnode) {
+BandIt.prototype.link = function(startnodeid,endnodeid) {
+  banditLogger.DEBUG("Link nodes "+startnodeid+" <-> "+endnodeid);
+  startnode = this.paper.getById(startnodeid);
+  endnode = this.paper.getById(endnodeid);
   xpos = startnode.attr("x") + startnode.attr("width")/2;
   ypos = startnode.attr("y") + startnode.attr("height")/2;
   xend = endnode.attr("x") + endnode.attr("width")/2 ;
@@ -172,9 +202,28 @@ BandIt.prototype.link = function(startnode,endnode) {
   return path.id;
 }
 
+
+/**
+* Gets a node id by its name
+* @method getByName
+* @param name {String} name of the node
+* @return {int} Id of the node
+*
+*/
+BandIt.prototype.getByName = function(name) {
+  var nodeid = null;
+  for(var node in this.nodes) {
+    if(name == this.nodes[node]["properties"]["name"]) {
+      nodeid = node;
+      break;
+    }
+  }
+  return nodeid;
+}
+
 /**
 * Adds a new node on paper
-* @method addnode
+* @method add
 * @param name {string}  Unique name of the node (optional). If undefined, a default counter is used
 * @param atts {Object}  Element properties (optional). For properties, look at Raphael Element documentation.
 * @return {Node} Node element
@@ -187,10 +236,10 @@ BandIt.prototype.add = function(name,attrs) {
         node.attr(nodeattr);
 
 	this.nodes[node.id] = {};
-        this.nodes[node.id]["properties"] = {};
-        for(var p in this.properties) {
-	this.nodes[node.id]["properties"][p] = this.properties[p];
-        }
+    this.nodes[node.id]["properties"] = {};
+    for(var p in this.properties) {
+	  this.nodes[node.id]["properties"][p] = this.properties[p];
+    }
 
 	xpos = node.attr("x") + node.attr("width")/2;
 	ypos = node.attr("y") + node.attr("height")/2;
@@ -209,8 +258,7 @@ BandIt.prototype.add = function(name,attrs) {
 
 	node.mousedown(function(e) {
 			node = mybandit.paper.getElementByPoint(e.x,e.y);
-			currentnode = node.id
-			banditLogger.DEBUG("mode: "+mybandit.mode);
+			currentnode = node.id;
 			if (mybandit.mode==1) {
 			// Link mode , nothing to do
 			return;
@@ -237,7 +285,7 @@ BandIt.prototype.add = function(name,attrs) {
 			return; // Do not link same node
 			}
 			startnode = mybandit.paper.getById(currentnode);
-			mybandit.link(startnode, node);
+			mybandit.link(startnode.id, node.id);
 			}
 	});
 
@@ -276,7 +324,7 @@ BandIt.prototype.add = function(name,attrs) {
 
 	return node;
 
-} // end addnode
+} // end add
 
 
 
@@ -547,6 +595,87 @@ BandIt.prototype.moveDown = function(step) {
 }
 
 /**
+* Loads a workflow
+* @method load
+* @param data {String} Workflow data
+* @param clean {boolean} Clean exiting data or append to existing workflow
+* @return {Array} Name and Description of the workflow
+*/
+BandIt.prototype.load = function (data,clean) {
+  // If not clean, skip root
+  wflow = JSON.parse($.base64.decode(data));
+  this.zoomFit();
+  if(clean) {
+	this.currentnode = null;
+	this.nodes = {};
+	this.outlinks = {};
+	this.inlinks = {};
+	this.paths = {};
+	this.paper.clear();
+  }
+  var wlinks = {}; // list of node id / node names to link with
+  var wnodes = {}; // list of node name/node id pairs
+  this.name = wflow["workflow"]["name"];
+  this.description = wflow["workflow"]["description"];
+  for(var node in wflow["workflow"]) {
+    if(node=="name" || node=="description") {
+      continue;
+    }
+    var nexts = null;
+    if(!clean && node=="root") {
+      // This is root and we are in append, so do not add/draw the root node
+      var nexts = wflow["workflow"][node]["next"];
+      var nextnodes = nexts.split(',');
+      // Get root node
+      var rootnodeid = this.getByName("root");
+      banditLogger.DEBUG("Root node id:" +rootnodeid);
+      wlinks[rootnodeid] = nextnodes; // register future links
+    }
+    else {
+      var newnode = this.add(node,wflow["workflow"][node]["graph"]);
+      banditLogger.DEBUG("Load node: "+node+","+newnode.id);
+      for(var prop in this.properties) {
+        this.nodes[newnode.id]["properties"][prop]=wflow["workflow"][node][prop];
+      }
+      wnodes[node] = newnode.id;
+    }
+    var nexts = wflow["workflow"][node]["next"];
+    var nextnodes = nexts.split(',');
+    if(nextnodes.length>0 && nextnodes[0]!="") {
+      banditLogger.DEBUG("register link from "+newnode.id+" to "+nextnodes);
+      wlinks[newnode.id] = nextnodes; // register future links
+    }
+  } // end for wflow
+  
+  // Add the links
+  for(var wlink in wlinks) {
+    banditLogger.DEBUG("Add links of node "+wlink);
+    for(var i in wlinks[wlink]) {
+      remotenodeid = wnodes[wlinks[wlink][i]];
+      originnodeid = wlink;
+      this.link(originnodeid,remotenodeid); 
+    }
+  }
+  return [this.name,this.workflow];
+}
+
+/**
+* Zoom back to 1
+* @method zoomFit
+*
+*/
+BandIt.prototype.zoomFit = function() {
+  if(this.zoom>1) {
+    this.zoomOut();
+    this.zoomFit();
+  }
+  if(this.zoom<1) {
+    this.zoomIn();
+    this.zoomFit();
+  }
+}
+
+/**
 * Export diagram to YAML format with all information
 * @method export
 * @return {String} YAML export of the workflow
@@ -555,7 +684,9 @@ BandIt.prototype.export = function() {
   var exportobject = {};
   exportobject["options"] = {};
   exportobject["options"]["store"] = "none";
-  exportobject["workflows"] = {};
+  exportobject["workflow"] = {};
+  exportobject["workflow"]["name"] = this.name;
+  exportobject["workflow"]["description"] = this.description;
   for(var i in this.nodes)  {
     var node = this.nodes[i];
     banditLogger.DEBUG("export node "+i);
@@ -588,17 +719,10 @@ BandIt.prototype.export = function() {
     }
     nodeprops["next"] = next;
     // TODO add next elts
-    exportobject["workflows"][node["properties"]["name"]] = nodeprops;
+    exportobject["workflow"][node["properties"]["name"]] = nodeprops;
   }
   banditLogger.DEBUG(JSON.stringify(exportobject));
 
-  /*  
-  var recipe =  window.open('','MyWorkflow','width=600,height=400');
-    var html = '<html><head><title>MyWorkflow</title></head><body><div style="width:600px;word-wrap:break-word;">' + $.base64.encode(JSON.stringify(exportobject)) + '</div></body></html>';
-    recipe.document.open();
-    recipe.document.write(html);
-    recipe.document.close();
-  */
   return JSON.stringify(exportobject);
 
 }
@@ -671,6 +795,6 @@ BanditLogger.prototype.ERROR = function(msg) {
   }
 }
 
-banditLogger = new BanditLogger(0);
+banditLogger = new BanditLogger(2);
 
 

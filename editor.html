@@ -16,6 +16,7 @@ $(document).ready(function(){
 <script>
 $(document).ready(function() {
 
+banditLogger = new BanditLogger(0);
 
 bandit = new BandIt("myeditor",1200,800);
 
@@ -25,11 +26,15 @@ bandit.registerSelect(function(nodeid,properties) {
         for (var i in properties)
         {
                 props += '<div><label for="'+i+'">'+i+'</label>';
-                props += '<input type="text" id="'+i+'" name="'+i+'" value="'+properties[i]+'"/></div>';
+                props += '<input type="text" id="'+i+'" name="'+i+'" value=""/></div>';
         }
         props += '<input type="submit" id="bandnodeupdate" value="update"/></div>';
 
         $("#node").html(props);
+        for(var i in properties)
+        {
+          $("#"+i).val(properties[i]);
+        }
    //TODO display properties and apply updates
 });
 
@@ -85,16 +90,24 @@ $('#link').click(function() {
 });
 
 $('#save').click(function() {
-  /*
-  $.post("/save", { name: "test", description: "blablabla", workflow: bandit.nodes, inlinks: bandit.inlinks, outlinks: bandit.outlinks }, function(data) {
-     alert("Data Loaded: " + data);
-   });
-  */
-  bandit.export();
+  var save = $.base64.encode(bandit.export());
+  var recipe =  window.open('','MyWorkflow','width=600,height=400');
+    var html = '<html><head><title>MyWorkflow</title></head><body><div style="width:600px;">' + save + '</div></body></html>';
+    recipe.document.open();
+    recipe.document.write(html);
+    recipe.document.close();
 });
 
 $('#delete').click(function() {
     updatemode(2);
+});
+
+$('#wname').change(function() {
+   bandit.info($('#wname').val(),$('#wdesc').val());
+});
+
+$('#wdesc').change(function() {
+   bandit.info($('#wname').val(),$('#wdesc').val());
 });
 
 // Make sure only 1 button is active (exclusive)
@@ -135,6 +148,46 @@ $("#bandnodeupdate").live("click", function(){
    });
    bandit.setProperties(id,newprops);
 });
+
+
+// Workflow load management
+
+var holder = document.getElementById('holder');
+var infos = document.getElementById('info');
+ 
+holder.ondragover = function () {
+  this.className = 'hover';
+  return false;
+};
+ 
+holder.ondragend = function () {
+  this.className = '';
+  return false;
+};
+
+holder.ondrop = function (e) {
+  this.className = '';
+  e.preventDefault();
+ 
+  var file = e.dataTransfer.files[0];
+  var reader = new FileReader();
+
+  reader.onload = (function(theFile) {
+        return function(e) {
+          var desc = bandit.load(e.target.result,true);
+          $('#wname').val(desc[0]);
+          $('#wdesc').val(desc[1]);
+        };
+      })(file);
+  reader.readAsText(file);
+ 
+  var info = document.createElement("span");
+  info.innerHTML = file.name + ": " + file.size + " bytes ";
+  $('#holder').html(info);
+  return false;
+};
+
+
 });
 
 
@@ -142,6 +195,13 @@ $("#bandnodeupdate").live("click", function(){
 </script>
 <div class="header">
 <h1><img src="doc/template/assets/bandit.png"/>BandIt editor</h1>
+</div>
+<div id="holder"><p>Drop a workflow here to load it!</p></div>
+<div id="info">
+<label for="wname">Name</label>
+<input type="text" id="wname" value="sample"/>
+<label for="wdesc">Description</label>
+<textarea rows="3" cols="80" id="wdesc" value=""></textarea>
 </div>
 <div class="tools">
 <div class="tool" id="add"><img src="images/add.png"/></div>

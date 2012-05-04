@@ -10,3 +10,6 @@ label { margin: 5px; }
 
 .editor { clear: both; border-style: solid; background-image: url(../images/grid.gif); }
 
+textarea { vertical-align: middle; }
+
+#holder { height: 100px; width: 100px; border-style: dashed; background-color: lightgrey; opacity: 0.8; float: right; margin-right: 100px; }
