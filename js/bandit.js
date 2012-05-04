@@ -26,6 +26,7 @@ function BandIt(diveditor,width,height) {
 	 * 0 : drag and drop, selection
 	 * 1 : link
 	 * 2 : delete
+	 * 3 : group
 	 */
 	this.mode = 0;
 	this.count = 0;
@@ -44,6 +45,143 @@ function BandIt(diveditor,width,height) {
 	
 	this.name = "bandit";
 	this.description = "";
+	
+	// selectgroup is assigned the rect node id of the selection
+	this.selectgroup = 0;
+	this.selectionx = -1;
+	this.selectiony = -1;
+	// contains the list of node ids selected
+	this.selectnodes = [];
+	
+	mybandit = this;
+	$('#'+diveditor).mousedown(function(e) {
+	    if(mybandit.mode!=3) {
+	      return;
+	    }
+	    divposition = $('#'+diveditor).position();
+	    
+	    var match=false;
+	    mybandit.selectionx = e.pageX - divposition.left;
+	    mybandit.selectiony = e.pageY -divposition.top;
+	    mybandit.paper.forEach(function (el) {
+	    if(mybandit.nodes[el.id]!=null) { // do not select text elements
+	      var xselect = false;
+	      var yselect = false;
+	      if((mybandit.selectionx>=el.attr("x"))&&(mybandit.selectionx<=(el.attr("x")+el.attr("width")))) {
+	        xselect = true;
+	      }
+	      if((mybandit.selectiony>=el.attr("y"))&&(mybandit.selectiony<=(el.attr("y")+el.attr("height")))) {
+	        yselect = true;
+	      }
+	      
+    	  if(xselect && yselect) {
+    	    match=true;
+    	  }
+    	  
+    	}
+    	});	    
+		if(match==true) {
+		  return;
+		}
+
+	      // Click on empty location
+	      
+	    if(mybandit.selectnodes.length>0) {
+	      // Reset group
+	        for(var i in mybandit.selectnodes) {
+	          groupnode = mybandit.paper.getById(mybandit.selectnodes[i]["id"]);
+	          if(groupnode!=null) {
+	            groupnode.attr("opacity",1);
+	          }
+	        }
+	        mybandit.selectnodes = [];
+	      }
+	      else {
+	      banditLogger.DEBUG('start selection at '+(e.pageX - divposition.left)+":"+(e.pageY -divposition.top));
+	      mybandit.selectionx = e.pageX - divposition.left;
+	      mybandit.selectiony = e.pageY -divposition.top;
+	      mybandit.selectgroup = mybandit.paper.rect(mybandit.selectionx,mybandit.selectiony,1,1).id;
+	      }
+	    
+     	
+	});
+	
+	$('#'+diveditor).mousemove(function(e) {
+		if(mybandit.mode!=3) {
+	      return;
+	    }
+	    
+	    if(mybandit.selectgroup == 0) {
+	      return;
+	    }
+	    divposition = $('#'+diveditor).position();
+		destx = e.pageX - divposition.left;
+		desty = e.pageY -divposition.top;
+	    selectrect = mybandit.paper.getById(mybandit.selectgroup);
+	    if(destx>mybandit.selectionx) {
+	      posx = mybandit.selectionx;
+	    }
+	    else {
+	      posx = destx;
+	    }
+	    if(desty>mybandit.selectiony) {
+	      posy = mybandit.selectiony;
+	    }
+	    else {
+	      posy = desty;
+	    }
+	    selectrect.attr({ x: posx, y : posy, width: (Math.abs(destx - mybandit.selectionx))  , height: (Math.abs(desty - mybandit.selectiony)) });    	
+	});
+	
+	
+	$('#'+diveditor).mouseup(function(e) {
+		if(mybandit.mode!=3) {
+	      return;
+	    }
+	    if(mybandit.selectgroup == 0) {
+	      return;
+	    }
+	    
+	    mybandit.paper.getById(mybandit.selectgroup).remove();
+	    divposition = $('#'+diveditor).position();
+		destx = e.pageX - divposition.left;
+		desty = e.pageY -divposition.top;
+	    
+	    mybandit.paper.forEach(function (el) {
+	    if(mybandit.nodes[el.id]!=null) { // do not select text elements
+
+	    var xselect = false;
+	    var yselect = false;
+	    if(destx>mybandit.selectionx) { 
+	      if((mybandit.selectionx <= el.attr("x"))&&(el.attr("x") <= destx)) {
+	        xselect = true;
+	      }
+	    }
+	    else {
+	      if((mybandit.selectionx >= el.attr("x"))&&(el.attr("x") >= destx)) {
+	        xselect = true;
+	      }	    
+	    }
+	    if(desty>mybandit.selectiony) { 
+	      if((mybandit.selectiony <= el.attr("y"))&&(el.attr("y") <= desty)) {
+	        yselect = true;
+	      }
+	    }
+	    else {
+	      if((mybandit.selectiony >= el.attr("y"))&&(el.attr("y") >= desty)) {
+	        yselect = true;
+	      }	    
+	    }	    
+    	  if(xselect && yselect) {
+    	    mybandit.selectnodes.push({ id : el.id, x: el.attr('x'), y: el.attr('y') });
+    	    mybandit.paper.getById(el.id).attr("opacity",0.6);
+    	  }
+    	} // end if not text
+		});
+	    mybandit.selectgroup = 0;
+     	mybandit.selectionx = -1;
+	    mybandit.selectiony = -1;
+	});
 }
 
 /**
@@ -127,8 +265,21 @@ BandIt.prototype.getMode = function() {
 *
 */
 BandIt.prototype.setMode = function(newmode) {
+    if(this.mode==3 && this.mode!=newmode) {
+    // Special case, unselect any group
+      if(this.selectnodes.length>0) {
+	    // Reset group
+	    for(var i in this.selectnodes) {
+	        groupnode = this.paper.getById(mybandit.selectnodes[i]["id"]);
+	        if(groupnode!=null) {
+	          groupnode.attr("opacity",1);
+	        }
+	    }
+	    this.selectnodes = [];
+	  }
+    }
 	this.mode = newmode;
-        banditLogger.DEBUG("Switch to mode "+this.mode);
+    banditLogger.DEBUG("Switch to mode "+this.mode);
 }
 
 
@@ -275,6 +426,10 @@ BandIt.prototype.add = function(name,attrs) {
 			// Link mode , nothing to do
 			return;
 			}
+			if (mybandit.mode==3) {
+			// Group mode , nothing to do
+			return;
+			}
 			if (mybandit.mode==2) {
 			// Delete mode, delete node
 			mybandit.deletenode(node.id);
@@ -289,6 +444,9 @@ BandIt.prototype.add = function(name,attrs) {
 
 	node.mouseup(function(e) {
 			if (mybandit.mode==2) {
+			return; 
+			}
+			if (mybandit.mode==3) {
 			return; 
 			}
 			if (mybandit.mode==1) {
@@ -313,15 +471,37 @@ BandIt.prototype.add = function(name,attrs) {
 		if(mybandit.mode == 1 || mybandit.mode==2) {
 		}
 		else {
-			this.attr({x: this.ox + dx, y: this.oy + dy});
-			xpos = this.ox + dx + this.attr("width")/2;
-			ypos = this.oy + dy + this.attr("height")/2;
-			mybandit.paper.getById(mybandit.nodes[this.id]["child"]["text"]).attr({x: xpos, y: ypos});
-			mybandit.redrawpaths(this.id);
+		    var isselected = false;
+		    for(var i in mybandit.selectnodes) {
+		      if (mybandit.selectnodes[i]["id"]==this.id) {
+		        isselected = true;
+		        break;
+		      }
+		    }
+			if(!isselected) {
+			  this.attr({x: this.ox + dx, y: this.oy + dy});
+			  xpos = this.ox + dx + this.attr("width")/2;
+			  ypos = this.oy + dy + this.attr("height")/2;
+			  mybandit.paper.getById(mybandit.nodes[this.id]["child"]["text"]).attr({x: xpos, y: ypos});
+			  mybandit.redrawpaths(this.id);
+			}
+			else {
+			 // move all elements
+			 for(var i in mybandit.selectnodes) {
+			    nodeposx=this.ox + dx;
+			    nodeposy=this.oy + dy;
+			    var node = mybandit.paper.getById(mybandit.selectnodes[i]["id"]);
+			 	node.attr({x: mybandit.selectnodes[i]["x"] + dx, y: mybandit.selectnodes[i]["y"] + dy});
+			    xpos = mybandit.selectnodes[i]["x"] + dx + node.attr("width")/2;
+			    ypos = mybandit.selectnodes[i]["y"] + dy + node.attr("height")/2;
+			    mybandit.paper.getById(mybandit.nodes[mybandit.selectnodes[i]["id"]]["child"]["text"]).attr({x: xpos, y: ypos});
+			    mybandit.redrawpaths(mybandit.selectnodes[i]["id"]);			 
+			 }
+			}
 		}
 	};
 	var up = function () {
-		if(mybandit.mode == 2) {
+		if(mybandit.mode == 2 || mybandit.mode ==3) {
 			return;
 		}
 		this.animate({ opacity: 1}, 500, ">");
@@ -437,8 +617,8 @@ BandIt.prototype.deletepath = function(path) {
 			}
 		}
 	}
-        arrow = this.paths[path.id];
-        arrow.remove();
+        arrow = this.paths[path.id]["arrow"];
+        this.paper.getById(arrow).remove();
 	path.remove();
 
 } // end deletepath
@@ -820,5 +1000,6 @@ BanditLogger.prototype.ERROR = function(msg) {
 }
 
 banditLogger = new BanditLogger(2);
+
 
 

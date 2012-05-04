@@ -107,6 +107,10 @@ $('#delete').click(function() {
     updatemode(2);
 });
 
+$('#group').click(function() {
+    updatemode(3);
+});
+
 $('#wname').change(function() {
    bandit.info($('#wname').val(),$('#wdesc').val());
 });
@@ -121,16 +125,25 @@ function updatemode(newmode) {
     $('#link').css('border-style','outset');
     $('#delete').css('border-style','outset');
     $('#move').css('border-style','inset');
+    $('#group').css('border-style','outset');
   }
   else if(newmode==1) {
     $('#link').css('border-style','inset');
     $('#delete').css('border-style','outset');
     $('#move').css('border-style','outset');
+    $('#group').css('border-style','outset');
   }
   else if(newmode==2) {
     $('#link').css('border-style','outset');
     $('#delete').css('border-style','inset');
     $('#move').css('border-style','outset');
+    $('#group').css('border-style','outset');
+  }
+  else if(newmode==3) {
+    $('#link').css('border-style','outset');
+    $('#delete').css('border-style','outset');
+    $('#move').css('border-style','outset');
+    $('#group').css('border-style','inset');
   }
   bandit.setMode(newmode);
 }
@@ -211,6 +224,7 @@ holder.ondrop = function (e) {
 <div class="tools">
 <div class="tool" id="add"><img title="add node" alt="add node" src="images/add.png"/></div>
 <div class="tool" id="move"><img title="move selection" alt="move selection" src="images/move.png"/></div>
+<div class="tool" id="group"><img title="group selection" alt="group selection" src="images/group.png"/></div>
 <div class="tool" id="link"><img title="create link" alt="create link" src="images/link.png"/></div>
 <div class="tool" id="zoomin"><img title="zoom in" alt="zoom in" src="images/zoomin.png"/></div>
 <div class="tool" id="zoomout"><img title="zoom out" alt="zoom out" src="images/zoomout.png"/></div>
