@@ -5,9 +5,17 @@ In development...
 Copyright: 2012, Olivier Sallou <olivier.sallou@irisa.fr>
 License: CeCILL-C (http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html)
 
-editor.html is a sample use of BanIt.
+editor.html is a sample use of BandIt.
 
 generate-doc.sh generates Javascript documentation using YUI Doc. Path need to be updated
+
+Features:
+ * nodes and links
+ * group selection
+ * move
+ * zoom in and out
+ * save/load
+ * custom properties
 
 Using:
 JQuery: http://jquery.com/
