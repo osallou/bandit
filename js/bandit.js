@@ -591,7 +591,16 @@ BandIt.prototype.export = function() {
     exportobject["workflows"][node["properties"]["name"]] = nodeprops;
   }
   banditLogger.DEBUG(JSON.stringify(exportobject));
-  //console.log($.base64.encode(JSON.stringify(this.nodes)));
+
+  /*  
+  var recipe =  window.open('','MyWorkflow','width=600,height=400');
+    var html = '<html><head><title>MyWorkflow</title></head><body><div style="width:600px;word-wrap:break-word;">' + $.base64.encode(JSON.stringify(exportobject)) + '</div></body></html>';
+    recipe.document.open();
+    recipe.document.write(html);
+    recipe.document.close();
+  */
+  return JSON.stringify(exportobject);
+
 }
 
 

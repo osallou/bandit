@@ -8,5 +8,5 @@
 input { margin: 5px; }
 label { margin: 5px; }
 
-.editor { clear: both; border-style: solid; }
+.editor { clear: both; border-style: solid; background-image: url(../images/grid.gif); }
 
