@@ -88,20 +88,14 @@ function BandIt(diveditor,width,height) {
 	      
 	    if(mybandit.selectnodes.length>0) {
 	      // Reset group
-	        for(var i in mybandit.selectnodes) {
-	          groupnode = mybandit.paper.getById(mybandit.selectnodes[i]["id"]);
-	          if(groupnode!=null) {
-	            groupnode.attr("opacity",1);
-	          }
-	        }
-	        mybandit.selectnodes = [];
-	      }
-	      else {
+	      mybandit.clearSelection();
+	    }
+	    else {
 	      banditLogger.DEBUG('start selection at '+(e.pageX - divposition.left)+":"+(e.pageY -divposition.top));
 	      mybandit.selectionx = e.pageX - divposition.left;
 	      mybandit.selectiony = e.pageY -divposition.top;
 	      mybandit.selectgroup = mybandit.paper.rect(mybandit.selectionx,mybandit.selectiony,1,1).id;
-	      }
+	    }
 	    
      	
 	});
@@ -182,6 +176,21 @@ function BandIt(diveditor,width,height) {
      	mybandit.selectionx = -1;
 	    mybandit.selectiony = -1;
 	});
+}
+
+/**
+* Clear group selection
+* @method clearSelection
+*/
+BandIt.prototype.clearSelection = function() {
+  // Reset group
+  for(var i in this.selectnodes) {
+    groupnode = mybandit.paper.getById(this.selectnodes[i]["id"]);
+	if(groupnode!=null) {
+	  groupnode.attr("opacity",1);
+	}
+  }
+  this.selectnodes = [];
 }
 
 /**
@@ -269,13 +278,7 @@ BandIt.prototype.setMode = function(newmode) {
     // Special case, unselect any group
       if(this.selectnodes.length>0) {
 	    // Reset group
-	    for(var i in this.selectnodes) {
-	        groupnode = this.paper.getById(mybandit.selectnodes[i]["id"]);
-	        if(groupnode!=null) {
-	          groupnode.attr("opacity",1);
-	        }
-	    }
-	    this.selectnodes = [];
+	    this.clearSelection();
 	  }
     }
 	this.mode = newmode;
@@ -423,17 +426,25 @@ BandIt.prototype.add = function(name,attrs) {
 			node = mybandit.paper.getElementByPoint(e.x,e.y);
 			currentnode = node.id;
 			if (mybandit.mode==1) {
-			// Link mode , nothing to do
-			return;
+			  // Link mode , nothing to do
+			  return;
 			}
 			if (mybandit.mode==3) {
-			// Group mode , nothing to do
-			return;
+			  // Group mode , nothing to do
+			  return;
 			}
 			if (mybandit.mode==2) {
-			// Delete mode, delete node
-			mybandit.deletenode(node.id);
-			return;
+			  // Delete mode, delete node
+			  if(mybandit.selectnodes.length>0) {
+			    for(var i in selectnodes) {
+			      mybandit.deletenode(selectnodes[i]["id"]);
+			    }
+			    mybandit.clearSelection();
+			  }
+			  else {
+			    mybandit.deletenode(node.id);
+			  }
+			  return;
 			}
 			("node "+node.id+" selected");
                         // callbacks
@@ -553,7 +564,7 @@ BandIt.prototype.redrawpaths = function(nodeid) {
 */
 
 BandIt.prototype.deletenode = function(nodeid) {
-        node = this.paper.getById(nodeid);
+    node = this.paper.getById(nodeid);
 	banditLogger.DEBUG("delete node "+node.id);
         // callbacks
         for(var i in this.deleteCallbacks) {
