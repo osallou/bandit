@@ -1,8 +1,10 @@
 body { font-family: 'Permanent Marker', cursive; }
 .header img { vertical-align: middle; margin: 10px; }
 .tool { float: left; width: 32px; height: 32px; margin: 5px; }
-.tool img { width: 32px; height: 32px; }
+.tool img { width: 32px;  }
 .tools:after { clear: both; }
+
+#logo { width: 120px; height: 120px; }
 
 #node { clear: both; border-style: solid; background-color: lightgrey; }
 
