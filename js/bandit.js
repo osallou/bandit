@@ -310,6 +310,10 @@ BandIt.prototype.setProperties = function(nodeid,props) {
 	this.nodes[nodeid]["properties"] = props;
 }
 
+BandIt.prototype.setAttributes = function(nodeid,attrs) {
+    this.paper.getById(nodeid).attr(attrs);
+}
+
 /**
 * Sets default list of properties
 * @method setDefaultProperties

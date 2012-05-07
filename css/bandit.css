@@ -6,7 +6,9 @@ body { font-family: 'Permanent Marker', cursive; }
 
 #logo { width: 120px; height: 120px; }
 
-#node { clear: both; border-style: solid; background-color: lightgrey; }
+#node:before { clear: both; }
+#node { width: 49%; border-style: solid; background-color: lightgrey; float: left; }
+#nodeattrs { width: 49%; border-style: solid; background-color: lightgrey; float: left; }
 
 input { margin: 5px; }
 label { margin: 5px; }
@@ -16,3 +18,4 @@ label { margin: 5px; }
 textarea { vertical-align: middle; }
 
 #holder { padding: 5px; margin-bottom: 5px; width: 100px; border-style: dashed; background-color: lightgrey; opacity: 0.8; float: right; margin-right: 100px; }
+

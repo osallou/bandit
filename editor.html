@@ -36,7 +36,27 @@ bandit.registerSelect(function(nodeid,properties) {
         {
           $("#"+i).val(properties[i]);
         }
-   //TODO display properties and apply updates
+        list = [ "fill", "stroke", "width", "height" ];
+        objattr = bandit.getPaper().getById(nodeid).attr();
+        var props = '<div id="bandnodeattr"><h2>Attributes</h2>';
+        props += '<input type="hidden" id="bandnodeid" name="bandnodeid" value="'+nodeid+'"/>';
+        for (var i in objattr)
+        {
+             if(jQuery.inArray(i,list)>-1) {
+                props += '<div><label for="'+i+'">'+i+'</label>';
+                props += '<input type="text" id="'+i+'" name="'+i+'" value=""/></div>';
+             }
+        }
+        props += '<input type="submit" id="bandnodeattrupdate" value="update"/></div>';
+
+        $("#nodeattrs").html(props);
+        for(var i in objattr)
+        {
+          if(jQuery.inArray(i,list)>-1) {
+            $("#"+i).val(objattr[i]);
+           }
+        }
+
 });
 
 
@@ -168,6 +188,23 @@ $("#bandnodeupdate").live("click", function(){
    bandit.setProperties(id,newprops);
 });
 
+$("#bandnodeattrupdate").live("click", function(){
+   newprops = {};
+   var elts = $('#bandnodeattr').find('input');
+   var id="";
+    elts.each(function() {
+     if($(this).attr("id")!="bandnodeupdate" && $(this).attr("id")!="bandnodeid") {
+       newprops[$(this).attr("id")] = $(this).val();
+     }
+     if($(this).attr("id")=="bandnodeid") {
+       id = $(this).val();
+     }
+   });
+   bandit.setAttributes(id,newprops);
+});
+
+
+
 
 // Workflow load management
 
@@ -240,5 +277,6 @@ holder.ondrop = function (e) {
 </div>
 <div class="editor" id="myeditor"></div>
 <div id="node"></div>
+<div id="nodeattrs"></div>
 </body>
 </html>
