@@ -7,8 +7,8 @@ body { font-family: 'Permanent Marker', cursive; }
 #logo { width: 120px; height: 120px; }
 
 #node:before { clear: both; }
-#node { width: 49%; border-style: solid; background-color: lightgrey; float: left; }
-#nodeattrs { width: 49%; border-style: solid; background-color: lightgrey; float: left; }
+#node { margin: 10px; padding: 10px; border-style: solid; background-color: lightgrey; float: left; }
+#nodeattrs { margin: 10px; padding: 10px; border-style: solid; background-color: lightgrey; float: left; }
 
 input { margin: 5px; }
 label { margin: 5px; }

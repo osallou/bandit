@@ -9,6 +9,7 @@
 
 <script>
 $(document).ready(function(){
+
 });
 </script>
 <title>ManBand</title>
@@ -16,10 +17,35 @@ $(document).ready(function(){
 <body>
 <script>
 $(document).ready(function() {
+function addMenu() {
+paper = bandit.getPaper();
+menuset = paper.set();
+circle1 = paper.circle(1100,100,30).attr('fill','#F2F2F2');
+nup = paper.image("images/up.png",1090,70,20,20);
+nup.mousedown(function(e) { bandit.moveUp(10); });
+ndown = paper.image("images/down.png",1090,110,20,20);
+ndown.mousedown(function(e) { bandit.moveDown(10); });
+nleft = paper.image("images/left.png",1070,90,20,20);
+nleft.mousedown(function(e) { bandit.moveLeft(10); });
+nright = paper.image("images/right.png",1110,90,20,20);
+nright.mousedown(function(e) { bandit.moveRight(10); });
+rect1 = paper.rect(1090,40,20,120).attr('fill','#848484').toBack();
+circle2 = paper.circle(1100,30,20).attr('fill','#FAFAFA');
+circle3 = paper.circle(1100,170,20).attr('fill','#FAFAFA');
+nplus = paper.image("images/plus.png",1090,20,20,20);
+nplus.mousedown(function(e) { bandit.zoomIn(); });
+nminus = paper.image("images/minus.png",1090,160,20,20);
+nminus.mousedown(function(e) { bandit.zoomOut(); });
+
+menuset.push(nup,ndown,nleft,ndown, nright,nminus,nplus, circle1, circle2, circle3, rect1);
+}
+
 
 banditLogger = new BanditLogger(0);
 
 bandit = new BandIt("myeditor",1200,800);
+
+addMenu();
 
 bandit.registerSelect(function(nodeid,properties) {
         var props = '<div id="bandnode"><h2>'+nodeid+' - '+properties["name"]+'</h2>';
@@ -80,32 +106,6 @@ $('#add').click(function() {
     bandit.add();
 });
 
-$('#left').click(function() {
-  bandit.moveLeft(10);
-});
-
-$('#right').click(function() {
-  bandit.moveRight(10);
-});
-  
-$('#up').click(function() {
-  bandit.moveUp(10);
-});
-
-$('#down').click(function() {
-  bandit.moveDown(10);
-});
-
-
-
-$('#zoomin').click(function() {
-  bandit.zoomIn();
-});
-
-$('#zoomout').click(function() {
-  bandit.zoomOut();
-});
-
 $('#link').click(function() {
     updatemode(1);
 });
@@ -121,6 +121,7 @@ $('#save').click(function() {
 
 $('#clean').click(function() {
     bandit.clean();
+    addMenu();
     bandit.add("root", { fill: "#6E6E6E" });
 });
 
@@ -267,13 +268,6 @@ holder.ondrop = function (e) {
 <div class="tool" id="delete"><img title="delete" alt="delete" src="images/delete.png"/></div>
 <div class="tool" id="save"><img title="save" alt="save" src="images/save.png"/></div>
 <div class="tool" id="clean"><img title="clean worflow" alt="clean worflow" src="images/clean.png"/></div>
-<div class="tool" style="width:100px;"></div>
-<div class="tool" id="zoomin"><img title="zoom in" alt="zoom in" src="images/zoomin.png"/></div>
-<div class="tool" id="zoomout"><img title="zoom out" alt="zoom out" src="images/zoomout.png"/></div>
-<div class="tool" id="left"><img title="move left" alt="move left" src="images/left.png"/></div>
-<div class="tool" id="right"><img title="move right" alt="move right" src="images/right.png"/></div>
-<div class="tool" id="up"><img title="move up" alt="move up" src="images/up.png"/></div>
-<div class="tool" id="down"><img title="move down" alt="move down" src="images/down.png"/></div>
 </div>
 <div class="editor" id="myeditor"></div>
 <div id="node"></div>
