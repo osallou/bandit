@@ -38,6 +38,7 @@ function BandIt(diveditor,width,height) {
 	this.zoom = 1;
 	// Node properties object
 	this.properties = {};
+        this.options = {};
 
 	this.selectCallbacks = [];
 	this.deleteCallbacks = [];
@@ -285,6 +286,15 @@ BandIt.prototype.setMode = function(newmode) {
     banditLogger.DEBUG("Switch to mode "+this.mode);
 }
 
+/**
+* Sets global workflow options
+* @method setOptions
+* @param options {Object} HashMap of options
+*
+*/
+BandIt.prototype.setOptions = function(options) {
+  this.options = options;
+}
 
 /**
 * Update the properties of a node
@@ -902,7 +912,9 @@ BandIt.prototype.zoomFit = function() {
 BandIt.prototype.export = function() {
   var exportobject = {};
   exportobject["options"] = {};
-  exportobject["options"]["store"] = "none";
+  for(var option in this.options) {
+    exportobject["options"][option] = this.options[option];
+  }
   exportobject["workflow"] = {};
   exportobject["workflow"]["name"] = this.name;
   exportobject["workflow"]["description"] = this.description;
