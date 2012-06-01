@@ -7,13 +7,13 @@ body { font-family: 'Permanent Marker', cursive; }
 #logo { width: 120px; height: 120px; }
 
 #node:before { clear: both; }
-#node { margin: 10px; padding: 10px; border-style: solid; background-color: lightgrey; float: left; }
-#nodeattrs { margin: 10px; padding: 10px; border-style: solid; background-color: lightgrey; float: left; }
+#node { margin: 10px; padding: 10px; border-style: solid; background-color: lightgrey; float: left; position: absolute; top: 20em; left: 50em; }
+#nodeattrs { margin: 10px; padding: 10px; border-style: solid; background-color: lightgrey; float: left; position: absolute; top: 20em; left: 35em; }
 
 input { margin: 5px; }
 label { margin: 5px; }
 
-.editor { clear: both; border-style: solid; background-image: url(../images/grid.gif); }
+.editor { clear: both; border-style: solid; background-image: url(../images/grid.gif); min-width: 1200px; }
 
 textarea { vertical-align: middle; }
 

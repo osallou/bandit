@@ -2,8 +2,10 @@
 <head>
 <link href='http://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
 <link type="text/css" href="css/bandit.css" rel="stylesheet"/>
+<link type="text/css" href="css/smoothness/jquery-ui-1.8.20.custom.css" rel="stylesheet"/>
 <script src="js/jquery-1.7.2.min.js" type="text/javascript"></script>
 <script src="js/jquery.base64.min.js" type="text/javascript"></script>
+<script src="js/jquery-ui-1.8.20.custom.min.js" type="text/javascript"></script>
 <script src="js/raphael-min.js" type="text/javascript"></script>
 <script src="js/bandit.js" type="text/javascript"></script>
 
@@ -12,7 +14,7 @@ $(document).ready(function(){
 
 });
 </script>
-<title>ManBand</title>
+<title>BandIt editor</title>
 </head>
 <body>
 <script>
@@ -57,7 +59,7 @@ bandit.registerSelect(function(nodeid,properties) {
         }
         props += '<input type="submit" id="bandnodeupdate" value="update"/></div>';
 
-        $("#node").html(props);
+        $("#node0").html(props);
         for(var i in properties)
         {
           $("#"+i).val(properties[i]);
@@ -75,7 +77,7 @@ bandit.registerSelect(function(nodeid,properties) {
         }
         props += '<input type="submit" id="bandnodeattrupdate" value="update"/></div>';
 
-        $("#nodeattrs").html(props);
+        $("#nodeattrs0").html(props);
         for(var i in objattr)
         {
           if(jQuery.inArray(i,list)>-1) {
@@ -101,6 +103,14 @@ bandit.add("root", { fill: "#6E6E6E" });
 
 updatemode(0);
 
+$('#node').click(function() {
+   $("#node0").toggle();
+});
+
+$('#nodeattrs').click(function() {
+   $("#nodeattrs0").toggle();
+});
+
 $('#move').click(function() {
   updatemode(0);
 });
@@ -116,11 +126,14 @@ $('#link').click(function() {
 
 $('#save').click(function() {
   var save = $.base64.encode(bandit.export());
-  var recipe =  window.open('','MyWorkflow','width=600,height=400');
-    var html = '<html><head><title>MyWorkflow</title></head><body><div style="width:600px;">' + save + '</div></body></html>';
-    recipe.document.open();
-    recipe.document.write(html);
-    recipe.document.close();
+  $("#dialogdiv").text(save);
+  $("#dialogdiv").dialog();
+});
+
+$('#savegraphml').click(function() {
+  var save = bandit.exportGraphML();
+  $("#dialogdiv").text(save);
+  $("#dialogdiv").dialog({ height: 400 , width : 800} );
 });
 
 $('#clean').click(function() {
@@ -271,10 +284,12 @@ holder.ondrop = function (e) {
 <div class="tool" id="link"><img title="create link" alt="create link" src="images/link.png"/></div>
 <div class="tool" id="delete"><img title="delete" alt="delete" src="images/delete.png"/></div>
 <div class="tool" id="save"><img title="save" alt="save" src="images/save.png"/></div>
+<div class="tool" id="savegraphml"><img title="export GraphML" alt="export graphml" src="images/export.png"/></div>
 <div class="tool" id="clean"><img title="clean worflow" alt="clean worflow" src="images/clean.png"/></div>
 </div>
 <div class="editor" id="myeditor"></div>
-<div id="node"></div>
-<div id="nodeattrs"></div>
+<div id="node"><div>Node [toggle]</div><div id="node0"></div></div>
+<div id="nodeattrs"><div>Graphics [toggle]</div><div id="nodeattrs0"></div></div>
+<div id="dialogdiv" title="Save"></div>
 </body>
 </html>

@@ -905,6 +905,52 @@ BandIt.prototype.zoomFit = function() {
 }
 
 /**
+* Export diagram to GraphML
+* @method exportGraphML
+* @return {String} GraphML workflow
+*/
+BandIt.prototype.exportGraphML = function() {
+  console.log("not yet implemented");
+  var graph = '<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">\n';
+  i = 0;
+  // Define properties
+  for(var key in this.properties) {
+    graph += '<key id="prop'+i+'" for="node" attr.name="'+key+'" attr.type="string"><default>'+this.properties[key]+'</default></key>\n';
+    i += 1;
+  }
+  graph += '<graph id="'+this.name+'" edgedefault="directed">\n';
+  graph += '<desc>'+this.description+'</desc>';
+  // Now manage nodes
+  for(var i in this.nodes)  {
+    var node = this.nodes[i];
+    graph += '<node id="'+node["properties"]["name"]+'">';
+    //var attrs = this.paper.getById(i).attr();
+    for(var prop in node["properties"]) {
+        graph += '<data key="'+prop+'">'+node["properties"][prop]+'</data>\n';
+    }
+    graph += '</node>\n';
+    // Now manage links
+    var nexts = this.outlinks[i];
+
+    if(node["properties"]["name"]!="root") {
+      if(this.inlinks[i]==undefined) { alert("Warning, the node "+node["properties"]["name"]+" is not linked to root node");}
+    }
+    var next = "";
+    var nbnext = 0;
+    for (var j in nexts) {
+      if(nexts[j]!=null) {
+        next = this.nodes[nexts[j]["node"]]["properties"]["name"];
+	graph += '<edge id="'+i+'-'+j+'" source="'+node["properties"]["name"]+'" target="'+next+'"/>\n';
+        nbnext += 1;
+      }
+    }
+  }
+  graph += '</graph>\n';
+  graph += '</graphml>';
+  return graph;
+}
+
+/**
 * Export diagram to YAML format with all information
 * @method export
 * @return {String} YAML export of the workflow
