@@ -1,6 +1,11 @@
 BandIt : JavaScript Workflow editor based on RaphaelJS
 
-In development...
+History:
+
+ 01/06/12 - Release 0.1: First official release
+
+
+
 
 Copyright: 2012, Olivier Sallou <olivier.sallou@irisa.fr>
 License: CeCILL-C (http://www.cecill.info/licences/Licence_CeCILL-C_V1-en.html)
@@ -16,6 +21,7 @@ Features:
  * zoom in and out
  * save/load
  * custom properties
+ * containers (a virtual node contains other nodes)
 
 Using:
 JQuery: http://jquery.com/
@@ -29,5 +35,5 @@ Logo by http://openclipart.org/detail/12554/game-baddie:-cowboy-by-nicubunu unde
 Roadmap:
 
  * copy/paste
- * undo/redo/containers
+ * undo/redo
 
