@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: BandIt  BandIt   (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1337009360.35" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1337009360.35" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1338554798.19" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1338554798.19" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1337009360.35"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1337009360.35"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1338554798.19"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1338554798.19"></script>
 </head>
 
 <body id="yahoo-com">
@@ -167,6 +167,68 @@
                                         
                                         <div class="description" property="yui:description">
                                             Adds a new node on paper
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">name</span>
+                                                        &lt;<span property="yui:type">string</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">   Unique name of the node (optional). If undefined, a default counter is used</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">atts</span>
+                                                        &lt;<span property="yui:type">Object</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description">   Element properties (optional). For properties, look at Raphael Element documentation.</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        Node
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">Node element</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_addContainer">
+                                    <h4>
+                                        <a name="method_addContainer">addContainer</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        Node
+                                            <strong property="yui:name">addContainer</strong>
+                                           (
+                                                
+                                                        
+                                                         name
+                                                    
+                                                
+                                                        , 
+                                                         atts
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Adds a new node container on paper. A container acts as a node except it cannot be used
+for links, and nodes dropped in a container will be linked to the container (parent property of the node).
                                         </div>
 
                                         <div class="description">
@@ -507,6 +569,43 @@
                                     </div>
                                     <hr />
                                     </div>
+                                    <div class="" rel="yui:method" resource="#method_exportGraphML">
+                                    <h4>
+                                        <a name="method_exportGraphML">exportGraphML</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        String
+                                            <strong property="yui:name">exportGraphML</strong>
+                                           (
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Export diagram to GraphML
+                                        </div>
+
+                                        <div class="description">
+
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        String
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">GraphML workflow</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                                     <div class="" rel="yui:method" resource="#method_getByName">
                                     <h4>
                                         <a name="method_getByName">getByName</a></h4>
@@ -693,6 +792,57 @@
                                     </div>
                                     <hr />
                                     </div>
+                                    <div class="" rel="yui:method" resource="#method_isContainer">
+                                    <h4>
+                                        <a name="method_isContainer">isContainer</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        boolean
+                                            <strong property="yui:name">isContainer</strong>
+                                           (
+                                                
+                                                        
+                                                         node
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Check if node is a container
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">node</span>
+                                                        &lt;<span property="yui:type">integer</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> id</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        boolean
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo">True if it is a container, else returns false</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
                                     <div class="" rel="yui:method" resource="#method_link">
                                     <h4>
                                         <a name="method_link">link</a></h4>
@@ -805,6 +955,77 @@
                                                         Array
                                                     </code></dt>
                                                     <dd property="yui:returnInfo">Name and Description of the workflow</dd>
+                                                </dl>
+
+
+             
+
+                                        </div>
+
+                                    </div>
+                                    <hr />
+                                    </div>
+                                    <div class="" rel="yui:method" resource="#method_moveChidls">
+                                    <h4>
+                                        <a name="method_moveChidls">moveChidls</a></h4>
+                                    <div class="detail" >
+                                        <code>
+                                        
+                                        
+                                        
+                                        void
+                                            <strong property="yui:name">moveChidls</strong>
+                                           (
+                                                
+                                                        
+                                                         id
+                                                    
+                                                
+                                                        , 
+                                                         X
+                                                    
+                                                
+                                                        , 
+                                                         Y
+                                                    
+                                                
+                                            )
+                                        </code>
+                                        
+                                        <div class="description" property="yui:description">
+                                            Move childs of a container
+                                        </div>
+
+                                        <div class="description">
+
+                                                <dl rel="yui:parameters">
+                                                    <dt>Parameters:</dt>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">id</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> of the container</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">X</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> translation</span>
+                                                        </dd>
+                                                        <dd rel="yui:parameter">
+                                                        <code><span property="yui:name">Y</span>
+                                                        &lt;<span property="yui:type">int</span>&gt;
+                                                        </code>
+                                                        <span property="yui:description"> translation</span>
+                                                        </dd>
+                                                </dl>
+
+                                                <dl>
+                                                    <dt>Returns:
+                                                    <code property="yui:return">
+                                                        void
+                                                    </code></dt>
+                                                    <dd property="yui:returnInfo"></dd>
                                                 </dl>
 
 
@@ -1662,18 +1883,22 @@
                         <h4>Methods</h4>
                         <ul class="content">        
                                 <li class=""><a href="#method_add" title="add">add</a></li>
+                                <li class=""><a href="#method_addContainer" title="addContainer">addContainer</a></li>
                                 <li class=""><a href="#method_arrow" title="arrow">arrow</a></li>
                                 <li class=""><a href="#method_clean" title="clean">clean</a></li>
                                 <li class=""><a href="#method_clearSelection" title="clearSelection">clearSelection</a></li>
                                 <li class=""><a href="#method_deletenode" title="deletenode">deletenode</a></li>
                                 <li class=""><a href="#method_deletepath" title="deletepath">deletepath</a></li>
                                 <li class=""><a href="#method_export" title="export">export</a></li>
+                                <li class=""><a href="#method_exportGraphML" title="exportGraphML">exportGraphML</a></li>
                                 <li class=""><a href="#method_getByName" title="getByName">getByName</a></li>
                                 <li class=""><a href="#method_getMode" title="getMode">getMode</a></li>
                                 <li class=""><a href="#method_getPaper" title="getPaper">getPaper</a></li>
                                 <li class=""><a href="#method_info" title="info">info</a></li>
+                                <li class=""><a href="#method_isContainer" title="isContainer">isContainer</a></li>
                                 <li class=""><a href="#method_link" title="link">link</a></li>
                                 <li class=""><a href="#method_load" title="load">load</a></li>
+                                <li class=""><a href="#method_moveChidls" title="moveChidls">moveChidls</a></li>
                                 <li class=""><a href="#method_moveDown" title="moveDown">moveDown</a></li>
                                 <li class=""><a href="#method_moveLeft" title="moveLeft">moveLeft</a></li>
                                 <li class=""><a href="#method_moveRight" title="moveRight">moveRight</a></li>
@@ -1704,7 +1929,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "BandIt.html#method_add", "access": "", "host": "BandIt", "type": "method", "name": "add"}, {"url": "BandIt.html#method_arrow", "access": "", "host": "BandIt", "type": "method", "name": "arrow"}, {"url": "BandIt.html#method_clean", "access": "", "host": "BandIt", "type": "method", "name": "clean"}, {"url": "BandIt.html#method_clearSelection", "access": "", "host": "BandIt", "type": "method", "name": "clearSelection"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BandIt.html#method_export", "access": "", "host": "BandIt", "type": "method", "name": "export"}, {"url": "BandIt.html#method_getByName", "access": "", "host": "BandIt", "type": "method", "name": "getByName"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#method_info", "access": "", "host": "BandIt", "type": "method", "name": "info"}, {"url": "BandIt.html#method_link", "access": "", "host": "BandIt", "type": "method", "name": "link"}, {"url": "BandIt.html#method_load", "access": "", "host": "BandIt", "type": "method", "name": "load"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setOptions", "access": "", "host": "BandIt", "type": "method", "name": "setOptions"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomFit", "access": "", "host": "BandIt", "type": "method", "name": "zoomFit"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
+    ALL_YUI_PROPS = [{"url": "BandIt.html#method_add", "access": "", "host": "BandIt", "type": "method", "name": "add"}, {"url": "BandIt.html#method_addContainer", "access": "", "host": "BandIt", "type": "method", "name": "addContainer"}, {"url": "BandIt.html#method_arrow", "access": "", "host": "BandIt", "type": "method", "name": "arrow"}, {"url": "BandIt.html#method_clean", "access": "", "host": "BandIt", "type": "method", "name": "clean"}, {"url": "BandIt.html#method_clearSelection", "access": "", "host": "BandIt", "type": "method", "name": "clearSelection"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BandIt.html#method_export", "access": "", "host": "BandIt", "type": "method", "name": "export"}, {"url": "BandIt.html#method_exportGraphML", "access": "", "host": "BandIt", "type": "method", "name": "exportGraphML"}, {"url": "BandIt.html#method_getByName", "access": "", "host": "BandIt", "type": "method", "name": "getByName"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#method_info", "access": "", "host": "BandIt", "type": "method", "name": "info"}, {"url": "BandIt.html#method_isContainer", "access": "", "host": "BandIt", "type": "method", "name": "isContainer"}, {"url": "BandIt.html#method_link", "access": "", "host": "BandIt", "type": "method", "name": "link"}, {"url": "BandIt.html#method_load", "access": "", "host": "BandIt", "type": "method", "name": "load"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveChidls", "access": "", "host": "BandIt", "type": "method", "name": "moveChidls"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setOptions", "access": "", "host": "BandIt", "type": "method", "name": "setOptions"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomFit", "access": "", "host": "BandIt", "type": "method", "name": "zoomFit"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
 </script>
 </body>
 </html>

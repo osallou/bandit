@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: BandIt   bandit.js  (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1337009360.35" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1337009360.35" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1338554798.19" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1338554798.19" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1337009360.35"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1337009360.35"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1338554798.19"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1338554798.19"></script>
 </head>
 
 <body id="yahoo-com">
@@ -56,6 +56,7 @@
 <span class="cm"> *</span>
 <span class="cm"> */</span>
 
+<span class="nx">CONTAINER</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
 
 
 <span class="cm">/**</span>
@@ -237,7 +238,12 @@
   <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">)</span> <span class="p">{</span>
     <span class="nx">groupnode</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]);</span>
 	<span class="k">if</span><span class="p">(</span><span class="nx">groupnode</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
-	  <span class="nx">groupnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;opacity&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+	  <span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">isContainer</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]))</span> <span class="p">{</span>
+	    <span class="nx">groupnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;opacity&quot;</span><span class="p">,</span><span class="mf">0.8</span><span class="p">);</span>
+	  <span class="p">}</span>
+	  <span class="k">else</span> <span class="p">{</span>
+	    <span class="nx">groupnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;opacity&quot;</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+	  <span class="p">}</span>
 	<span class="p">}</span>
   <span class="p">}</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">selectnodes</span> <span class="o">=</span> <span class="p">[];</span>
@@ -420,6 +426,7 @@
     <span class="p">}</span>
   <span class="p">});</span>
   <span class="nx">path</span><span class="p">.</span><span class="nx">toBack</span><span class="p">();</span>
+  
   <span class="k">if</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">endnode</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">==</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">endnode</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="p">[];</span>
   <span class="p">}</span>
@@ -448,6 +455,39 @@
     <span class="p">}</span>
   <span class="p">}</span>
   <span class="k">return</span> <span class="nx">nodeid</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* Check if node is a container</span>
+<span class="cm">* @method isContainer</span>
+<span class="cm">* @param {integer} node id</span>
+<span class="cm">* @return {boolean} True if it is a container, else returns false</span>
+<span class="cm">*/</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">isContainer</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* Adds a new node container on paper. A container acts as a node except it cannot be used</span>
+<span class="cm">* for links, and nodes dropped in a container will be linked to the container (parent property of the node).</span>
+<span class="cm">* @method addContainer</span>
+<span class="cm">* @param name {string}  Unique name of the node (optional). If undefined, a default counter is used</span>
+<span class="cm">* @param atts {Object}  Element properties (optional). For properties, look at Raphael Element documentation.</span>
+<span class="cm">* @return {Node} Node element</span>
+<span class="cm">*</span>
+<span class="cm">*/</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">addContainer</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span><span class="nx">attrs</span><span class="p">);</span>
+	<span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">,</span><span class="mi">200</span><span class="o">*</span><span class="k">this</span><span class="p">.</span><span class="nx">zoom</span><span class="p">);</span>
+	<span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">,</span><span class="mi">200</span><span class="o">*</span><span class="k">this</span><span class="p">.</span><span class="nx">zoom</span><span class="p">);</span>
+	<span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;opacity&quot;</span><span class="p">,</span><span class="mf">0.8</span><span class="p">);</span>
+	<span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;fill&quot;</span><span class="p">,</span><span class="s2">&quot;#01DF01&quot;</span><span class="p">);</span>
+	<span class="nx">node</span><span class="p">.</span><span class="nx">toBack</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">=</span><span class="nx">CONTAINER</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">node</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -524,12 +564,17 @@
 			<span class="k">return</span><span class="p">;</span> 
 			<span class="p">}</span>
 			<span class="k">if</span> <span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">mode</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
-			<span class="nx">node</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getElementByPoint</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="nx">e</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
-			<span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="nx">currentnode</span><span class="p">)</span> <span class="p">{</span>
-			<span class="k">return</span><span class="p">;</span> <span class="c1">// Do not link same node</span>
-			<span class="p">}</span>
-			<span class="nx">startnode</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">currentnode</span><span class="p">);</span>
-			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">link</span><span class="p">(</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+			  <span class="nx">node</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getElementByPoint</span><span class="p">(</span><span class="nx">e</span><span class="p">.</span><span class="nx">x</span><span class="p">,</span><span class="nx">e</span><span class="p">.</span><span class="nx">y</span><span class="p">);</span>
+			  <span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span> <span class="o">==</span> <span class="nx">currentnode</span><span class="p">)</span> <span class="p">{</span>
+			    <span class="k">return</span><span class="p">;</span> <span class="c1">// Do not link same node</span>
+			  <span class="p">}</span>
+			  <span class="nx">startnode</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">currentnode</span><span class="p">);</span>
+			  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">isContainer</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span>  <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">isContainer</span><span class="p">(</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="p">{</span>
+			    <span class="nx">mybandit</span><span class="p">.</span><span class="nx">link</span><span class="p">(</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+			  <span class="p">}</span>
+			  <span class="k">else</span> <span class="p">{</span>
+			    <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;destination is container, drop link&quot;</span><span class="p">);</span>
+			  <span class="p">}</span>
 			<span class="p">}</span>
 	<span class="p">});</span>
 
@@ -553,23 +598,36 @@
 		      <span class="p">}</span>
 		    <span class="p">}</span>
 			<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">isselected</span><span class="p">)</span> <span class="p">{</span>
+			  <span class="nx">deltax</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">ox</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">)</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">);</span>
+			  <span class="nx">deltay</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">oy</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">)</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">);</span>
 			  <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">({</span><span class="nx">x</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">ox</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">oy</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">});</span>
 			  <span class="nx">xpos</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">ox</span> <span class="o">+</span> <span class="nx">dx</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 			  <span class="nx">ypos</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">oy</span> <span class="o">+</span> <span class="nx">dy</span> <span class="o">+</span> <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+
 			  <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;child&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]).</span><span class="nx">attr</span><span class="p">({</span><span class="nx">x</span><span class="o">:</span> <span class="nx">xpos</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="nx">ypos</span><span class="p">});</span>
 			  <span class="nx">mybandit</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+			  <span class="c1">// If container, move childs</span>
+			  <span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span>
+			    <span class="nx">mybandit</span><span class="p">.</span><span class="nx">moveChilds</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span><span class="nx">deltax</span> <span class="p">,</span><span class="nx">deltay</span><span class="p">);</span>
+			  <span class="p">}</span>
 			<span class="p">}</span>
 			<span class="k">else</span> <span class="p">{</span>
 			 <span class="c1">// move all elements</span>
 			 <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">)</span> <span class="p">{</span>
 			    <span class="nx">nodeposx</span><span class="o">=</span><span class="k">this</span><span class="p">.</span><span class="nx">ox</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">;</span>
 			    <span class="nx">nodeposy</span><span class="o">=</span><span class="k">this</span><span class="p">.</span><span class="nx">oy</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">;</span>
+			    <span class="nx">deltax</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">ox</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">)</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">);</span>
+			    <span class="nx">deltay</span> <span class="o">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">oy</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">)</span> <span class="o">-</span> <span class="k">this</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">);</span>
 			    <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]);</span>
 			 	<span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">({</span><span class="nx">x</span><span class="o">:</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="nx">dx</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">});</span>
 			    <span class="nx">xpos</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="nx">dx</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 			    <span class="nx">ypos</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="nx">dy</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 			    <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]][</span><span class="s2">&quot;child&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]).</span><span class="nx">attr</span><span class="p">({</span><span class="nx">x</span><span class="o">:</span> <span class="nx">xpos</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="nx">ypos</span><span class="p">});</span>
-			    <span class="nx">mybandit</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]);</span>			 
+			    <span class="nx">mybandit</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">]);</span>
+			    <span class="c1">// If container, move childs</span>
+			    <span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span>
+			      <span class="nx">mybandit</span><span class="p">.</span><span class="nx">moveChilds</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">selectnodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;id&quot;</span><span class="p">],</span><span class="nx">deltax</span> <span class="p">,</span><span class="nx">deltay</span> <span class="p">);</span>
+			    <span class="p">}</span>			 
 			 <span class="p">}</span>
 			<span class="p">}</span>
 		<span class="p">}</span>
@@ -578,7 +636,35 @@
 		<span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">mode</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">||</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">mode</span> <span class="o">==</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
 			<span class="k">return</span><span class="p">;</span>
 		<span class="p">}</span>
-		<span class="k">this</span><span class="p">.</span><span class="nx">animate</span><span class="p">({</span> <span class="nx">opacity</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">);</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">isContainer</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="p">{</span>
+		  <span class="k">this</span><span class="p">.</span><span class="nx">animate</span><span class="p">({</span> <span class="nx">opacity</span><span class="o">:</span> <span class="mf">0.8</span><span class="p">},</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="k">else</span> <span class="p">{</span>
+		  <span class="k">this</span><span class="p">.</span><span class="nx">animate</span><span class="p">({</span> <span class="nx">opacity</span><span class="o">:</span> <span class="mi">1</span><span class="p">},</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;&gt;&quot;</span><span class="p">);</span>
+		<span class="p">}</span>
+		<span class="kd">var</span> <span class="nx">nbox</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">).</span><span class="nx">getBBox</span><span class="p">();</span>
+		<span class="kd">var</span> <span class="nx">intersect</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+		<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">container</span> <span class="k">in</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">)</span> <span class="p">{</span>
+		  <span class="k">if</span><span class="p">(</span><span class="nx">container</span> <span class="o">!=</span> <span class="k">this</span><span class="p">.</span><span class="nx">id</span> <span class="o">&amp;&amp;</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">isContainer</span><span class="p">(</span><span class="nx">container</span><span class="p">))</span> <span class="p">{</span>
+		    <span class="kd">var</span> <span class="nx">cbox</span> <span class="o">=</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">container</span><span class="p">).</span><span class="nx">getBBox</span><span class="p">();</span>
+		    <span class="k">if</span><span class="p">(</span><span class="nx">Raphael</span><span class="p">.</span><span class="nx">isBBoxIntersect</span><span class="p">(</span><span class="nx">nbox</span><span class="p">,</span><span class="nx">cbox</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">container</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span><span class="o">==</span><span class="kc">null</span> <span class="o">||</span> <span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">container</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span><span class="o">!=</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">))</span> <span class="p">{</span>
+		      <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;attach node to container &quot;</span><span class="o">+</span><span class="nx">container</span><span class="p">);</span>
+		      <span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">container</span><span class="p">;</span>
+		      <span class="nx">mybandit</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">container</span><span class="p">).</span><span class="nx">toBack</span><span class="p">();</span>
+		      <span class="nx">intersect</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+		    <span class="p">}</span>
+		  <span class="p">}</span>
+		  <span class="k">if</span><span class="p">(</span><span class="nx">intersect</span><span class="p">)</span> <span class="p">{</span>
+		    <span class="k">break</span><span class="p">;</span>
+		  <span class="p">}</span>
+		  <span class="k">else</span> <span class="p">{</span>
+		   <span class="c1">// Was in a container? remove it</span>
+		   <span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+		     <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;detach node from container &quot;</span><span class="o">+</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]);</span>
+		     <span class="nx">mybandit</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+		   <span class="p">}</span>
+		  <span class="p">}</span>
+		<span class="p">}</span>
 	<span class="p">};</span>
 
 	<span class="nx">node</span><span class="p">.</span><span class="nx">drag</span><span class="p">(</span><span class="nx">move</span><span class="p">,</span><span class="nx">start</span><span class="p">,</span><span class="nx">up</span><span class="p">);</span>
@@ -592,7 +678,34 @@
 
 <span class="p">}</span> <span class="c1">// end add</span>
 
+<span class="cm">/**</span>
+<span class="cm">* Move childs of a container</span>
+<span class="cm">* @method moveChidls</span>
+<span class="cm">* @param {int} id of the container</span>
+<span class="cm">* @param {int} X translation</span>
+<span class="cm">* @param {int} Y translation</span>
+<span class="cm">*/</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">moveChilds</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">id</span><span class="p">,</span><span class="nx">dx</span><span class="p">,</span><span class="nx">dy</span><span class="p">)</span> <span class="p">{</span>
 
+  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nx">id</span> <span class="p">)</span> <span class="p">{</span>
+      <span class="c1">//banditLogger.DEBUG(&quot;move child &quot;+i+&quot; - &quot;+dx+&quot;,&quot;+dy);</span>
+      <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+      <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">({</span><span class="nx">x</span><span class="o">:</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span><span class="o">+</span> <span class="nx">dx</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">});</span>
+	  <span class="nx">xpos</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="nx">dx</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+	  <span class="nx">ypos</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="nx">dy</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
+	  <span class="kd">var</span> <span class="nx">textnode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;child&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]);</span>
+	  <span class="nx">textnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">({</span><span class="nx">x</span><span class="o">:</span> <span class="nx">textnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span><span class="o">+</span> <span class="nx">dx</span><span class="p">,</span> <span class="nx">y</span><span class="o">:</span> <span class="nx">textnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">dy</span><span class="p">});</span>
+	  <span class="c1">//banditLogger.DEBUG(&quot;redraw links for &quot;+i);</span>
+	  <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">i</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span>
+	   <span class="c1">// Recursive move</span>
+	   <span class="k">this</span><span class="p">.</span><span class="nx">moveChilds</span><span class="p">(</span><span class="nx">i</span><span class="p">,</span><span class="nx">dx</span><span class="p">,</span><span class="nx">dy</span><span class="p">);</span>
+	  <span class="p">}</span>
+	  <span class="k">this</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="nx">i</span><span class="p">);</span>
+	<span class="p">}</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
 
 <span class="c1">// Redraw all path linked to current dragged node</span>
 <span class="cm">/**</span>
@@ -627,19 +740,34 @@
 <span class="cm">*/</span>
 
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">deletenode</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">);</span>
 	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;delete node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
         <span class="c1">// callbacks</span>
         <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">deleteCallbacks</span><span class="p">)</span> <span class="p">{</span>
           <span class="k">this</span><span class="p">.</span><span class="nx">deleteCallbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">](</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
         <span class="p">}</span>
 
+
+    <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span>
+     <span class="c1">// Delete childs of container</span>
+     <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">cnode</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">)</span> <span class="p">{</span>
+       <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">cnode</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span>
+         <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;should delete &quot;</span><span class="o">+</span><span class="nx">cnode</span><span class="p">);</span>
+         <span class="k">this</span><span class="p">.</span><span class="nx">deletenode</span><span class="p">(</span><span class="nx">cnode</span><span class="p">);</span>
+       <span class="p">}</span>
+     <span class="p">}</span>
+    
+    <span class="p">}</span>
+
 	<span class="nx">paths</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
 	<span class="c1">// Delete text</span>
-	<span class="nx">text</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;child&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]);</span>
-	<span class="k">if</span><span class="p">(</span><span class="nx">text</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+	  <span class="nx">text</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;child&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]);</span>
+	  <span class="k">if</span><span class="p">(</span><span class="nx">text</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
 		<span class="nx">text</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+	  <span class="p">}</span>
 	<span class="p">}</span>
+
 	<span class="c1">// Remove paths linked to node, if any</span>
 	<span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">paths</span><span class="p">)</span> <span class="p">{</span>
 		<span class="k">if</span><span class="p">(</span><span class="nx">paths</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
@@ -660,6 +788,7 @@
 
 	<span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
 	<span class="nx">node</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
+
 
 <span class="p">}</span> <span class="c1">// end deletenode</span>
 
@@ -723,6 +852,7 @@
 	<span class="nx">xpos</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 	<span class="nx">ypos</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 	<span class="nx">path</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">,</span><span class="s2">&quot;M&quot;</span><span class="o">+</span><span class="nx">xpos</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">ypos</span><span class="o">+</span><span class="s2">&quot;L&quot;</span><span class="o">+</span><span class="nx">xend</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">yend</span><span class="p">);</span>
+
         <span class="nx">arrowdirection</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;direction&quot;</span><span class="p">];</span>
 	<span class="k">if</span><span class="p">(</span><span class="nx">arrowdirection</span><span class="o">!=</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">)</span> <span class="p">{</span> 
           <span class="nx">newarrow</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">arrow</span><span class="p">(</span><span class="nx">xpos</span><span class="p">,</span><span class="nx">ypos</span><span class="p">,</span><span class="nx">xend</span><span class="p">,</span><span class="nx">yend</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
@@ -890,6 +1020,7 @@
   <span class="p">}</span>
   <span class="kd">var</span> <span class="nx">wlinks</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// list of node id / node names to link with</span>
   <span class="kd">var</span> <span class="nx">wnodes</span> <span class="o">=</span> <span class="p">{};</span> <span class="c1">// list of node name/node id pairs</span>
+  <span class="kd">var</span> <span class="nx">wparents</span> <span class="o">=</span> <span class="p">{}</span> <span class="c1">// parent reference for containers</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">];</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">description</span> <span class="o">=</span> <span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="s2">&quot;description&quot;</span><span class="p">];</span>
   <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">node</span> <span class="k">in</span> <span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">])</span> <span class="p">{</span>
@@ -909,10 +1040,20 @@
       <span class="nx">newnodeid</span> <span class="o">=</span> <span class="nx">rootnodeid</span><span class="p">;</span>
     <span class="p">}</span>
     <span class="k">else</span> <span class="p">{</span>
-      <span class="kd">var</span> <span class="nx">newnode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span><span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="s2">&quot;graph&quot;</span><span class="p">]);</span>
+      <span class="kd">var</span> <span class="nx">newnode</span><span class="p">;</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">newnode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">addContainer</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span><span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="s2">&quot;graph&quot;</span><span class="p">]);</span>
+      <span class="p">}</span>
+      <span class="k">else</span> <span class="p">{</span>
+        <span class="nx">newnode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span><span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="s2">&quot;graph&quot;</span><span class="p">]);</span>
+      <span class="p">}</span>
       <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;Load node: &quot;</span><span class="o">+</span><span class="nx">node</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">newnode</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
       <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">prop</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">properties</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">newnode</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="nx">prop</span><span class="p">]</span><span class="o">=</span><span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="nx">prop</span><span class="p">];</span>
+      <span class="p">}</span>
+      <span class="c1">// is node contained in container?</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">wparents</span><span class="p">[</span><span class="nx">newnode</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span> <span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">];</span>
       <span class="p">}</span>
       <span class="nx">wnodes</span><span class="p">[</span><span class="nx">node</span><span class="p">]</span> <span class="o">=</span> <span class="nx">newnode</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
       <span class="nx">newnodeid</span> <span class="o">=</span> <span class="nx">newnode</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
@@ -924,6 +1065,17 @@
       <span class="nx">wlinks</span><span class="p">[</span><span class="nx">newnodeid</span><span class="p">]</span> <span class="o">=</span> <span class="nx">nextnodes</span><span class="p">;</span> <span class="c1">// register future links</span>
     <span class="p">}</span>
   <span class="p">}</span> <span class="c1">// end for wflow</span>
+  
+  <span class="c1">// Set parents</span>
+  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">wparent</span> <span class="k">in</span> <span class="nx">wparents</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;Set parent of node &quot;</span><span class="o">+</span><span class="nx">wparent</span><span class="p">);</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">containernode</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">containernode</span><span class="p">][</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nx">wparents</span><span class="p">[</span><span class="nx">wparent</span><span class="p">])</span> <span class="p">{</span>
+        <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">wparent</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">containernode</span><span class="p">;</span>
+        <span class="k">break</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
   
   <span class="c1">// Add the links</span>
   <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">wlink</span> <span class="k">in</span> <span class="nx">wlinks</span><span class="p">)</span> <span class="p">{</span>
@@ -951,6 +1103,62 @@
     <span class="k">this</span><span class="p">.</span><span class="nx">zoomIn</span><span class="p">();</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">zoomFit</span><span class="p">();</span>
   <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* Export diagram to GraphML</span>
+<span class="cm">* @method exportGraphML</span>
+<span class="cm">* @return {String} GraphML workflow</span>
+<span class="cm">*/</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">exportGraphML</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;not yet implemented&quot;</span><span class="p">);</span>
+  <span class="kd">var</span> <span class="nx">graph</span> <span class="o">=</span> <span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;graphml xmlns=&quot;http://graphml.graphdrawing.org/xmlns&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd&quot;&gt;\n&#39;</span><span class="p">;</span>
+  <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+  <span class="c1">// Define properties</span>
+  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">key</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">properties</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;key id=&quot;prop&#39;</span><span class="o">+</span><span class="nx">i</span><span class="o">+</span><span class="s1">&#39;&quot; for=&quot;node&quot; attr.name=&quot;&#39;</span><span class="o">+</span><span class="nx">key</span><span class="o">+</span><span class="s1">&#39;&quot; attr.type=&quot;string&quot;&gt;&lt;default&gt;&#39;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">properties</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;&lt;/default&gt;&lt;/key&gt;\n&#39;</span><span class="p">;</span>
+    <span class="nx">i</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;key id=&quot;type&quot; for=&quot;node&quot; attr.name=&quot;type&quot; attr.type=&quot;string&quot;&gt;&lt;default&gt;&lt;/default&gt;&lt;/key&gt;&#39;</span><span class="p">;</span>
+  <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;key id=&quot;parent&quot; for=&quot;node&quot; attr.name=&quot;parent&quot; attr.type=&quot;string&quot;&gt;&lt;default&gt;&lt;/default&gt;&lt;/key&gt;&#39;</span><span class="p">;</span>
+  <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;graph id=&quot;&#39;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="o">+</span><span class="s1">&#39;&quot; edgedefault=&quot;directed&quot;&gt;\n&#39;</span><span class="p">;</span>
+  <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;desc&gt;&#39;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">description</span><span class="o">+</span><span class="s1">&#39;&lt;/desc&gt;&#39;</span><span class="p">;</span>
+  <span class="c1">// Now manage nodes</span>
+  <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+    <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;node id=&quot;&#39;</span><span class="o">+</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;&quot;&gt;&#39;</span><span class="p">;</span>
+    <span class="c1">//var attrs = this.paper.getById(i).attr();</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">prop</span> <span class="k">in</span> <span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">])</span> <span class="p">{</span>
+        <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;data key=&quot;&#39;</span><span class="o">+</span><span class="nx">prop</span><span class="o">+</span><span class="s1">&#39;&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="nx">prop</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;&lt;/data&gt;\n&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;data key=&quot;type&quot;&gt;&#39;</span><span class="o">+</span><span class="nx">CONTAINER</span><span class="o">+</span><span class="s1">&#39;&lt;/data&gt;\n&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;data key=&quot;parent&quot;&gt;&#39;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]][</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;&lt;/data&gt;\n&#39;</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    
+    <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/node&gt;\n&#39;</span><span class="p">;</span>
+    <span class="c1">// Now manage links</span>
+    <span class="kd">var</span> <span class="nx">nexts</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">!=</span><span class="s2">&quot;root&quot;</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">==</span><span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="nx">node</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">!=</span><span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Warning, the node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; is not linked to root node&quot;</span><span class="p">);}</span>
+    <span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">nbnext</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="k">in</span> <span class="nx">nexts</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">nexts</span><span class="p">[</span><span class="nx">j</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">next</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">nexts</span><span class="p">[</span><span class="nx">j</span><span class="p">][</span><span class="s2">&quot;node&quot;</span><span class="p">]][</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">];</span>
+	<span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;edge id=&quot;&#39;</span><span class="o">+</span><span class="nx">i</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">+</span><span class="nx">j</span><span class="o">+</span><span class="s1">&#39;&quot; source=&quot;&#39;</span><span class="o">+</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;&quot; target=&quot;&#39;</span><span class="o">+</span><span class="nx">next</span><span class="o">+</span><span class="s1">&#39;&quot;/&gt;\n&#39;</span><span class="p">;</span>
+        <span class="nx">nbnext</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/graph&gt;\n&#39;</span><span class="p">;</span>
+  <span class="nx">graph</span> <span class="o">+=</span> <span class="s1">&#39;&lt;/graphml&gt;&#39;</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">graph</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -983,7 +1191,7 @@
     
     <span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">!=</span><span class="s2">&quot;root&quot;</span><span class="p">)</span> <span class="p">{</span>
       <span class="c1">//banditLogger.DEBUG(this.inlinks[i]);</span>
-      <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">==</span><span class="kc">undefined</span><span class="p">)</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Warning, the node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; is not linked to root node&quot;</span><span class="p">);}</span>
+      <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">inlinks</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span><span class="o">==</span><span class="kc">undefined</span> <span class="o">&amp;&amp;</span> <span class="nx">node</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">!=</span><span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span> <span class="nx">alert</span><span class="p">(</span><span class="s2">&quot;Warning, the node &quot;</span><span class="o">+</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot; is not linked to root node&quot;</span><span class="p">);}</span>
     <span class="p">}</span>
      
     <span class="kd">var</span> <span class="nx">next</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">;</span>
@@ -998,7 +1206,15 @@
       <span class="p">}</span>
     <span class="p">}</span>
     <span class="nx">nodeprops</span><span class="p">[</span><span class="s2">&quot;next&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">next</span><span class="p">;</span>
-    <span class="c1">// TODO add next elts</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">==</span><span class="nx">CONTAINER</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">nodeprops</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">CONTAINER</span><span class="p">;</span>
+    <span class="p">}</span>
+    
+    <span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">nodeprops</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;parent&quot;</span><span class="p">]][</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">];</span>
+    <span class="p">}</span>
+
     <span class="nx">exportobject</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">nodeprops</span><span class="p">;</span>
   <span class="p">}</span>
   <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">exportobject</span><span class="p">));</span>
@@ -1119,7 +1335,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "BandIt.html#method_add", "access": "", "host": "BandIt", "type": "method", "name": "add"}, {"url": "BandIt.html#method_arrow", "access": "", "host": "BandIt", "type": "method", "name": "arrow"}, {"url": "BandIt.html#method_clean", "access": "", "host": "BandIt", "type": "method", "name": "clean"}, {"url": "BandIt.html#method_clearSelection", "access": "", "host": "BandIt", "type": "method", "name": "clearSelection"}, {"url": "BanditLogger.html#method_DEBUG", "access": "", "host": "BanditLogger", "type": "method", "name": "DEBUG"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BanditLogger.html#method_ERROR", "access": "", "host": "BanditLogger", "type": "method", "name": "ERROR"}, {"url": "BandIt.html#method_export", "access": "", "host": "BandIt", "type": "method", "name": "export"}, {"url": "BandIt.html#method_getByName", "access": "", "host": "BandIt", "type": "method", "name": "getByName"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#method_info", "access": "", "host": "BandIt", "type": "method", "name": "info"}, {"url": "BanditLogger.html#method_INFO", "access": "", "host": "BanditLogger", "type": "method", "name": "INFO"}, {"url": "BandIt.html#method_link", "access": "", "host": "BandIt", "type": "method", "name": "link"}, {"url": "BandIt.html#method_load", "access": "", "host": "BandIt", "type": "method", "name": "load"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setOptions", "access": "", "host": "BandIt", "type": "method", "name": "setOptions"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomFit", "access": "", "host": "BandIt", "type": "method", "name": "zoomFit"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
+    ALL_YUI_PROPS = [{"url": "BandIt.html#method_add", "access": "", "host": "BandIt", "type": "method", "name": "add"}, {"url": "BandIt.html#method_addContainer", "access": "", "host": "BandIt", "type": "method", "name": "addContainer"}, {"url": "BandIt.html#method_arrow", "access": "", "host": "BandIt", "type": "method", "name": "arrow"}, {"url": "BandIt.html#method_clean", "access": "", "host": "BandIt", "type": "method", "name": "clean"}, {"url": "BandIt.html#method_clearSelection", "access": "", "host": "BandIt", "type": "method", "name": "clearSelection"}, {"url": "BanditLogger.html#method_DEBUG", "access": "", "host": "BanditLogger", "type": "method", "name": "DEBUG"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BanditLogger.html#method_ERROR", "access": "", "host": "BanditLogger", "type": "method", "name": "ERROR"}, {"url": "BandIt.html#method_export", "access": "", "host": "BandIt", "type": "method", "name": "export"}, {"url": "BandIt.html#method_exportGraphML", "access": "", "host": "BandIt", "type": "method", "name": "exportGraphML"}, {"url": "BandIt.html#method_getByName", "access": "", "host": "BandIt", "type": "method", "name": "getByName"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#method_info", "access": "", "host": "BandIt", "type": "method", "name": "info"}, {"url": "BanditLogger.html#method_INFO", "access": "", "host": "BanditLogger", "type": "method", "name": "INFO"}, {"url": "BandIt.html#method_isContainer", "access": "", "host": "BandIt", "type": "method", "name": "isContainer"}, {"url": "BandIt.html#method_link", "access": "", "host": "BandIt", "type": "method", "name": "link"}, {"url": "BandIt.html#method_load", "access": "", "host": "BandIt", "type": "method", "name": "load"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveChidls", "access": "", "host": "BandIt", "type": "method", "name": "moveChidls"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setOptions", "access": "", "host": "BandIt", "type": "method", "name": "setOptions"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_zoomFit", "access": "", "host": "BandIt", "type": "method", "name": "zoomFit"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
 </script>
 </body>
 </html>
