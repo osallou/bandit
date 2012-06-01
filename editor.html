@@ -120,6 +120,12 @@ $('#add').click(function() {
     bandit.add();
 });
 
+$('#addcontainer').click(function() {
+    updatemode(0);
+    bandit.addContainer();
+});
+
+
 $('#link').click(function() {
     updatemode(1);
 });
@@ -279,6 +285,7 @@ holder.ondrop = function (e) {
 </div>
 <div class="tools">
 <div class="tool" id="add"><img title="add node" alt="add node" src="images/add.png"/></div>
+<div class="tool" id="addcontainer"><img title="add container" alt="add container" src="images/container.png"/></div>
 <div class="tool" id="move"><img title="move selection" alt="move selection" src="images/move.png"/></div>
 <div class="tool" id="group"><img title="group selection" alt="group selection" src="images/group.png"/></div>
 <div class="tool" id="link"><img title="create link" alt="create link" src="images/link.png"/></div>

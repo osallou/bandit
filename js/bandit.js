@@ -7,6 +7,7 @@
  *
  */
 
+CONTAINER=1;
 
 
 /**
@@ -188,7 +189,12 @@ BandIt.prototype.clearSelection = function() {
   for(var i in this.selectnodes) {
     groupnode = mybandit.paper.getById(this.selectnodes[i]["id"]);
 	if(groupnode!=null) {
-	  groupnode.attr("opacity",1);
+	  if(mybandit.isContainer(this.selectnodes[i]["id"])) {
+	    groupnode.attr("opacity",0.8);
+	  }
+	  else {
+	    groupnode.attr("opacity",1);
+	  }
 	}
   }
   this.selectnodes = [];
@@ -371,6 +377,7 @@ BandIt.prototype.link = function(startnodeid,endnodeid) {
     }
   });
   path.toBack();
+  
   if (this.inlinks[endnode.id] == null) {
     this.inlinks[endnode.id] = [];
   }
@@ -399,6 +406,39 @@ BandIt.prototype.getByName = function(name) {
     }
   }
   return nodeid;
+}
+
+/**
+* Check if node is a container
+* @method isContainer
+* @param {integer} node id
+* @return {boolean} True if it is a container, else returns false
+*/
+BandIt.prototype.isContainer = function(nodeid) {
+  if(this.nodes[nodeid]["type"]!=null && this.nodes[nodeid]["type"]==CONTAINER) {
+    return true;
+  }
+  return false;
+}
+
+/**
+* Adds a new node container on paper. A container acts as a node except it cannot be used
+* for links, and nodes dropped in a container will be linked to the container (parent property of the node).
+* @method addContainer
+* @param name {string}  Unique name of the node (optional). If undefined, a default counter is used
+* @param atts {Object}  Element properties (optional). For properties, look at Raphael Element documentation.
+* @return {Node} Node element
+*
+*/
+BandIt.prototype.addContainer = function(name,attrs) {
+	var node = this.add(name,attrs);
+	node.attr("width",200*this.zoom);
+	node.attr("height",200*this.zoom);
+	node.attr("opacity",0.8);
+	node.attr("fill","#01DF01");
+	node.toBack();
+	this.nodes[node.id]["type"]=CONTAINER;
+    return node;
 }
 
 /**
@@ -475,12 +515,17 @@ BandIt.prototype.add = function(name,attrs) {
 			return; 
 			}
 			if (mybandit.mode==1) {
-			node = mybandit.paper.getElementByPoint(e.x,e.y);
-			if(node.id == currentnode) {
-			return; // Do not link same node
-			}
-			startnode = mybandit.paper.getById(currentnode);
-			mybandit.link(startnode.id, node.id);
+			  node = mybandit.paper.getElementByPoint(e.x,e.y);
+			  if(node.id == currentnode) {
+			    return; // Do not link same node
+			  }
+			  startnode = mybandit.paper.getById(currentnode);
+			  if(!mybandit.isContainer(node.id)  && !mybandit.isContainer(startnode.id)) {
+			    mybandit.link(startnode.id, node.id);
+			  }
+			  else {
+			    banditLogger.DEBUG("destination is container, drop link");
+			  }
 			}
 	});
 
@@ -504,23 +549,36 @@ BandIt.prototype.add = function(name,attrs) {
 		      }
 		    }
 			if(!isselected) {
+			  deltax = (this.ox + dx) - this.attr("x");
+			  deltay = (this.oy + dy) - this.attr("y");
 			  this.attr({x: this.ox + dx, y: this.oy + dy});
 			  xpos = this.ox + dx + this.attr("width")/2;
 			  ypos = this.oy + dy + this.attr("height")/2;
+
 			  mybandit.paper.getById(mybandit.nodes[this.id]["child"]["text"]).attr({x: xpos, y: ypos});
 			  mybandit.redrawpaths(this.id);
+			  // If container, move childs
+			  if(mybandit.nodes[this.id]["type"]==CONTAINER) {
+			    mybandit.moveChilds(this.id,deltax ,deltay);
+			  }
 			}
 			else {
 			 // move all elements
 			 for(var i in mybandit.selectnodes) {
 			    nodeposx=this.ox + dx;
 			    nodeposy=this.oy + dy;
+			    deltax = (this.ox + dx) - this.attr("x");
+			    deltay = (this.oy + dy) - this.attr("y");
 			    var node = mybandit.paper.getById(mybandit.selectnodes[i]["id"]);
 			 	node.attr({x: mybandit.selectnodes[i]["x"] + dx, y: mybandit.selectnodes[i]["y"] + dy});
 			    xpos = mybandit.selectnodes[i]["x"] + dx + node.attr("width")/2;
 			    ypos = mybandit.selectnodes[i]["y"] + dy + node.attr("height")/2;
 			    mybandit.paper.getById(mybandit.nodes[mybandit.selectnodes[i]["id"]]["child"]["text"]).attr({x: xpos, y: ypos});
-			    mybandit.redrawpaths(mybandit.selectnodes[i]["id"]);			 
+			    mybandit.redrawpaths(mybandit.selectnodes[i]["id"]);
+			    // If container, move childs
+			    if(mybandit.selectnodes[i]["type"]==CONTAINER) {
+			      mybandit.moveChilds(mybandit.selectnodes[i]["id"],deltax ,deltay );
+			    }			 
 			 }
 			}
 		}
@@ -529,7 +587,35 @@ BandIt.prototype.add = function(name,attrs) {
 		if(mybandit.mode == 2 || mybandit.mode ==3) {
 			return;
 		}
-		this.animate({ opacity: 1}, 500, ">");
+		if(mybandit.isContainer(this.id)) {
+		  this.animate({ opacity: 0.8}, 500, ">");
+		}
+		else {
+		  this.animate({ opacity: 1}, 500, ">");
+		}
+		var nbox = mybandit.paper.getById(this.id).getBBox();
+		var intersect = false;
+		for(var container in mybandit.nodes) {
+		  if(container != this.id && mybandit.isContainer(container)) {
+		    var cbox = mybandit.paper.getById(container).getBBox();
+		    if(Raphael.isBBoxIntersect(nbox,cbox) && (mybandit.nodes[container]["parent"]==null || mybandit.nodes[container]["parent"]!=this.id)) {
+		      banditLogger.DEBUG("attach node to container "+container);
+		      mybandit.nodes[this.id]["parent"] = container;
+		      mybandit.paper.getById(container).toBack();
+		      intersect = true;
+		    }
+		  }
+		  if(intersect) {
+		    break;
+		  }
+		  else {
+		   // Was in a container? remove it
+		   if(mybandit.nodes[this.id]["parent"] != null) {
+		     banditLogger.DEBUG("detach node from container "+mybandit.nodes[this.id]["parent"]);
+		     mybandit.nodes[this.id]["parent"] = null;
+		   }
+		  }
+		}
 	};
 
 	node.drag(move,start,up);
@@ -543,7 +629,34 @@ BandIt.prototype.add = function(name,attrs) {
 
 } // end add
 
+/**
+* Move childs of a container
+* @method moveChidls
+* @param {int} id of the container
+* @param {int} X translation
+* @param {int} Y translation
+*/
+BandIt.prototype.moveChilds = function(id,dx,dy) {
 
+  for(var i in this.nodes) {
+    if(this.nodes[i]["parent"] == id ) {
+      //banditLogger.DEBUG("move child "+i+" - "+dx+","+dy);
+      var node = this.paper.getById(i);
+      node.attr({x: node.attr("x")+ dx, y: node.attr("y") + dy});
+	  xpos = this.nodes[i]["x"] + dx + node.attr("width")/2;
+	  ypos = this.nodes[i]["y"] + dy + node.attr("height")/2;
+	  var textnode = this.paper.getById(this.nodes[i]["child"]["text"]);
+	  textnode.attr({x: textnode.attr("x")+ dx, y: textnode.attr("y") + dy});
+	  //banditLogger.DEBUG("redraw links for "+i);
+	  if(this.nodes[i]["type"]==CONTAINER) {
+	   // Recursive move
+	   this.moveChilds(i,dx,dy);
+	  }
+	  this.redrawpaths(i);
+	}
+  }
+
+}
 
 // Redraw all path linked to current dragged node
 /**
@@ -578,19 +691,34 @@ BandIt.prototype.redrawpaths = function(nodeid) {
 */
 
 BandIt.prototype.deletenode = function(nodeid) {
-    node = this.paper.getById(nodeid);
+    var node = this.paper.getById(nodeid);
 	banditLogger.DEBUG("delete node "+node.id);
         // callbacks
         for(var i in this.deleteCallbacks) {
           this.deleteCallbacks[i](node.id);
         }
 
+
+    if(this.nodes[node.id]["type"] == CONTAINER) {
+     // Delete childs of container
+     for(var cnode in this.nodes) {
+       if(this.nodes[cnode]["parent"] == node.id) {
+         console.log("should delete "+cnode);
+         this.deletenode(cnode);
+       }
+     }
+    
+    }
+
 	paths = this.outlinks[node.id];
 	// Delete text
-	text = this.paper.getById(this.nodes[node.id]["child"]["text"]);
-	if(text!=null) {
+	if(this.nodes[node.id]!=null) {
+	  text = this.paper.getById(this.nodes[node.id]["child"]["text"]);
+	  if(text!=null) {
 		text.remove();
+	  }
 	}
+
 	// Remove paths linked to node, if any
 	for(var i in paths) {
 		if(paths[i]!=null) {
@@ -611,6 +739,7 @@ BandIt.prototype.deletenode = function(nodeid) {
 
 	delete this.nodes[node.id];
 	node.remove();
+
 
 } // end deletenode
 
@@ -674,6 +803,7 @@ BandIt.prototype.redrawpath = function(link,node) {
 	xpos = node.attr("x") + node.attr("width")/2;
 	ypos = node.attr("y") + node.attr("height")/2;
 	path.attr("path","M"+xpos+","+ypos+"L"+xend+","+yend);
+
         arrowdirection = this.paths[path.id]["direction"];
 	if(arrowdirection!=node.id) { 
           newarrow = this.arrow(xpos,ypos,xend,yend,10);
@@ -841,6 +971,7 @@ BandIt.prototype.load = function (data,clean) {
   }
   var wlinks = {}; // list of node id / node names to link with
   var wnodes = {}; // list of node name/node id pairs
+  var wparents = {} // parent reference for containers
   this.name = wflow["workflow"]["name"];
   this.description = wflow["workflow"]["description"];
   for(var node in wflow["workflow"]) {
@@ -860,10 +991,20 @@ BandIt.prototype.load = function (data,clean) {
       newnodeid = rootnodeid;
     }
     else {
-      var newnode = this.add(node,wflow["workflow"][node]["graph"]);
+      var newnode;
+      if(wflow["workflow"][node]["type"]!=null && wflow["workflow"][node]["type"]==CONTAINER) {
+        newnode = this.addContainer(node,wflow["workflow"][node]["graph"]);
+      }
+      else {
+        newnode = this.add(node,wflow["workflow"][node]["graph"]);
+      }
       banditLogger.DEBUG("Load node: "+node+","+newnode.id);
       for(var prop in this.properties) {
         this.nodes[newnode.id]["properties"][prop]=wflow["workflow"][node][prop];
+      }
+      // is node contained in container?
+      if(wflow["workflow"][node]["parent"]!=null) {
+        wparents[newnode.id] = wflow["workflow"][node]["parent"];
       }
       wnodes[node] = newnode.id;
       newnodeid = newnode.id;
@@ -875,6 +1016,17 @@ BandIt.prototype.load = function (data,clean) {
       wlinks[newnodeid] = nextnodes; // register future links
     }
   } // end for wflow
+  
+  // Set parents
+  for(var wparent in wparents) {
+    banditLogger.DEBUG("Set parent of node "+wparent);
+    for(var containernode in this.nodes) {
+      if(this.nodes[containernode]["properties"]["name"] == wparents[wparent]) {
+        this.nodes[wparent]["parent"] = containernode;
+        break;
+      }
+    }
+  }
   
   // Add the links
   for(var wlink in wlinks) {
@@ -918,6 +1070,8 @@ BandIt.prototype.exportGraphML = function() {
     graph += '<key id="prop'+i+'" for="node" attr.name="'+key+'" attr.type="string"><default>'+this.properties[key]+'</default></key>\n';
     i += 1;
   }
+  graph += '<key id="type" for="node" attr.name="type" attr.type="string"><default></default></key>';
+  graph += '<key id="parent" for="node" attr.name="parent" attr.type="string"><default></default></key>';
   graph += '<graph id="'+this.name+'" edgedefault="directed">\n';
   graph += '<desc>'+this.description+'</desc>';
   // Now manage nodes
@@ -928,12 +1082,20 @@ BandIt.prototype.exportGraphML = function() {
     for(var prop in node["properties"]) {
         graph += '<data key="'+prop+'">'+node["properties"][prop]+'</data>\n';
     }
+    if(node["type"]==CONTAINER) {
+      graph += '<data key="type">'+CONTAINER+'</data>\n';
+    }
+    if(node["parent"]!=null) {
+      graph += '<data key="parent">'+this.nodes[node["parent"]]["properties"]["name"]+'</data>\n';
+    }
+    
+    
     graph += '</node>\n';
     // Now manage links
     var nexts = this.outlinks[i];
 
     if(node["properties"]["name"]!="root") {
-      if(this.inlinks[i]==undefined) { alert("Warning, the node "+node["properties"]["name"]+" is not linked to root node");}
+      if(this.inlinks[i]==undefined && node["type"]!=CONTAINER) { alert("Warning, the node "+node["properties"]["name"]+" is not linked to root node");}
     }
     var next = "";
     var nbnext = 0;
@@ -980,7 +1142,7 @@ BandIt.prototype.export = function() {
     
     if(node["properties"]["name"]!="root") {
       //banditLogger.DEBUG(this.inlinks[i]);
-      if(this.inlinks[i]==undefined) { alert("Warning, the node "+node["properties"]["name"]+" is not linked to root node");}
+      if(this.inlinks[i]==undefined && node["type"]!=CONTAINER) { alert("Warning, the node "+node["properties"]["name"]+" is not linked to root node");}
     }
      
     var next = "";
@@ -995,7 +1157,15 @@ BandIt.prototype.export = function() {
       }
     }
     nodeprops["next"] = next;
-    // TODO add next elts
+    
+    if(node["type"]==CONTAINER) {
+      nodeprops["type"] = CONTAINER;
+    }
+    
+    if(node["parent"]!=null) {
+      nodeprops["parent"] = this.nodes[node["parent"]]["properties"]["name"];
+    }
+
     exportobject["workflow"][node["properties"]["name"]] = nodeprops;
   }
   banditLogger.DEBUG(JSON.stringify(exportobject));
