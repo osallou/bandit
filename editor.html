@@ -103,11 +103,11 @@ bandit.add("root", { fill: "#6E6E6E" });
 
 updatemode(0);
 
-$('#node').click(function() {
+$('#nodet').click(function() {
    $("#node0").toggle();
 });
 
-$('#nodeattrs').click(function() {
+$('#nodeattrst').click(function() {
    $("#nodeattrs0").toggle();
 });
 
@@ -288,8 +288,8 @@ holder.ondrop = function (e) {
 <div class="tool" id="clean"><img title="clean worflow" alt="clean worflow" src="images/clean.png"/></div>
 </div>
 <div class="editor" id="myeditor"></div>
-<div id="node"><div>Node [toggle]</div><div id="node0"></div></div>
-<div id="nodeattrs"><div>Graphics [toggle]</div><div id="nodeattrs0"></div></div>
+<div id="node"><div id="nodet">Node [toggle]</div><div id="node0"></div></div>
+<div id="nodeattrs"><div id="nodeattrst">Graphics [toggle]</div><div id="nodeattrs0"></div></div>
 <div id="dialogdiv" title="Save"></div>
 </body>
 </html>
