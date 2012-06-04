@@ -1,6 +1,9 @@
 body { font-family: 'Permanent Marker', cursive; }
 .header img { vertical-align: middle; margin: 10px; }
 .tool { float: left; width: 32px; height: 32px; margin: 5px; }
+
+.tool img:hover { height: 40px; width: 40px; }
+
 .tool img { width: 32px;  }
 .tools:after { clear: both; }
 

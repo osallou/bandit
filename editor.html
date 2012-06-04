@@ -127,6 +127,13 @@ $('#addcontainer').click(function() {
     var container = bandit.addContainer();
 });
 
+$('#undo').click(function() {
+    bandit.undo();
+});
+
+$('#redo').click(function() {
+    bandit.redo();
+});
 
 $('#link').click(function() {
     updatemode(1);
@@ -296,6 +303,8 @@ holder.ondrop = function (e) {
 <div class="tool" id="save"><img title="save" alt="save" src="images/save.png"/></div>
 <div class="tool" id="savegraphml"><img title="export GraphML" alt="export graphml" src="images/export.png"/></div>
 <div class="tool" id="clean"><img title="clean worflow" alt="clean worflow" src="images/clean.png"/></div>
+<div class="tool" id="undo">Undo</div>
+<div class="tool" id="redo">Redo</div>
 </div>
 <div class="editor" id="myeditor"></div>
 <div id="node"><div id="nodet">Node [toggle]</div><div id="node0"></div></div>

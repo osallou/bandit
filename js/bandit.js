@@ -39,7 +39,7 @@ function BandIt(diveditor,width,height) {
 	this.zoom = 1;
 	// Node properties object
 	this.properties = {};
-        this.options = {};
+    this.options = {};
 
 	this.selectCallbacks = [];
 	this.deleteCallbacks = [];
@@ -54,6 +54,12 @@ function BandIt(diveditor,width,height) {
 	this.selectiony = -1;
 	// contains the list of node ids selected
 	this.selectnodes = [];
+	
+	// Record actions for undo/redo
+	this.recordactions = true;
+	this.action = -1;
+	this.actions = [];
+	this.maxactions = 100;
 	
 	mybandit = this;
 	$('#'+diveditor).mousedown(function(e) {
@@ -179,6 +185,16 @@ function BandIt(diveditor,width,height) {
 	    mybandit.selectiony = -1;
 	});
 }
+
+/**
+* Sets undo/redo buffer size
+* @method setUndoRedo
+* @param {int} Buffer size
+*/
+BandIt.prototype.setUndoRedo = function(max) {
+  this.maxactions = max;
+}
+
 
 /**
 * Clear group selection
@@ -352,10 +368,12 @@ BandIt.prototype.setProperties = function(nodeid,props) {
 		this.nodes[node.id]["child"]["text"]=nodetext.id;
     }
 	this.nodes[nodeid]["properties"] = props;
+	this.newaction();
 }
 
 BandIt.prototype.setAttributes = function(nodeid,attrs) {
     this.paper.getById(nodeid).attr(attrs);
+    this.newaction();
 }
 
 /**
@@ -414,6 +432,8 @@ BandIt.prototype.link = function(startnodeid,endnodeid) {
     this.outlinks[startnode.id] = [];
   }
   this.outlinks[startnode.id].push( { path : path.id, node : endnode.id });
+  
+  this.newaction();
   return path.id;
 }
 
@@ -466,6 +486,8 @@ BandIt.prototype.addContainer = function(name,attrs) {
 	node.attr("fill","#01DF01");
 	node.toBack();
 	this.nodes[node.id]["type"]=CONTAINER;
+	this.action--; // Move back because has been registered as a node
+	this.newaction();
     return node;
 }
 
@@ -644,6 +666,7 @@ BandIt.prototype.add = function(name,attrs) {
 		   }
 		  }
 		}
+		mybandit.newaction();
 	};
 
 	node.drag(move,start,up);
@@ -652,6 +675,8 @@ BandIt.prototype.add = function(name,attrs) {
       for(var i in mybandit.addCallbacks) {
         mybandit.addCallbacks[i](node.id);
       }
+
+    this.newaction();
 
 	return node;
 
@@ -767,7 +792,8 @@ BandIt.prototype.deletenode = function(nodeid) {
 
 	delete this.nodes[node.id];
 	node.remove();
-
+	
+	this.newaction();
 
 } // end deletenode
 
@@ -802,6 +828,8 @@ BandIt.prototype.deletepath = function(path) {
         arrow = this.paths[path.id]["arrow"];
         this.paper.getById(arrow).remove();
 	path.remove();
+	
+	this.newaction();
 
 } // end deletepath
 
@@ -865,7 +893,7 @@ BandIt.prototype.zoomIn = function() {
 			mybandit.redrawpaths(el.id);
 			}
 			});
-
+	this.newaction();
 }
 
 /**
@@ -889,7 +917,7 @@ BandIt.prototype.zoomOut = function() {
 			mybandit.redrawpaths(el.id);
 			}
 			});
-
+	this.newaction();
 }
 
 /**
@@ -910,6 +938,7 @@ BandIt.prototype.moveLeft = function(step) {
 			mybandit.redrawpaths(el.id);
 			}
 			});
+	this.newaction();
 }
 
 /**
@@ -929,6 +958,7 @@ BandIt.prototype.moveRight = function(step) {
 			mybandit.redrawpaths(el.id);
 			}
 			});
+	this.newaction();
 }
 
 /**
@@ -948,6 +978,7 @@ BandIt.prototype.moveUp = function(step) {
 			mybandit.redrawpaths(el.id);
 			}
 			});
+	this.newaction();
 }
 
 /**
@@ -967,6 +998,7 @@ BandIt.prototype.moveDown = function(step) {
 			mybandit.redrawpaths(el.id);
 			}
 			});
+	this.newaction();
 }
 
 /**
@@ -981,6 +1013,9 @@ BandIt.prototype.clean = function() {
 	this.inlinks = {};
 	this.paths = {};
 	this.paper.clear();
+	
+	this.newaction();
+	
 }
 
 /**
@@ -1082,6 +1117,8 @@ BandIt.prototype.zoomFit = function() {
     this.zoomIn();
     this.zoomFit();
   }
+  
+  this.newaction();
 }
 
 /**
@@ -1145,7 +1182,8 @@ BandIt.prototype.exportGraphML = function() {
 * @method export
 * @return {String} YAML export of the workflow
 */
-BandIt.prototype.export = function() {
+BandIt.prototype.export = function(silent) {
+  var is_silent = pick(silent,false);
   var exportobject = {};
   exportobject["options"] = {};
   for(var option in this.options) {
@@ -1170,7 +1208,7 @@ BandIt.prototype.export = function() {
     
     if(node["properties"]["name"]!="root") {
       //banditLogger.DEBUG(this.inlinks[i]);
-      if(this.inlinks[i]==undefined && node["type"]!=CONTAINER) { alert("Warning, the node "+node["properties"]["name"]+" is not linked to root node");}
+      if(this.inlinks[i]==undefined && node["type"]!=CONTAINER && !is_silent) { alert("Warning, the node "+node["properties"]["name"]+" is not linked to root node");}
     }
      
     var next = "";
@@ -1202,7 +1240,51 @@ BandIt.prototype.export = function() {
 
 }
 
+/**
+* Record a new action for undo/redo.
+* Not yet implemented: move, delete
+* @method newaction
+*/
+BandIt.prototype.newaction = function () {
+  if(this.actions.length>this.maxactions) {
+    this.actions.pop();
+  }
+  if(this.recordactions) {
+    this.action++;
+    banditLogger.DEBUG("Record new action");
+    this.actions[this.action]=$.base64.encode(this.export(true));
+  }
+}
 
+/**
+* Undo
+* @method undo last action
+*/
+BandIt.prototype.undo = function() {
+ if(this.action>0) {
+   this.action--;
+   var undo_action = this.actions[this.action];
+   banditLogger.DEBUG("undo "+this.action);
+   this.recordactions = false;
+   this.load(undo_action,true);
+   this.recordactions = true;
+ }
+}
+
+/**
+* Redo
+* @method redo last action
+*/
+BandIt.prototype.redo = function() {
+ if(this.action<this.actions.length-1) {
+   this.action++;
+   var redo_action = this.actions[this.action];
+   banditLogger.DEBUG("redo "+this.action);
+   this.recordactions = false;
+   this.load(redo_action,true);
+   this.recordactions = true;
+ }
+}
 
 /**
 * Eval an argument.
