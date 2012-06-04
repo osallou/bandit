@@ -124,7 +124,7 @@ $('#add').click(function() {
 
 $('#addcontainer').click(function() {
     updatemode(0);
-    bandit.addContainer();
+    var container = bandit.addContainer();
 });
 
 
@@ -133,7 +133,8 @@ $('#link').click(function() {
 });
 
 $('#save').click(function() {
-  var save = $.base64.encode(bandit.export());
+  var wflow = bandit.export();
+  var save = $.base64.encode(wflow);
   $("#dialogdiv").text(save);
   $("#dialogdiv").dialog();
 });

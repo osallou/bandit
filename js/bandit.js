@@ -303,6 +303,34 @@ BandIt.prototype.setOptions = function(options) {
 }
 
 /**
+* Get node properties
+* @method getProperties
+* @param nodeid {int} ID of the node
+* @return {Object} Array of properties for the node
+*/
+BandIt.prototype.getProperties = function(nodeid) {
+  if(this.nodes[nodeid]!=null) {
+    return this.nodes[nodeid]["properties"];
+  }
+  else { return null; }
+}
+
+/**
+* Get a node property
+* @method getProperty
+* @param nodeid {int} ID of the node
+* @param key {String} Property key
+* @return {String} Property value
+*/
+BandIt.prototype.getProperty = function(nodeid,key) {
+  if(this.nodes[nodeid]!=null) {
+    return this.nodes[nodeid]["properties"][key];
+  }
+  else { return null; }
+}
+
+
+/**
 * Update the properties of a node
 * @method setProperties
 * @param nodeid {int} ID of the node
