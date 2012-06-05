@@ -3,6 +3,7 @@ BandIt : JavaScript Workflow editor based on RaphaelJS
 History:
 
  01/06/12 - Release 0.1: First official release
+ 05/06/12 - Release 0.2: Add containers, undo/redo
 
 
 
@@ -22,6 +23,7 @@ Features:
  * save/load
  * custom properties
  * containers (a virtual node contains other nodes)
+ * undo/redo
 
 Using:
 JQuery: http://jquery.com/
@@ -36,5 +38,4 @@ Demo icons from openclipart.org
 Roadmap:
 
  * copy/paste
- * undo/redo
 

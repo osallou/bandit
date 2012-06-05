@@ -22,3 +22,4 @@ textarea { vertical-align: middle; }
 
 #holder { padding: 5px; margin-bottom: 5px; width: 100px; border-style: dashed; background-color: lightgrey; opacity: 0.8; float: right; margin-right: 100px; }
 
+.props input { width: 90%; }

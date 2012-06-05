@@ -54,12 +54,13 @@ bandit.registerSelect(function(nodeid,properties) {
         props += '<input type="hidden" id="bandnodeid" name="bandnodeid" value="'+nodeid+'"/>';
         for (var i in properties)
         {
-                props += '<div><label for="'+i+'">'+i+'</label>';
+                props += '<div class="props"><label for="'+i+'">'+i+'</label>';
                 props += '<input type="text" id="'+i+'" name="'+i+'" value=""/></div>';
         }
-        props += '<input type="submit" id="bandnodeupdate" value="update"/></div>';
-
+        //props += '<input type="submit" id="bandnodeupdate" value="update"/></div>';
+		props += '<button id="bandnodeupdate">update</button></div>';
         $("#node0").html(props);
+        $("#bandnodeupdate").button();
         for(var i in properties)
         {
           $("#"+i).val(properties[i]);
@@ -71,13 +72,14 @@ bandit.registerSelect(function(nodeid,properties) {
         for (var i in objattr)
         {
              if(jQuery.inArray(i,list)>-1) {
-                props += '<div><label for="'+i+'">'+i+'</label>';
+                props += '<div class="props"><label for="'+i+'">'+i+'</label>';
                 props += '<input type="text" id="'+i+'" name="'+i+'" value=""/></div>';
              }
         }
-        props += '<input type="submit" id="bandnodeattrupdate" value="update"/></div>';
-
+        //props += '<input type="submit" id="bandnodeattrupdate" value="update"/></div>';
+		props += '<button id="bandnodeattrupdate">update</button></div>';
         $("#nodeattrs0").html(props);
+        $("#bandnodeattrupdate").button();
         for(var i in objattr)
         {
           if(jQuery.inArray(i,list)>-1) {

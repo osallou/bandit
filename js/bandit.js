@@ -1253,6 +1253,10 @@ BandIt.prototype.newaction = function () {
     this.action++;
     banditLogger.DEBUG("Record new action");
     this.actions[this.action]=$.base64.encode(this.export(true));
+    if(this.actions.length>this.action) {
+      // empty array after this point
+      this.actions[this.action+1]=null;
+    }
   }
 }
 
@@ -1261,7 +1265,7 @@ BandIt.prototype.newaction = function () {
 * @method undo last action
 */
 BandIt.prototype.undo = function() {
- if(this.action>0) {
+ if(this.action>0 && this.actions[this.action-1]!=null) {
    this.action--;
    var undo_action = this.actions[this.action];
    banditLogger.DEBUG("undo "+this.action);
@@ -1276,7 +1280,7 @@ BandIt.prototype.undo = function() {
 * @method redo last action
 */
 BandIt.prototype.redo = function() {
- if(this.action<this.actions.length-1) {
+ if(this.action<this.actions.length-1 && this.actions[this.action+1]!=null) {
    this.action++;
    var redo_action = this.actions[this.action];
    banditLogger.DEBUG("redo "+this.action);
