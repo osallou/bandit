@@ -848,12 +848,9 @@ BandIt.prototype.redrawpath = function(link,node) {
 		return;
 	}
 	path = this.paper.getById(link["path"]);
-	banditLogger.DEBUG("path:" + path.id);
-        arrow = this.paths[path.id]["arrow"];
-        banditLogger.DEBUG("arrow:" + arrow);
-        this.paper.getById(arrow).remove();
+    arrow = this.paths[path.id]["arrow"];
+    this.paper.getById(arrow).remove();
 	remotenode = this.paper.getById(link["node"]);
-	banditLogger.DEBUG("remote:" + remotenode.id);
 	xend = remotenode.attr("x") + remotenode.attr("width")/2;
 	yend = remotenode.attr("y") + remotenode.attr("height")/2;
 	xpos = node.attr("x") + node.attr("width")/2;
@@ -1127,7 +1124,6 @@ BandIt.prototype.zoomFit = function() {
 * @return {String} GraphML workflow
 */
 BandIt.prototype.exportGraphML = function() {
-  console.log("not yet implemented");
   var graph = '<?xml version="1.0" encoding="UTF-8"?><graphml xmlns="http://graphml.graphdrawing.org/xmlns" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">\n';
   i = 0;
   // Define properties
@@ -1194,7 +1190,6 @@ BandIt.prototype.export = function(silent) {
   exportobject["workflow"]["description"] = this.description;
   for(var i in this.nodes)  {
     var node = this.nodes[i];
-    banditLogger.DEBUG("export node "+i);
     var attrs = this.paper.getById(i).attr();
     nodeprops = {};
     nodeprops["graph"] = attrs;
@@ -1234,8 +1229,11 @@ BandIt.prototype.export = function(silent) {
 
     exportobject["workflow"][node["properties"]["name"]] = nodeprops;
   }
-  banditLogger.DEBUG(JSON.stringify(exportobject));
-
+  
+  if(!is_silent) {
+    banditLogger.DEBUG(JSON.stringify(exportobject));
+  }
+  
   return JSON.stringify(exportobject);
 
 }
