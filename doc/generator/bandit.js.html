@@ -4,11 +4,11 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>API: BandIt   bandit.js  (YUI Library)</title>
 
-	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1338842913.47" />
-	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1338842913.47" />
+	<link rel="stylesheet" type="text/css" href="assets/reset-fonts-grids-min.css?stamp=1339576484.38" />
+	<link rel="stylesheet" type="text/css" href="assets/api.css?stamp=1339576484.38" />
 
-    <script type="text/javascript" src="assets/api-js?stamp=1338842913.47"></script>
-    <script type="text/javascript" src="assets/ac-js?stamp=1338842913.47"></script>
+    <script type="text/javascript" src="assets/api-js?stamp=1339576484.38"></script>
+    <script type="text/javascript" src="assets/ac-js?stamp=1339576484.38"></script>
 </head>
 
 <body id="yahoo-com">
@@ -417,12 +417,12 @@
 		<span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;child&quot;</span><span class="p">][</span><span class="s2">&quot;text&quot;</span><span class="p">]</span><span class="o">=</span><span class="nx">nodetext</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
     <span class="p">}</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">nodeid</span><span class="p">][</span><span class="s2">&quot;properties&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">props</span><span class="p">;</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;setproperties&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">setAttributes</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">,</span><span class="nx">attrs</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="nx">attrs</span><span class="p">);</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;setattributes&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -462,7 +462,7 @@
   <span class="nx">yend</span> <span class="o">=</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span> <span class="p">;</span>
   <span class="nx">path</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">path</span><span class="p">(</span><span class="s2">&quot;M&quot;</span><span class="o">+</span><span class="nx">xpos</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">ypos</span><span class="o">+</span><span class="s2">&quot;L&quot;</span><span class="o">+</span><span class="nx">xend</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">yend</span><span class="p">);</span>
   <span class="nx">arrowpath</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">arrow</span><span class="p">(</span><span class="nx">xpos</span><span class="p">,</span><span class="nx">ypos</span><span class="p">,</span><span class="nx">xend</span><span class="p">,</span><span class="nx">yend</span><span class="p">,</span><span class="mi">10</span><span class="p">);</span>
-  <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;add arrow &quot;</span><span class="o">+</span><span class="nx">arrowpath</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+  <span class="c1">//banditLogger.DEBUG(&quot;add arrow &quot;+arrowpath.id);</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">]</span> <span class="o">=</span>  <span class="p">{</span> <span class="nx">arrow</span> <span class="o">:</span> <span class="nx">arrowpath</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">direction</span><span class="o">:</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">id</span> <span class="p">};</span>
   <span class="nx">mybandit</span> <span class="o">=</span> <span class="k">this</span><span class="p">;</span>
   <span class="nx">path</span><span class="p">.</span><span class="nx">mousedown</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
@@ -482,7 +482,7 @@
   <span class="p">}</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">outlinks</span><span class="p">[</span><span class="nx">startnode</span><span class="p">.</span><span class="nx">id</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span> <span class="p">{</span> <span class="nx">path</span> <span class="o">:</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">,</span> <span class="nx">node</span> <span class="o">:</span> <span class="nx">endnode</span><span class="p">.</span><span class="nx">id</span> <span class="p">});</span>
   
-  <span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;link&quot;</span><span class="p">);</span>
   <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">;</span>
 <span class="p">}</span>
 
@@ -536,7 +536,7 @@
 	<span class="nx">node</span><span class="p">.</span><span class="nx">toBack</span><span class="p">();</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;type&quot;</span><span class="p">]</span><span class="o">=</span><span class="nx">CONTAINER</span><span class="p">;</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">--</span><span class="p">;</span> <span class="c1">// Move back because has been registered as a node</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;addcontainer&quot;</span><span class="p">);</span>
     <span class="k">return</span> <span class="nx">node</span><span class="p">;</span>
 <span class="p">}</span>
 
@@ -715,7 +715,10 @@
 		   <span class="p">}</span>
 		  <span class="p">}</span>
 		<span class="p">}</span>
-		<span class="nx">mybandit</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+		<span class="k">if</span><span class="p">(</span><span class="nx">mybandit</span><span class="p">.</span><span class="nx">mode</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+	      <span class="c1">// Do not record a move for a link</span>
+		  <span class="nx">mybandit</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;move&quot;</span><span class="p">);</span>
+		<span class="p">}</span>
 	<span class="p">};</span>
 
 	<span class="nx">node</span><span class="p">.</span><span class="nx">drag</span><span class="p">(</span><span class="nx">move</span><span class="p">,</span><span class="nx">start</span><span class="p">,</span><span class="nx">up</span><span class="p">);</span>
@@ -725,7 +728,7 @@
         <span class="nx">mybandit</span><span class="p">.</span><span class="nx">addCallbacks</span><span class="p">[</span><span class="nx">i</span><span class="p">](</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
       <span class="p">}</span>
 
-    <span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;addnode&quot;</span><span class="p">);</span>
 
 	<span class="k">return</span> <span class="nx">node</span><span class="p">;</span>
 
@@ -842,7 +845,7 @@
 	<span class="k">delete</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">node</span><span class="p">.</span><span class="nx">id</span><span class="p">];</span>
 	<span class="nx">node</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
 	
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;deletenode&quot;</span><span class="p">);</span>
 
 <span class="p">}</span> <span class="c1">// end deletenode</span>
 
@@ -878,7 +881,7 @@
         <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">arrow</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
 	<span class="nx">path</span><span class="p">.</span><span class="nx">remove</span><span class="p">();</span>
 	
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;deletepath&quot;</span><span class="p">);</span>
 
 <span class="p">}</span> <span class="c1">// end deletepath</span>
 
@@ -897,12 +900,9 @@
 		<span class="k">return</span><span class="p">;</span>
 	<span class="p">}</span>
 	<span class="nx">path</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">link</span><span class="p">[</span><span class="s2">&quot;path&quot;</span><span class="p">]);</span>
-	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;path:&quot;</span> <span class="o">+</span> <span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
-        <span class="nx">arrow</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;arrow&quot;</span><span class="p">];</span>
-        <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;arrow:&quot;</span> <span class="o">+</span> <span class="nx">arrow</span><span class="p">);</span>
-        <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">arrow</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
+    <span class="nx">arrow</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paths</span><span class="p">[</span><span class="nx">path</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;arrow&quot;</span><span class="p">];</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">arrow</span><span class="p">).</span><span class="nx">remove</span><span class="p">();</span>
 	<span class="nx">remotenode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">link</span><span class="p">[</span><span class="s2">&quot;node&quot;</span><span class="p">]);</span>
-	<span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;remote:&quot;</span> <span class="o">+</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 	<span class="nx">xend</span> <span class="o">=</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 	<span class="nx">yend</span> <span class="o">=</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">remotenode</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
 	<span class="nx">xpos</span> <span class="o">=</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="nx">node</span><span class="p">.</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;width&quot;</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">;</span>
@@ -942,7 +942,7 @@
 			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 			<span class="p">}</span>
 			<span class="p">});</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;zoomin&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -966,7 +966,7 @@
 			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 			<span class="p">}</span>
 			<span class="p">});</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;zoomout&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -987,7 +987,7 @@
 			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 			<span class="p">}</span>
 			<span class="p">});</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;move&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -1007,7 +1007,7 @@
 			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 			<span class="p">}</span>
 			<span class="p">});</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;move&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -1027,7 +1027,7 @@
 			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 			<span class="p">}</span>
 			<span class="p">});</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;move&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -1047,7 +1047,7 @@
 			<span class="nx">mybandit</span><span class="p">.</span><span class="nx">redrawpaths</span><span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
 			<span class="p">}</span>
 			<span class="p">});</span>
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;move&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -1063,9 +1063,24 @@
 	<span class="k">this</span><span class="p">.</span><span class="nx">paths</span> <span class="o">=</span> <span class="p">{};</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">clear</span><span class="p">();</span>
 	
-	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+	<span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;clean&quot;</span><span class="p">);</span>
 	
 <span class="p">}</span>
+
+<span class="cm">/**</span>
+<span class="cm">* Imports a workflow, resetting undo/redo actions.</span>
+<span class="cm">* @method import</span>
+<span class="cm">* @param data {String} Workflow data</span>
+<span class="cm">* @param clean {boolean} Clean exiting data or append to existing workflow</span>
+<span class="cm">* @return {Array} Name and Description of the workflow</span>
+<span class="cm">*/</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="kr">import</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">clean</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">res</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">clean</span><span class="p">);</span>
+  <span class="nx">bandit</span><span class="p">.</span><span class="nx">actions</span><span class="o">=</span><span class="p">[];</span>
+  <span class="nx">bandit</span><span class="p">.</span><span class="nx">action</span><span class="o">=-</span><span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
+<span class="p">}</span>
+
 
 <span class="cm">/**</span>
 <span class="cm">* Loads a workflow</span>
@@ -1077,7 +1092,9 @@
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">load</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">data</span><span class="p">,</span><span class="nx">clean</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// If not clean, skip root</span>
   <span class="nx">wflow</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">$</span><span class="p">.</span><span class="nx">base64</span><span class="p">.</span><span class="nx">decode</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+  <span class="kd">var</span> <span class="nx">maxnodeid</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
   <span class="k">this</span><span class="p">.</span><span class="nx">zoomFit</span><span class="p">();</span>
+
   <span class="k">if</span><span class="p">(</span><span class="nx">clean</span><span class="p">)</span> <span class="p">{</span>
 	<span class="k">this</span><span class="p">.</span><span class="nx">clean</span><span class="p">();</span>
   <span class="p">}</span>
@@ -1111,6 +1128,14 @@
         <span class="nx">newnode</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="nx">node</span><span class="p">,</span><span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="s2">&quot;graph&quot;</span><span class="p">]);</span>
       <span class="p">}</span>
       <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;Load node: &quot;</span><span class="o">+</span><span class="nx">node</span><span class="o">+</span><span class="s2">&quot;,&quot;</span><span class="o">+</span><span class="nx">newnode</span><span class="p">.</span><span class="nx">id</span><span class="p">);</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">node</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="s2">&quot;node&quot;</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">patt</span><span class="o">=</span><span class="sr">/node(\d+)/</span><span class="p">;</span>
+        <span class="kd">var</span> <span class="nx">nodeid</span> <span class="o">=</span> <span class="nx">patt</span><span class="p">.</span><span class="nx">exec</span><span class="p">(</span><span class="nx">node</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">.</span><span class="nx">length</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+         <span class="kd">var</span> <span class="nx">newid</span> <span class="o">=</span> <span class="nb">parseInt</span><span class="p">(</span><span class="nx">nodeid</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+         <span class="k">if</span><span class="p">(</span><span class="nx">newid</span><span class="o">&gt;</span><span class="nx">maxnodeid</span><span class="p">)</span> <span class="p">{</span> <span class="nx">maxnodeid</span> <span class="o">=</span> <span class="nx">newid</span><span class="p">;</span> <span class="p">}</span>
+        <span class="p">}</span>
+      <span class="p">}</span>
       <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">prop</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">properties</span><span class="p">)</span> <span class="p">{</span>
         <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">newnode</span><span class="p">.</span><span class="nx">id</span><span class="p">][</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="nx">prop</span><span class="p">]</span><span class="o">=</span><span class="nx">wflow</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">][</span><span class="nx">prop</span><span class="p">];</span>
       <span class="p">}</span>
@@ -1149,6 +1174,11 @@
       <span class="k">this</span><span class="p">.</span><span class="nx">link</span><span class="p">(</span><span class="nx">originnodeid</span><span class="p">,</span><span class="nx">remotenodeid</span><span class="p">);</span> 
     <span class="p">}</span>
   <span class="p">}</span>
+  
+  <span class="k">this</span><span class="p">.</span><span class="nx">count</span> <span class="o">=</span> <span class="nx">maxnodeid</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  
+
+  
   <span class="k">return</span> <span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span><span class="k">this</span><span class="p">.</span><span class="nx">workflow</span><span class="p">];</span>
 <span class="p">}</span>
 
@@ -1167,7 +1197,7 @@
     <span class="k">this</span><span class="p">.</span><span class="nx">zoomFit</span><span class="p">();</span>
   <span class="p">}</span>
   
-  <span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">();</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">newaction</span><span class="p">(</span><span class="s2">&quot;zoomfit&quot;</span><span class="p">);</span>
 <span class="p">}</span>
 
 <span class="cm">/**</span>
@@ -1176,7 +1206,6 @@
 <span class="cm">* @return {String} GraphML workflow</span>
 <span class="cm">*/</span>
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">exportGraphML</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;not yet implemented&quot;</span><span class="p">);</span>
   <span class="kd">var</span> <span class="nx">graph</span> <span class="o">=</span> <span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;graphml xmlns=&quot;http://graphml.graphdrawing.org/xmlns&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://graphml.graphdrawing.org/xmlnshttp://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd&quot;&gt;\n&#39;</span><span class="p">;</span>
   <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
   <span class="c1">// Define properties</span>
@@ -1243,7 +1272,6 @@
   <span class="nx">exportobject</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="s2">&quot;description&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">description</span><span class="p">;</span>
   <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="k">in</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">)</span>  <span class="p">{</span>
     <span class="kd">var</span> <span class="nx">node</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">nodes</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
-    <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;export node &quot;</span><span class="o">+</span><span class="nx">i</span><span class="p">);</span>
     <span class="kd">var</span> <span class="nx">attrs</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">paper</span><span class="p">.</span><span class="nx">getById</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">attr</span><span class="p">();</span>
     <span class="nx">nodeprops</span> <span class="o">=</span> <span class="p">{};</span>
     <span class="nx">nodeprops</span><span class="p">[</span><span class="s2">&quot;graph&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">attrs</span><span class="p">;</span>
@@ -1283,8 +1311,11 @@
 
     <span class="nx">exportobject</span><span class="p">[</span><span class="s2">&quot;workflow&quot;</span><span class="p">][</span><span class="nx">node</span><span class="p">[</span><span class="s2">&quot;properties&quot;</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">nodeprops</span><span class="p">;</span>
   <span class="p">}</span>
-  <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">exportobject</span><span class="p">));</span>
-
+  
+  <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">is_silent</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">exportobject</span><span class="p">));</span>
+  <span class="p">}</span>
+  
   <span class="k">return</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">exportobject</span><span class="p">);</span>
 
 <span class="p">}</span>
@@ -1293,15 +1324,20 @@
 <span class="cm">* Record a new action for undo/redo.</span>
 <span class="cm">* Not yet implemented: move, delete</span>
 <span class="cm">* @method newaction</span>
+<span class="cm">* @param type {string} Optional action type (for debug)</span>
 <span class="cm">*/</span>
-<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">newaction</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">newaction</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">.</span><span class="nx">length</span><span class="o">&gt;</span><span class="k">this</span><span class="p">.</span><span class="nx">maxactions</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
   <span class="p">}</span>
   <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">recordactions</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">++</span><span class="p">;</span>
-    <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;Record new action&quot;</span><span class="p">);</span>
+    <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;Record new action: &quot;</span><span class="o">+</span><span class="nx">type</span><span class="p">);</span>
     <span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="p">]</span><span class="o">=</span><span class="nx">$</span><span class="p">.</span><span class="nx">base64</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="kr">export</span><span class="p">(</span><span class="kc">true</span><span class="p">));</span>
+    <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">.</span><span class="nx">length</span><span class="o">&gt;</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// empty array after this point</span>
+      <span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="kc">null</span><span class="p">;</span>
+    <span class="p">}</span>
   <span class="p">}</span>
 <span class="p">}</span>
 
@@ -1310,7 +1346,7 @@
 <span class="cm">* @method undo last action</span>
 <span class="cm">*/</span>
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">undo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
- <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+ <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">&gt;</span><span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
    <span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">--</span><span class="p">;</span>
    <span class="kd">var</span> <span class="nx">undo_action</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="p">];</span>
    <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;undo &quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="p">);</span>
@@ -1325,7 +1361,7 @@
 <span class="cm">* @method redo last action</span>
 <span class="cm">*/</span>
 <span class="nx">BandIt</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">redo</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
- <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+ <span class="k">if</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">&lt;</span><span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">.</span><span class="nx">length</span><span class="o">-</span><span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">!=</span><span class="kc">null</span><span class="p">)</span> <span class="p">{</span>
    <span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="o">++</span><span class="p">;</span>
    <span class="kd">var</span> <span class="nx">redo_action</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">actions</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="p">];</span>
    <span class="nx">banditLogger</span><span class="p">.</span><span class="nx">DEBUG</span><span class="p">(</span><span class="s2">&quot;redo &quot;</span><span class="o">+</span><span class="k">this</span><span class="p">.</span><span class="nx">action</span><span class="p">);</span>
@@ -1445,7 +1481,7 @@
 	</div>
 </div>
 <script type="text/javascript">
-    ALL_YUI_PROPS = [{"url": "BandIt.html#method_add", "access": "", "host": "BandIt", "type": "method", "name": "add"}, {"url": "BandIt.html#method_addContainer", "access": "", "host": "BandIt", "type": "method", "name": "addContainer"}, {"url": "BandIt.html#method_arrow", "access": "", "host": "BandIt", "type": "method", "name": "arrow"}, {"url": "BandIt.html#method_clean", "access": "", "host": "BandIt", "type": "method", "name": "clean"}, {"url": "BandIt.html#method_clearSelection", "access": "", "host": "BandIt", "type": "method", "name": "clearSelection"}, {"url": "BanditLogger.html#method_DEBUG", "access": "", "host": "BanditLogger", "type": "method", "name": "DEBUG"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BanditLogger.html#method_ERROR", "access": "", "host": "BanditLogger", "type": "method", "name": "ERROR"}, {"url": "BandIt.html#method_export", "access": "", "host": "BandIt", "type": "method", "name": "export"}, {"url": "BandIt.html#method_exportGraphML", "access": "", "host": "BandIt", "type": "method", "name": "exportGraphML"}, {"url": "BandIt.html#method_getByName", "access": "", "host": "BandIt", "type": "method", "name": "getByName"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#method_getProperties", "access": "", "host": "BandIt", "type": "method", "name": "getProperties"}, {"url": "BandIt.html#method_getProperty", "access": "", "host": "BandIt", "type": "method", "name": "getProperty"}, {"url": "BandIt.html#method_info", "access": "", "host": "BandIt", "type": "method", "name": "info"}, {"url": "BanditLogger.html#method_INFO", "access": "", "host": "BanditLogger", "type": "method", "name": "INFO"}, {"url": "BandIt.html#method_isContainer", "access": "", "host": "BandIt", "type": "method", "name": "isContainer"}, {"url": "BandIt.html#method_link", "access": "", "host": "BandIt", "type": "method", "name": "link"}, {"url": "BandIt.html#method_load", "access": "", "host": "BandIt", "type": "method", "name": "load"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveChidls", "access": "", "host": "BandIt", "type": "method", "name": "moveChidls"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_newaction", "access": "", "host": "BandIt", "type": "method", "name": "newaction"}, {"url": "BandIt.html#method_redo last action", "access": "", "host": "BandIt", "type": "method", "name": "redo last action"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setOptions", "access": "", "host": "BandIt", "type": "method", "name": "setOptions"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_setUndoRedo", "access": "", "host": "BandIt", "type": "method", "name": "setUndoRedo"}, {"url": "BandIt.html#method_undo last action", "access": "", "host": "BandIt", "type": "method", "name": "undo last action"}, {"url": "BandIt.html#method_zoomFit", "access": "", "host": "BandIt", "type": "method", "name": "zoomFit"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
+    ALL_YUI_PROPS = [{"url": "BandIt.html#method_add", "access": "", "host": "BandIt", "type": "method", "name": "add"}, {"url": "BandIt.html#method_addContainer", "access": "", "host": "BandIt", "type": "method", "name": "addContainer"}, {"url": "BandIt.html#method_arrow", "access": "", "host": "BandIt", "type": "method", "name": "arrow"}, {"url": "BandIt.html#method_clean", "access": "", "host": "BandIt", "type": "method", "name": "clean"}, {"url": "BandIt.html#method_clearSelection", "access": "", "host": "BandIt", "type": "method", "name": "clearSelection"}, {"url": "BanditLogger.html#method_DEBUG", "access": "", "host": "BanditLogger", "type": "method", "name": "DEBUG"}, {"url": "BandIt.html#method_deletenode", "access": "", "host": "BandIt", "type": "method", "name": "deletenode"}, {"url": "BandIt.html#method_deletepath", "access": "", "host": "BandIt", "type": "method", "name": "deletepath"}, {"url": "BanditLogger.html#method_ERROR", "access": "", "host": "BanditLogger", "type": "method", "name": "ERROR"}, {"url": "BandIt.html#method_export", "access": "", "host": "BandIt", "type": "method", "name": "export"}, {"url": "BandIt.html#method_exportGraphML", "access": "", "host": "BandIt", "type": "method", "name": "exportGraphML"}, {"url": "BandIt.html#method_getByName", "access": "", "host": "BandIt", "type": "method", "name": "getByName"}, {"url": "BandIt.html#method_getMode", "access": "", "host": "BandIt", "type": "method", "name": "getMode"}, {"url": "BandIt.html#method_getPaper", "access": "", "host": "BandIt", "type": "method", "name": "getPaper"}, {"url": "BandIt.html#method_getProperties", "access": "", "host": "BandIt", "type": "method", "name": "getProperties"}, {"url": "BandIt.html#method_getProperty", "access": "", "host": "BandIt", "type": "method", "name": "getProperty"}, {"url": "BandIt.html#method_import", "access": "", "host": "BandIt", "type": "method", "name": "import"}, {"url": "BandIt.html#method_info", "access": "", "host": "BandIt", "type": "method", "name": "info"}, {"url": "BanditLogger.html#method_INFO", "access": "", "host": "BanditLogger", "type": "method", "name": "INFO"}, {"url": "BandIt.html#method_isContainer", "access": "", "host": "BandIt", "type": "method", "name": "isContainer"}, {"url": "BandIt.html#method_link", "access": "", "host": "BandIt", "type": "method", "name": "link"}, {"url": "BandIt.html#method_load", "access": "", "host": "BandIt", "type": "method", "name": "load"}, {"url": "BandIt.html#property_mode", "access": "", "host": "BandIt", "type": "property", "name": "mode"}, {"url": "BandIt.html#method_moveChidls", "access": "", "host": "BandIt", "type": "method", "name": "moveChidls"}, {"url": "BandIt.html#method_moveDown", "access": "", "host": "BandIt", "type": "method", "name": "moveDown"}, {"url": "BandIt.html#method_moveLeft", "access": "", "host": "BandIt", "type": "method", "name": "moveLeft"}, {"url": "BandIt.html#method_moveRight", "access": "", "host": "BandIt", "type": "method", "name": "moveRight"}, {"url": "BandIt.html#method_moveUp", "access": "", "host": "BandIt", "type": "method", "name": "moveUp"}, {"url": "BandIt.html#method_newaction", "access": "", "host": "BandIt", "type": "method", "name": "newaction"}, {"url": "BandIt.html#method_redo last action", "access": "", "host": "BandIt", "type": "method", "name": "redo last action"}, {"url": "BandIt.html#method_redrawpath", "access": "", "host": "BandIt", "type": "method", "name": "redrawpath"}, {"url": "BandIt.html#method_redrawpaths", "access": "", "host": "BandIt", "type": "method", "name": "redrawpaths"}, {"url": "BandIt.html#method_registerAdd", "access": "", "host": "BandIt", "type": "method", "name": "registerAdd"}, {"url": "BandIt.html#method_registerDelete", "access": "", "host": "BandIt", "type": "method", "name": "registerDelete"}, {"url": "BandIt.html#method_registerSelect", "access": "", "host": "BandIt", "type": "method", "name": "registerSelect"}, {"url": "BandIt.html#method_setDefaultProperties", "access": "", "host": "BandIt", "type": "method", "name": "setDefaultProperties"}, {"url": "BandIt.html#method_setMode", "access": "", "host": "BandIt", "type": "method", "name": "setMode"}, {"url": "BandIt.html#method_setOptions", "access": "", "host": "BandIt", "type": "method", "name": "setOptions"}, {"url": "BandIt.html#method_setProperties", "access": "", "host": "BandIt", "type": "method", "name": "setProperties"}, {"url": "BandIt.html#method_setUndoRedo", "access": "", "host": "BandIt", "type": "method", "name": "setUndoRedo"}, {"url": "BandIt.html#method_undo last action", "access": "", "host": "BandIt", "type": "method", "name": "undo last action"}, {"url": "BandIt.html#method_zoomFit", "access": "", "host": "BandIt", "type": "method", "name": "zoomFit"}, {"url": "BandIt.html#method_zoomIn", "access": "", "host": "BandIt", "type": "method", "name": "zoomIn"}, {"url": "BandIt.html#method_zoomOut", "access": "", "host": "BandIt", "type": "method", "name": "zoomOut"}];
 </script>
 </body>
 </html>

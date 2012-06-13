@@ -131,10 +131,12 @@ $('#addcontainer').click(function() {
 
 $('#undo').click(function() {
     bandit.undo();
+    addMenu();
 });
 
 $('#redo').click(function() {
     bandit.redo();
+    addMenu();
 });
 
 $('#link').click(function() {
@@ -266,7 +268,7 @@ holder.ondrop = function (e) {
 
   reader.onload = (function(theFile) {
         return function(e) {
-          var desc = bandit.load(e.target.result,true);
+          var desc = bandit.import(e.target.result,true);
           $('#wname').val(desc[0]);
           $('#wdesc').val(desc[1]);
         };

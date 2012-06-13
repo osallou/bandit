@@ -368,12 +368,12 @@ BandIt.prototype.setProperties = function(nodeid,props) {
 		this.nodes[node.id]["child"]["text"]=nodetext.id;
     }
 	this.nodes[nodeid]["properties"] = props;
-	this.newaction();
+	this.newaction("setproperties");
 }
 
 BandIt.prototype.setAttributes = function(nodeid,attrs) {
     this.paper.getById(nodeid).attr(attrs);
-    this.newaction();
+    this.newaction("setattributes");
 }
 
 /**
@@ -413,7 +413,7 @@ BandIt.prototype.link = function(startnodeid,endnodeid) {
   yend = endnode.attr("y") + endnode.attr("height")/2 ;
   path = this.paper.path("M"+xpos+","+ypos+"L"+xend+","+yend);
   arrowpath = this.arrow(xpos,ypos,xend,yend,10);
-  banditLogger.DEBUG("add arrow "+arrowpath.id);
+  //banditLogger.DEBUG("add arrow "+arrowpath.id);
   this.paths[path.id] =  { arrow : arrowpath.id, direction: endnode.id };
   mybandit = this;
   path.mousedown(function(e) {
@@ -433,7 +433,7 @@ BandIt.prototype.link = function(startnodeid,endnodeid) {
   }
   this.outlinks[startnode.id].push( { path : path.id, node : endnode.id });
   
-  this.newaction();
+  this.newaction("link");
   return path.id;
 }
 
@@ -487,7 +487,7 @@ BandIt.prototype.addContainer = function(name,attrs) {
 	node.toBack();
 	this.nodes[node.id]["type"]=CONTAINER;
 	this.action--; // Move back because has been registered as a node
-	this.newaction();
+	this.newaction("addcontainer");
     return node;
 }
 
@@ -666,7 +666,10 @@ BandIt.prototype.add = function(name,attrs) {
 		   }
 		  }
 		}
-		mybandit.newaction();
+		if(mybandit.mode != 1) {
+	      // Do not record a move for a link
+		  mybandit.newaction("move");
+		}
 	};
 
 	node.drag(move,start,up);
@@ -676,7 +679,7 @@ BandIt.prototype.add = function(name,attrs) {
         mybandit.addCallbacks[i](node.id);
       }
 
-    this.newaction();
+    this.newaction("addnode");
 
 	return node;
 
@@ -793,7 +796,7 @@ BandIt.prototype.deletenode = function(nodeid) {
 	delete this.nodes[node.id];
 	node.remove();
 	
-	this.newaction();
+	this.newaction("deletenode");
 
 } // end deletenode
 
@@ -829,7 +832,7 @@ BandIt.prototype.deletepath = function(path) {
         this.paper.getById(arrow).remove();
 	path.remove();
 	
-	this.newaction();
+	this.newaction("deletepath");
 
 } // end deletepath
 
@@ -890,7 +893,7 @@ BandIt.prototype.zoomIn = function() {
 			mybandit.redrawpaths(el.id);
 			}
 			});
-	this.newaction();
+	this.newaction("zoomin");
 }
 
 /**
@@ -914,7 +917,7 @@ BandIt.prototype.zoomOut = function() {
 			mybandit.redrawpaths(el.id);
 			}
 			});
-	this.newaction();
+	this.newaction("zoomout");
 }
 
 /**
@@ -935,7 +938,7 @@ BandIt.prototype.moveLeft = function(step) {
 			mybandit.redrawpaths(el.id);
 			}
 			});
-	this.newaction();
+	this.newaction("move");
 }
 
 /**
@@ -955,7 +958,7 @@ BandIt.prototype.moveRight = function(step) {
 			mybandit.redrawpaths(el.id);
 			}
 			});
-	this.newaction();
+	this.newaction("move");
 }
 
 /**
@@ -975,7 +978,7 @@ BandIt.prototype.moveUp = function(step) {
 			mybandit.redrawpaths(el.id);
 			}
 			});
-	this.newaction();
+	this.newaction("move");
 }
 
 /**
@@ -995,7 +998,7 @@ BandIt.prototype.moveDown = function(step) {
 			mybandit.redrawpaths(el.id);
 			}
 			});
-	this.newaction();
+	this.newaction("move");
 }
 
 /**
@@ -1011,9 +1014,24 @@ BandIt.prototype.clean = function() {
 	this.paths = {};
 	this.paper.clear();
 	
-	this.newaction();
+	this.newaction("clean");
 	
 }
+
+/**
+* Imports a workflow, resetting undo/redo actions.
+* @method import
+* @param data {String} Workflow data
+* @param clean {boolean} Clean exiting data or append to existing workflow
+* @return {Array} Name and Description of the workflow
+*/
+BandIt.prototype.import = function(data,clean) {
+  var res = this.load(data,clean);
+  bandit.actions=[];
+  bandit.action=-1;
+  return res;
+}
+
 
 /**
 * Loads a workflow
@@ -1025,7 +1043,9 @@ BandIt.prototype.clean = function() {
 BandIt.prototype.load = function (data,clean) {
   // If not clean, skip root
   wflow = JSON.parse($.base64.decode(data));
+  var maxnodeid = 0;
   this.zoomFit();
+
   if(clean) {
 	this.clean();
   }
@@ -1059,6 +1079,14 @@ BandIt.prototype.load = function (data,clean) {
         newnode = this.add(node,wflow["workflow"][node]["graph"]);
       }
       banditLogger.DEBUG("Load node: "+node+","+newnode.id);
+      if(node.indexOf("node")==0) {
+        var patt=/node(\d+)/;
+        var nodeid = patt.exec(node);
+        if(nodeid.length>0) {
+         var newid = parseInt(nodeid[1]);
+         if(newid>maxnodeid) { maxnodeid = newid; }
+        }
+      }
       for(var prop in this.properties) {
         this.nodes[newnode.id]["properties"][prop]=wflow["workflow"][node][prop];
       }
@@ -1097,6 +1125,11 @@ BandIt.prototype.load = function (data,clean) {
       this.link(originnodeid,remotenodeid); 
     }
   }
+  
+  this.count = maxnodeid + 1;
+  
+
+  
   return [this.name,this.workflow];
 }
 
@@ -1115,7 +1148,7 @@ BandIt.prototype.zoomFit = function() {
     this.zoomFit();
   }
   
-  this.newaction();
+  this.newaction("zoomfit");
 }
 
 /**
@@ -1242,14 +1275,15 @@ BandIt.prototype.export = function(silent) {
 * Record a new action for undo/redo.
 * Not yet implemented: move, delete
 * @method newaction
+* @param type {string} Optional action type (for debug)
 */
-BandIt.prototype.newaction = function () {
+BandIt.prototype.newaction = function (type) {
   if(this.actions.length>this.maxactions) {
     this.actions.pop();
   }
   if(this.recordactions) {
     this.action++;
-    banditLogger.DEBUG("Record new action");
+    banditLogger.DEBUG("Record new action: "+type);
     this.actions[this.action]=$.base64.encode(this.export(true));
     if(this.actions.length>this.action) {
       // empty array after this point
