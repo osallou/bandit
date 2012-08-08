@@ -1042,6 +1042,7 @@ BandIt.prototype.import = function(data,clean) {
 */
 BandIt.prototype.load = function (data,clean) {
   // If not clean, skip root
+  data = data.replace(/(\n|\r)+$/, '');
   wflow = JSON.parse($.base64.decode(data));
   var maxnodeid = 0;
   this.zoomFit();
