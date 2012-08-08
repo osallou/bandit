@@ -1251,7 +1251,9 @@ BandIt.prototype.export = function(silent) {
         nbnext += 1;
       }
     }
-    nodeprops["next"] = next;
+    if(next!="") {
+      nodeprops["next"] = next;
+    }
     
     if(node["type"]==CONTAINER) {
       nodeprops["type"] = CONTAINER;
