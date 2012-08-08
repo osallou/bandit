@@ -19,7 +19,7 @@ $(document).ready(function(){
 <body>
 <script>
 $(document).ready(function() {
-function addMenu() {
+addMenu = function() {
 paper = bandit.getPaper();
 menuset = paper.set();
 circle1 = paper.circle(1100,100,30).attr('fill','#F2F2F2');
@@ -271,6 +271,7 @@ holder.ondrop = function (e) {
           var desc = bandit.import(e.target.result,true);
           $('#wname').val(desc[0]);
           $('#wdesc').val(desc[1]);
+          addMenu();
         };
       })(file);
   reader.readAsText(file);
