@@ -232,21 +232,69 @@ BandIt.prototype.info = function(name,description) {
 /**
 * Adds an arrow to a path
 * @method arrow
-* @param x1 {int} X coordinate of start path
-* @param y1 {int} Y coordinate of start path
-* @param x2 {int} X coordinate of start path
-* @param y2 {int} Y coordinate of start path
-* @param size {int} Size of the arrow
+* @param obj1 {Node} Start node
+* @param obj2 {Node} End node
+* @param connector {Path} Path object between nodes
 * @return {Path} Arrow object
 *
 */
-BandIt.prototype.arrow = function(x1, y1, x2, y2, size) {
-    var angle = Math.atan2(x1-x2,y2-y1);
+BandIt.prototype.arrow = function(obj1, obj2, connector) {
+
+
+  var bb1 = obj1.getBBox(),
+        bb2 = obj2.getBBox(),
+        p = [{x: bb1.x + bb1.width / 2, y: bb1.y - 1},
+        {x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + 1},
+        {x: bb1.x - 1, y: bb1.y + bb1.height / 2},
+        {x: bb1.x + bb1.width + 1, y: bb1.y + bb1.height / 2},
+        {x: bb2.x + bb2.width / 2, y: bb2.y - 1},
+        {x: bb2.x + bb2.width / 2, y: bb2.y + bb2.height + 1},
+        {x: bb2.x - 1, y: bb2.y + bb2.height / 2},
+        {x: bb2.x + bb2.width + 1, y: bb2.y + bb2.height / 2}],
+        d = {}, dis = [];
+    for (var i = 0; i < 4; i++) {
+        for (var j = 4; j < 8; j++) {
+            var dx = Math.abs(p[i].x - p[j].x),
+                dy = Math.abs(p[i].y - p[j].y);
+            if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) 
+|| p[i].y < p[j].y))) {
+                dis.push(dx + dy);
+                d[dis[dis.length - 1]] = [i, j];
+            }
+        }
+    }
+    if (dis.length == 0) {
+        var res = [0, 4];
+    } else {
+        res = d[Math.min.apply(Math, dis)];
+    }
+    var x1 = p[res[0]].x,
+        y1 = p[res[0]].y,
+        x4 = p[res[1]].x,
+        y4 = p[res[1]].y;
+    dx = Math.max(Math.abs(x1 - x4) / 2, 10);
+    dy = Math.max(Math.abs(y1 - y4) / 2, 10);
+    var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
+        y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
+        x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
+        y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
+
+    var angle = Math.atan2(x1-x4.toFixed(3),y4.toFixed(3)-y1);
     angle = (angle / (2 * Math.PI)) * 360;
-    ax2 = x1 + (x2 - x1) /2;
-    ay2 = y1 + (y2 - y1) /2;
+
+    var conn = connector.getBBox();
+    var ax2 = conn.x+ conn.width/2;
+    var ay2 = conn.y + conn.height/2;
+
+    var size=10;
+
+
     var arrowPath = this.paper.path("M" + ax2 + " " + ay2 + " L" + (ax2 - size) + " " + (ay2 - size) + " L" + (ax2 - size) + " " + (ay2 + size) + " L" + ax2 + " " + ay2 ).attr("fill","black").rotate((90+angle),ax2,ay2);
-    return arrowPath;
+
+
+   return arrowPath;
+
+
 }
 
 
@@ -411,8 +459,15 @@ BandIt.prototype.link = function(startnodeid,endnodeid) {
   ypos = startnode.attr("y") + startnode.attr("height")/2;
   xend = endnode.attr("x") + endnode.attr("width")/2 ;
   yend = endnode.attr("y") + endnode.attr("height")/2 ;
-  path = this.paper.path("M"+xpos+","+ypos+"L"+xend+","+yend);
-  arrowpath = this.arrow(xpos,ypos,xend,yend,10);
+
+
+  path = this.paper.path(this.getConnector(startnode,endnode));
+
+  //path = this.paper.path("M"+xpos+","+ypos+"L"+xend+","+yend);
+  
+  arrowpath = this.arrow(startnode,endnode,path);
+  
+  
   //banditLogger.DEBUG("add arrow "+arrowpath.id);
   this.paths[path.id] =  { arrow : arrowpath.id, direction: endnode.id };
   mybandit = this;
@@ -858,18 +913,72 @@ BandIt.prototype.redrawpath = function(link,node) {
 	yend = remotenode.attr("y") + remotenode.attr("height")/2;
 	xpos = node.attr("x") + node.attr("width")/2;
 	ypos = node.attr("y") + node.attr("height")/2;
-	path.attr("path","M"+xpos+","+ypos+"L"+xend+","+yend);
+	//path.attr("path","M"+xpos+","+ypos+"L"+xend+","+yend);
+
+
+	path.attr("path",this.getConnector(node,remotenode));
 
         arrowdirection = this.paths[path.id]["direction"];
 	if(arrowdirection!=node.id) { 
-          newarrow = this.arrow(xpos,ypos,xend,yend,10);
+          newarrow = this.arrow(node,remotenode,path);
         }
         else {
-          newarrow = this.arrow(xend,yend,xpos,ypos,10);
+          newarrow = this.arrow(remotenode, node,path);
         }
         this.paths[path.id] = { arrow: newarrow.id, direction: arrowdirection } ;
 
 } // end redrawpath
+
+
+/**
+* Get SVG path to connect two objects
+* @methode getConnector
+* @param obj1 {Node} Start node
+* @param obj2 {Node} End node
+*
+*/
+BandIt.prototype.getConnector  = function(obj1,obj2) {
+
+  var bb1 = obj1.getBBox(),
+        bb2 = obj2.getBBox(),
+        p = [{x: bb1.x + bb1.width / 2, y: bb1.y - 1},
+        {x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + 1},
+        {x: bb1.x - 1, y: bb1.y + bb1.height / 2},
+        {x: bb1.x + bb1.width + 1, y: bb1.y + bb1.height / 2},
+        {x: bb2.x + bb2.width / 2, y: bb2.y - 1},
+        {x: bb2.x + bb2.width / 2, y: bb2.y + bb2.height + 1},
+        {x: bb2.x - 1, y: bb2.y + bb2.height / 2},
+        {x: bb2.x + bb2.width + 1, y: bb2.y + bb2.height / 2}],
+        d = {}, dis = [];
+    for (var i = 0; i < 4; i++) {
+        for (var j = 4; j < 8; j++) {
+            var dx = Math.abs(p[i].x - p[j].x),
+                dy = Math.abs(p[i].y - p[j].y);
+            if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) 
+|| p[i].y < p[j].y))) {
+                dis.push(dx + dy);
+                d[dis[dis.length - 1]] = [i, j];
+            }
+        }
+    }
+    if (dis.length == 0) {
+        var res = [0, 4];
+    } else {
+        res = d[Math.min.apply(Math, dis)];
+    }
+    var x1 = p[res[0]].x,
+        y1 = p[res[0]].y,
+        x4 = p[res[1]].x,
+        y4 = p[res[1]].y;
+    dx = Math.max(Math.abs(x1 - x4) / 2, 10);
+    dy = Math.max(Math.abs(y1 - y4) / 2, 10);
+    var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
+        y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
+        x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
+        y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
+
+    return ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+}
 
 /**
 * Zoom in the workflow
