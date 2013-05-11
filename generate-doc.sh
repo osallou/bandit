@@ -6,7 +6,7 @@ mkdir src
 cp js/bandit.js src/ 
 
 # The location of your yuidoc install
-yuidoc_home=~/Downloads/yuidoc
+#yuidoc_home=~/Downloads/yuidoc
 
 # The location of the files to parse.  Parses subdirectories, but will fail if
 # there are duplicate file names in these directories.  You can specify multiple
@@ -35,7 +35,8 @@ yuiversion=2
 ##############################################################################
 # add -s to the end of the line to show items marked private
 
-$yuidoc_home/bin/yuidoc.py $parser_in -p $parser_out -o $generator_out -t $template -v $version -Y $yuiversion -m BandIt
+#$yuidoc_home/bin/yuidoc.py $parser_in -p $parser_out -o $generator_out -t $template -v $version -Y $yuiversion -m BandIt
+yuidoc $parser_in  -o $generator_out  -t $template
 
 rm -rf src
 
