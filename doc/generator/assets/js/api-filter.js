@@ -1,14 +1,14 @@
-YUI.add('api-filter', function (Y) {
+YUI.add('api-filter', Y => {
 
 Y.APIFilter = Y.Base.create('apiFilter', Y.Base, [Y.AutoCompleteBase], {
     // -- Initializer ----------------------------------------------------------
-    initializer: function () {
+    initializer() {
         this._bindUIACBase();
         this._syncUIACBase();
     },
-    getDisplayName: function(name) {
+    getDisplayName(name) {
 
-        Y.each(Y.YUIDoc.meta.allModules, function(i) {
+        Y.each(Y.YUIDoc.meta.allModules, i => {
             if (i.name === name && i.displayName) {
                 name = i.displayName;
             }
@@ -30,12 +30,12 @@ Y.APIFilter = Y.Base.create('apiFilter', Y.Base, [Y.AutoCompleteBase], {
         },
 
         source: {
-            valueFn: function() {
+            valueFn() {
                 var self = this;
-                return function(q) {
-                    var data = Y.YUIDoc.meta[self.get('queryType')],
-                        out = [];
-                    Y.each(data, function(v) {
+                return q => {
+                    var data = Y.YUIDoc.meta[self.get('queryType')];
+                    var out = [];
+                    Y.each(data, v => {
                         if (v.toLowerCase().indexOf(q.toLowerCase()) > -1) {
                             out.push(v);
                         }

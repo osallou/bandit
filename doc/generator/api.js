@@ -1,4 +1,4 @@
-YUI.add("yuidoc-meta", function(Y) {
+YUI.add("yuidoc-meta", Y => {
    Y.YUIDoc = { meta: {
     "classes": [
         "BandIt",
