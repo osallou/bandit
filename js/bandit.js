@@ -62,7 +62,7 @@ function BandIt(diveditor,width,height) {
 	this.maxactions = 100;
 	
 	mybandit = this;
-	$('#'+diveditor).mousedown(function(e) {
+	$('#'+diveditor).mousedown(e => {
 	    if(mybandit.mode!=3) {
 	      return;
 	    }
@@ -71,7 +71,7 @@ function BandIt(diveditor,width,height) {
 	    var match=false;
 	    mybandit.selectionx = e.pageX - divposition.left;
 	    mybandit.selectiony = e.pageY -divposition.top;
-	    mybandit.paper.forEach(function (el) {
+	    mybandit.paper.forEach(el => {
 	    if(mybandit.nodes[el.id]!=null) { // do not select text elements
 	      var xselect = false;
 	      var yselect = false;
@@ -108,7 +108,7 @@ function BandIt(diveditor,width,height) {
      	
 	});
 	
-	$('#'+diveditor).mousemove(function(e) {
+	$('#'+diveditor).mousemove(e => {
 		if(mybandit.mode!=3) {
 	      return;
 	    }
@@ -136,7 +136,7 @@ function BandIt(diveditor,width,height) {
 	});
 	
 	
-	$('#'+diveditor).mouseup(function(e) {
+	$('#'+diveditor).mouseup(e => {
 		if(mybandit.mode!=3) {
 	      return;
 	    }
@@ -149,7 +149,7 @@ function BandIt(diveditor,width,height) {
 		destx = e.pageX - divposition.left;
 		desty = e.pageY -divposition.top;
 	    
-	    mybandit.paper.forEach(function (el) {
+	    mybandit.paper.forEach(el => {
 	    if(mybandit.nodes[el.id]!=null) { // do not select text elements
 
 	    var xselect = false;
@@ -239,62 +239,61 @@ BandIt.prototype.info = function(name,description) {
 *
 */
 BandIt.prototype.arrow = function(obj1, obj2, connector) {
+  var bb1 = obj1.getBBox();
+  var bb2 = obj2.getBBox();
 
+  var p = [{x: bb1.x + bb1.width / 2, y: bb1.y - 1},
+  {x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + 1},
+  {x: bb1.x - 1, y: bb1.y + bb1.height / 2},
+  {x: bb1.x + bb1.width + 1, y: bb1.y + bb1.height / 2},
+  {x: bb2.x + bb2.width / 2, y: bb2.y - 1},
+  {x: bb2.x + bb2.width / 2, y: bb2.y + bb2.height + 1},
+  {x: bb2.x - 1, y: bb2.y + bb2.height / 2},
+  {x: bb2.x + bb2.width + 1, y: bb2.y + bb2.height / 2}];
 
-  var bb1 = obj1.getBBox(),
-        bb2 = obj2.getBBox(),
-        p = [{x: bb1.x + bb1.width / 2, y: bb1.y - 1},
-        {x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + 1},
-        {x: bb1.x - 1, y: bb1.y + bb1.height / 2},
-        {x: bb1.x + bb1.width + 1, y: bb1.y + bb1.height / 2},
-        {x: bb2.x + bb2.width / 2, y: bb2.y - 1},
-        {x: bb2.x + bb2.width / 2, y: bb2.y + bb2.height + 1},
-        {x: bb2.x - 1, y: bb2.y + bb2.height / 2},
-        {x: bb2.x + bb2.width + 1, y: bb2.y + bb2.height / 2}],
-        d = {}, dis = [];
-    for (var i = 0; i < 4; i++) {
-        for (var j = 4; j < 8; j++) {
-            var dx = Math.abs(p[i].x - p[j].x),
-                dy = Math.abs(p[i].y - p[j].y);
-            if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) 
+  var d = {};
+  var dis = [];
+  for (var i = 0; i < 4; i++) {
+      for (var j = 4; j < 8; j++) {
+        var dx = Math.abs(p[i].x - p[j].x);
+        var dy = Math.abs(p[i].y - p[j].y);
+        if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) 
 || p[i].y < p[j].y))) {
-                dis.push(dx + dy);
-                d[dis[dis.length - 1]] = [i, j];
-            }
+            dis.push(dx + dy);
+            d[dis[dis.length - 1]] = [i, j];
         }
-    }
-    if (dis.length == 0) {
-        var res = [0, 4];
-    } else {
-        res = d[Math.min.apply(Math, dis)];
-    }
-    var x1 = p[res[0]].x,
-        y1 = p[res[0]].y,
-        x4 = p[res[1]].x,
-        y4 = p[res[1]].y;
-    dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-    dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-    var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-        y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-        x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-        y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
+      }
+  }
+  if (dis.length == 0) {
+      var res = [0, 4];
+  } else {
+      res = d[Math.min(...dis)];
+  }
+  var x1 = p[res[0]].x;
+  var y1 = p[res[0]].y;
+  var x4 = p[res[1]].x;
+  var y4 = p[res[1]].y;
+  dx = Math.max(Math.abs(x1 - x4) / 2, 10);
+  dy = Math.max(Math.abs(y1 - y4) / 2, 10);
+  var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3);
+  var y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3);
+  var x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3);
+  var y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
 
-    var angle = Math.atan2(x1-x4.toFixed(3),y4.toFixed(3)-y1);
-    angle = (angle / (2 * Math.PI)) * 360;
+  var angle = Math.atan2(x1-x4.toFixed(3),y4.toFixed(3)-y1);
+  angle = (angle / (2 * Math.PI)) * 360;
 
-    var conn = connector.getBBox();
-    var ax2 = conn.x+ conn.width/2;
-    var ay2 = conn.y + conn.height/2;
+  var conn = connector.getBBox();
+  var ax2 = conn.x+ conn.width/2;
+  var ay2 = conn.y + conn.height/2;
 
-    var size=10;
-
-
-    var arrowPath = this.paper.path("M" + ax2 + " " + ay2 + " L" + (ax2 - size) + " " + (ay2 - size) + " L" + (ax2 - size) + " " + (ay2 + size) + " L" + ax2 + " " + ay2 ).attr("fill","black").rotate((90+angle),ax2,ay2);
+  var size=10;
 
 
-   return arrowPath;
+  var arrowPath = this.paper.path("M" + ax2 + " " + ay2 + " L" + (ax2 - size) + " " + (ay2 - size) + " L" + (ax2 - size) + " " + (ay2 + size) + " L" + ax2 + " " + ay2 ).attr("fill","black").rotate((90+angle),ax2,ay2);
 
 
+  return arrowPath;
 }
 
 
@@ -471,7 +470,7 @@ BandIt.prototype.link = function(startnodeid,endnodeid) {
   //banditLogger.DEBUG("add arrow "+arrowpath.id);
   this.paths[path.id] =  { arrow : arrowpath.id, direction: endnode.id };
   mybandit = this;
-  path.mousedown(function(e) {
+  path.mousedown(e => {
     if(mybandit.mode==2) {
       path = mybandit.paper.getElementByPoint(e.x,e.y);
       mybandit.deletepath(path);
@@ -581,7 +580,7 @@ BandIt.prototype.add = function(name,attrs) {
 
 	var mybandit = this;
 
-	node.mousedown(function(e) {
+	node.mousedown(e => {
 			node = mybandit.paper.getElementByPoint(e.x,e.y);
 			currentnode = node.id;
 			if (mybandit.mode==1) {
@@ -612,7 +611,7 @@ BandIt.prototype.add = function(name,attrs) {
                         }
 			});
 
-	node.mouseup(function(e) {
+	node.mouseup(e => {
 			if (mybandit.mode==2) {
 			return; 
 			}
@@ -937,47 +936,49 @@ BandIt.prototype.redrawpath = function(link,node) {
 * @param obj2 {Node} End node
 *
 */
-BandIt.prototype.getConnector  = function(obj1,obj2) {
+BandIt.prototype.getConnector  = (obj1, obj2) => {
+  var bb1 = obj1.getBBox();
+  var bb2 = obj2.getBBox();
 
-  var bb1 = obj1.getBBox(),
-        bb2 = obj2.getBBox(),
-        p = [{x: bb1.x + bb1.width / 2, y: bb1.y - 1},
-        {x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + 1},
-        {x: bb1.x - 1, y: bb1.y + bb1.height / 2},
-        {x: bb1.x + bb1.width + 1, y: bb1.y + bb1.height / 2},
-        {x: bb2.x + bb2.width / 2, y: bb2.y - 1},
-        {x: bb2.x + bb2.width / 2, y: bb2.y + bb2.height + 1},
-        {x: bb2.x - 1, y: bb2.y + bb2.height / 2},
-        {x: bb2.x + bb2.width + 1, y: bb2.y + bb2.height / 2}],
-        d = {}, dis = [];
-    for (var i = 0; i < 4; i++) {
-        for (var j = 4; j < 8; j++) {
-            var dx = Math.abs(p[i].x - p[j].x),
-                dy = Math.abs(p[i].y - p[j].y);
-            if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) 
+  var p = [{x: bb1.x + bb1.width / 2, y: bb1.y - 1},
+  {x: bb1.x + bb1.width / 2, y: bb1.y + bb1.height + 1},
+  {x: bb1.x - 1, y: bb1.y + bb1.height / 2},
+  {x: bb1.x + bb1.width + 1, y: bb1.y + bb1.height / 2},
+  {x: bb2.x + bb2.width / 2, y: bb2.y - 1},
+  {x: bb2.x + bb2.width / 2, y: bb2.y + bb2.height + 1},
+  {x: bb2.x - 1, y: bb2.y + bb2.height / 2},
+  {x: bb2.x + bb2.width + 1, y: bb2.y + bb2.height / 2}];
+
+  var d = {};
+  var dis = [];
+  for (var i = 0; i < 4; i++) {
+      for (var j = 4; j < 8; j++) {
+        var dx = Math.abs(p[i].x - p[j].x);
+        var dy = Math.abs(p[i].y - p[j].y);
+        if ((i == j - 4) || (((i != 3 && j != 6) || p[i].x < p[j].x) && ((i != 2 && j != 7) || p[i].x > p[j].x) && ((i != 0 && j != 5) || p[i].y > p[j].y) && ((i != 1 && j != 4) 
 || p[i].y < p[j].y))) {
-                dis.push(dx + dy);
-                d[dis[dis.length - 1]] = [i, j];
-            }
+            dis.push(dx + dy);
+            d[dis[dis.length - 1]] = [i, j];
         }
-    }
-    if (dis.length == 0) {
-        var res = [0, 4];
-    } else {
-        res = d[Math.min.apply(Math, dis)];
-    }
-    var x1 = p[res[0]].x,
-        y1 = p[res[0]].y,
-        x4 = p[res[1]].x,
-        y4 = p[res[1]].y;
-    dx = Math.max(Math.abs(x1 - x4) / 2, 10);
-    dy = Math.max(Math.abs(y1 - y4) / 2, 10);
-    var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3),
-        y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3),
-        x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3),
-        y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
+      }
+  }
+  if (dis.length == 0) {
+      var res = [0, 4];
+  } else {
+      res = d[Math.min(...dis)];
+  }
+  var x1 = p[res[0]].x;
+  var y1 = p[res[0]].y;
+  var x4 = p[res[1]].x;
+  var y4 = p[res[1]].y;
+  dx = Math.max(Math.abs(x1 - x4) / 2, 10);
+  dy = Math.max(Math.abs(y1 - y4) / 2, 10);
+  var x2 = [x1, x1, x1 - dx, x1 + dx][res[0]].toFixed(3);
+  var y2 = [y1 - dy, y1 + dy, y1, y1][res[0]].toFixed(3);
+  var x3 = [0, 0, 0, 0, x4, x4, x4 - dx, x4 + dx][res[1]].toFixed(3);
+  var y3 = [0, 0, 0, 0, y1 + dy, y1 - dy, y4, y4][res[1]].toFixed(3);
 
-    return ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
+  return ["M", x1.toFixed(3), y1.toFixed(3), "C", x2, y2, x3, y3, x4.toFixed(3), y4.toFixed(3)].join(",");
 }
 
 /**
@@ -990,7 +991,7 @@ BandIt.prototype.zoomIn = function() {
 	this.zoom = this.zoom * 2;
 	banditLogger.DEBUG("zoom with "+this.zoom);
 	mybandit = this;
-	mybandit.paper.forEach(function (el) {
+	mybandit.paper.forEach(el => {
 			if(mybandit.nodes[el.id]!=null) {
 			el.attr("x", el.attr("x") * 2);
 			el.attr("y", el.attr("y") * 2);
@@ -1015,7 +1016,7 @@ BandIt.prototype.zoomOut = function() {
 	this.zoom = this.zoom * 0.5;
 	banditLogger.DEBUG("zoom with "+this.zoom);
 	mybandit = this;
-	mybandit.paper.forEach(function (el) {
+	mybandit.paper.forEach(el => {
 			if(mybandit.nodes[el.id]!=null) {
 			el.attr({x: el.attr("x") * 0.5, y: el.attr("y") * 0.5});
 			el.attr({ width : el.attr("width") * 0.5, height: el.attr("height") * 0.5});
@@ -1038,7 +1039,7 @@ BandIt.prototype.zoomOut = function() {
 
 BandIt.prototype.moveLeft = function(step) {
 	mybandit = this;
-	mybandit.paper.forEach(function (el) {
+	mybandit.paper.forEach(el => {
 			if(mybandit.nodes[el.id]!=null) {
 			el.attr({ x: el.attr("x") - step });
 			xpos = el.attr("x") + el.attr("width")/2;
@@ -1058,7 +1059,7 @@ BandIt.prototype.moveLeft = function(step) {
 */
 BandIt.prototype.moveRight = function(step) {
 	mybandit = this;
-	mybandit.paper.forEach(function (el) {
+	mybandit.paper.forEach(el => {
 			if(mybandit.nodes[el.id]!=null) {
 			el.attr({ x: el.attr("x") + step });
 			xpos = el.attr("x") + el.attr("width")/2;
@@ -1078,7 +1079,7 @@ BandIt.prototype.moveRight = function(step) {
 */
 BandIt.prototype.moveUp = function(step) {
 	mybandit = this;
-	mybandit.paper.forEach(function (el) {
+	mybandit.paper.forEach(el => {
 			if(mybandit.nodes[el.id]!=null) {
 			el.attr({ y: el.attr("y") - step });
 			xpos = el.attr("x") + el.attr("width")/2;
@@ -1098,7 +1099,7 @@ BandIt.prototype.moveUp = function(step) {
 */
 BandIt.prototype.moveDown = function(step) {
 	mybandit = this;
-	mybandit.paper.forEach(function (el) {
+	mybandit.paper.forEach(el => {
 			if(mybandit.nodes[el.id]!=null) {
 			el.attr({ y: el.attr("y") + step });
 			xpos = el.attr("x") + el.attr("width")/2;
@@ -1465,7 +1466,7 @@ function BanditLogger(newlevel) {
 * @param msg {String} message to log
 *
 */
-BanditLogger.prototype.DEBUG = function(msg) {
+BanditLogger.prototype.DEBUG = msg => {
   if (level<=0) {
     date = new Date
     console.log("#DEBUG "+date.toString()+": "+msg);
@@ -1479,7 +1480,7 @@ BanditLogger.prototype.DEBUG = function(msg) {
 *
 */
 
-BanditLogger.prototype.INFO = function(msg) {
+BanditLogger.prototype.INFO = msg => {
   if (level<=1) {
     date = new Date
     console.log("#INFO "+date.toString()+": "+msg);
@@ -1493,7 +1494,7 @@ BanditLogger.prototype.INFO = function(msg) {
 *
 */
 
-BanditLogger.prototype.ERROR = function(msg) {
+BanditLogger.prototype.ERROR = msg => {
   if (level<=2) {
     date = new Date
     console.log("#ERROR "+date.toString()+": "+msg);
